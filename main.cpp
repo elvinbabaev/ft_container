@@ -16,6 +16,8 @@ int main()
 	test->push_front(3);
 	test->push_front(2);
 	test->push_front(1);
+	*(test->begin()) = 6666;
+	*(test->end().operator--().operator--().operator--()) = 3333;
 //	ft::List<int>::const_iterator i = test->begin();
 	for (ft::List<int>::iterator i = test->begin(); i != test->end() ; i++) {
 		std::cout<<*i<<std::endl;

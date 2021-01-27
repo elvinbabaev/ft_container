@@ -86,7 +86,7 @@ namespace ft{
 		{
 			return (elem = elem->prev);
 		}
-		value_type operator*()
+		value_type &operator*() // создать с константной указателем
 		{
 			return (elem->data);
 		}
