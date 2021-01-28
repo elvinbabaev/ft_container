@@ -18,7 +18,7 @@ namespace ft{
 
 		typedef Bidirectional<T>		iterator;
 		typedef ReverseBidirectional<T>	reverse_iterator;
-		typedef Bidirectional<T> const	const_iterator;
+		typedef Const_Bidirectional<T>	const_iterator;
 		typedef std::ptrdiff_t			difference_type;
 		typedef std::size_t 			size_type;
 
@@ -162,7 +162,7 @@ typename ft::List<T, Alloc>::const_iterator ft::List<T, Alloc>::end() const {
 
 template<class T, class Alloc>
 typename ft::List<T, Alloc>::const_iterator ft::List<T, Alloc>::begin() const {
-	return const_iterator (_begin);
+	return const_iterator(_begin->next);
 }
 
 
