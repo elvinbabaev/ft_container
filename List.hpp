@@ -17,6 +17,7 @@ namespace ft{
 		typedef const T*				const_pointer;
 
 		typedef Bidirectional<T>		iterator;
+		typedef ReverseBidirectional<T>	reverse_iterator;
 		typedef Bidirectional<T> const	const_iterator;
 		typedef std::ptrdiff_t			difference_type;
 		typedef std::size_t 			size_type;
@@ -33,9 +34,9 @@ namespace ft{
 		~List();
 
 		iterator begin();
-		iterator rbegin();
+		reverse_iterator rbegin();
 		iterator end();
-		iterator rend();
+		reverse_iterator rend();
 		const_iterator end()const;
 		const_iterator begin()const;
 
@@ -145,13 +146,13 @@ void ft::List<T, Alloc>::pop_back() {
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::rbegin() {
-	return iterator(_end->prev);
+typename ft::List<T, Alloc>::reverse_iterator ft::List<T, Alloc>::rbegin() {
+	return reverse_iterator(_end->prev);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::rend() {
-	return iterator (_begin);
+typename ft::List<T, Alloc>::reverse_iterator ft::List<T, Alloc>::rend() {
+	return reverse_iterator (_begin);
 }
 
 template<class T, class Alloc>
