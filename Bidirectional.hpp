@@ -96,6 +96,10 @@ namespace ft{
 		{
 			return (elem->data);
 		}
+
+		class_name * operator->(){
+			return (elem->data);
+		}
 	};
 
 	template<class T>
@@ -178,22 +182,26 @@ namespace ft{
 			elem = elem->prev;
 			return (tmp);
 		}
+
+		class_name * operator->(){
+			return (elem->data);
+		}
 	};
 
 	template<class T>
-	class Const_Bidirectional{
+	class ConstBidirectional{
 	public:
 		typedef T					value_type;
 		typedef T*					pointer;
 		typedef const T*			const_pointer;
 		typedef T&					reference;
 		typedef const T&			const_reference;
-		typedef Const_Bidirectional<T>	reverse_iterator;
-		typedef Const_Bidirectional<T>	class_name;
-		typedef Const_Node<T>				node;
+		typedef ConstBidirectional<T>	reverse_iterator;
+		typedef ConstBidirectional<T>	class_name;
+		typedef Node<T>				node;
 		node *elem;
 
-		Const_Bidirectional(Node<T> *data){
+		ConstBidirectional(Node<T> *data){
 			elem = data;
 		}
 
@@ -203,10 +211,10 @@ namespace ft{
 				return (*this);
 			this->elem->prev = arg.elem.prev;
 			this->elem->next = arg.elem.next;
-//			this->elem->data = arg.elem.data;
+			this->elem->data = arg.elem.data;
 			return (*this);
 		}
-		~Const_Bidirectional(){}
+		~ConstBidirectional(){}
 		bool operator==(const class_name &rhs) const {
 			return elem->data == rhs.elem->data;
 		}
@@ -231,34 +239,124 @@ namespace ft{
 			return !(*this < rhs);
 		}
 
-		value_type &operator*(const class_name &rhs) const{
+		const value_type &operator*(const class_name &rhs) const{
 			return (elem->data);
 		}
-		const value_type *operator*() // создать с константной указателем
+		const value_type *operator*() const// создать с константной указателем
 		{
 			return (elem->data);
 		}
-		class_name &operator++()
+		const class_name &operator++()
 		{
 			elem = elem->next;
 			return (*this);
 		}
-		class_name operator++(int)
+		const class_name operator++(int)
 		{
 			class_name tmp = *this;
 			elem = elem->next;
 			return (tmp);
 		}
-		class_name &operator--()
+		const class_name &operator--()
 		{
 			elem = elem->prev;
 			return (*this);
 		}
-		class_name operator--(int)
+		const class_name operator--(int)
 		{
 			class_name tmp = *this;
 			elem = elem->prev;
 			return (tmp);
+		}
+
+		class_name * operator->(){
+			return (elem->data);
+		}
+	};
+
+	template<class T>
+	class ConstReverseBidirectional{
+	public:
+		typedef T					value_type;
+		typedef T*					pointer;
+		typedef const T*			const_pointer;
+		typedef T&					reference;
+		typedef const T&			const_reference;
+		typedef ConstBidirectional<T>	reverse_iterator;
+		typedef ConstBidirectional<T>	class_name;
+		typedef Node<T>				node;
+		node *elem;
+
+		ConstReverseBidirectional(Node<T> *data){
+			elem = data;
+		}
+
+		class_name &operator=(class_name const &arg)
+		{
+			if (this == &arg)
+				return (*this);
+			this->elem->prev = arg.elem.prev;
+			this->elem->next = arg.elem.next;
+			this->elem->data = arg.elem.data;
+			return (*this);
+		}
+		~ConstReverseBidirectional(){}
+		bool operator==(const class_name &rhs) const {
+			return elem->data == rhs.elem->data;
+		}
+
+		bool operator!=(const class_name &rhs) const {
+			return !(rhs == *this);
+		}
+
+		bool operator<(const class_name &rhs) const {
+			return elem < rhs.elem;
+		}
+
+		bool operator>(const class_name &rhs) const {
+			return rhs < *this;
+		}
+
+		bool operator<=(const class_name &rhs) const {
+			return !(rhs < *this);
+		}
+
+		bool operator>=(const class_name &rhs) const {
+			return !(*this < rhs);
+		}
+
+		const value_type &operator*(const class_name &rhs) const{
+			return (elem->data);
+		}
+		const value_type *operator*() const// создать с константной указателем
+		{
+			return (elem->data);
+		}
+		const class_name &operator--()
+		{
+			elem = elem->next;
+			return (*this);
+		}
+		const class_name operator--(int)
+		{
+			class_name tmp = *this;
+			elem = elem->next;
+			return (tmp);
+		}
+		const class_name &operator++()
+		{
+			elem = elem->prev;
+			return (*this);
+		}
+		const class_name operator++(int)
+		{
+			class_name tmp = *this;
+			elem = elem->prev;
+			return (tmp);
+		}
+
+		const class_name * operator->(){
+			return (elem->data);
 		}
 	};
 }

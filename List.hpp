@@ -6,6 +6,20 @@
 #include "Node.hpp"
 
 namespace ft{
+	template <class T>
+	bool compare(T a, T b)
+	{
+		return (a <= b);
+	}
+
+	template <class T>
+	T	swap(T &a, T &b)
+	{
+		T tmp = a;
+		a = b;
+		b = tmp;
+	}
+
 	template<class T, class Alloc = std::allocator <T> >
 	class List{
 	public:
@@ -18,7 +32,7 @@ namespace ft{
 
 		typedef Bidirectional<T>		iterator;
 		typedef ReverseBidirectional<T>	reverse_iterator;
-		typedef Const_Bidirectional<T>	const_iterator;
+		typedef ConstBidirectional<T>	const_iterator;
 		typedef std::ptrdiff_t			difference_type;
 		typedef std::size_t 			size_type;
 
