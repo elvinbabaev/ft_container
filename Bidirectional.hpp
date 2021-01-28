@@ -8,6 +8,8 @@ namespace ft{
 	template<class T>
 	class Bidirectional{
 	public:
+		struct iterator_tag{};
+
 		typedef T					value_type;
 		typedef T*					pointer;
 		typedef const T*			const_pointer;
@@ -16,8 +18,7 @@ namespace ft{
 		typedef Bidirectional<T>	iterator;
 		typedef Bidirectional<T>	class_name;
 		typedef Node<T>				node;
-
-
+		typedef iterator_tag		iterator_category;
 		node *elem;
 //		Bidirectional(){
 //			elem.next = NULL;
@@ -242,7 +243,7 @@ namespace ft{
 		const value_type &operator*(const class_name &rhs) const{
 			return (elem->data);
 		}
-		const value_type *operator*() const// создать с константной указателем
+		const value_type &operator*() const// создать с константной указателем
 		{
 			return (elem->data);
 		}
@@ -328,7 +329,7 @@ namespace ft{
 		const value_type &operator*(const class_name &rhs) const{
 			return (elem->data);
 		}
-		const value_type *operator*() const// создать с константной указателем
+		const value_type &operator*() const// создать с константной указателем
 		{
 			return (elem->data);
 		}

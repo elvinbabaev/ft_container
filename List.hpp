@@ -36,8 +36,7 @@ namespace ft{
 		typedef ConstReverseBidirectional<T>	const_reverse_iterator;
 		typedef std::ptrdiff_t					difference_type;
 		typedef std::size_t 					size_type;
-
-		typedef Node<T>				node;
+		typedef Node<T>							node;
 	private:
 		node		*_begin;
 		node		*_end;
@@ -46,7 +45,7 @@ namespace ft{
 		List();
 		List(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
 		List(iterator first, iterator last, const allocator_type& alloc = allocator_type());
-
+		List(const List& x);
 		~List();
 
 		iterator begin();
@@ -65,10 +64,19 @@ namespace ft{
 		reference back();
 		const_reference back() const;
 
-		void push_back(const value_type& _x);
+		template <class InputIterator>
+		void assign(InputIterator first, InputIterator last, typename InputIterator::iterator_category* = nullptr);
+		void assign (size_type n, const value_type & val);
 		void push_front(const value_type& _x);
 		void pop_front ();
+		void push_back(const value_type& _x);
 		void pop_back ();
+		iterator insert(iterator position, const value_type& val);
+		void insert (iterator position, size_type n, const value_type& val);
+
+		template<class InputIterator>
+		void insert (iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category* = nullptr);
+		void clear();
 	};
 }
 
@@ -100,7 +108,24 @@ ft::List<T, Alloc>::List(ft::List<T, Alloc>::iterator first, ft::List<T, Alloc>:
 	_begin->next = _end;
 	_end->prev = _begin;
 	sizeType = 0;
-	for (iterator i = first; i != last; ++i) {
+	while (first != last)
+	{
+		this->push_back(*first);
+		first++;
+	}
+//	for (iterator i = first; i != last; ++i) {
+//		this->push_back(*i);
+//	}
+}
+
+template<class T, class Alloc>
+ft::List<T, Alloc>::List(const ft::List<T, Alloc> &x) {
+	_begin = new Node<T>();
+	_end = new Node<T>();
+	_begin->next = _end;
+	_end->prev = _begin;
+	sizeType = 0;
+	for (const_iterator i = x.begin(); i != x.end(); ++i) {
 		this->push_back(*i);
 	}
 }
@@ -224,5 +249,58 @@ typename ft::List<T, Alloc>::const_reverse_iterator ft::List<T, Alloc>::rend() c
 	return const_reverse_iterator (_begin);
 }
 
+template<class T, class Alloc>
+template<class InputIterator>
+void ft::List<T, Alloc>::assign(InputIterator first, InputIterator last, typename InputIterator::iterator_category*) {
+	this->clear();
+	while (first != last)
+	{
+		this->push_back(*first);
+		first++;
+	}
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::clear() {
+	while (!empty())
+		pop_back();
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::assign(ft::List<T, Alloc>::size_type n, const value_type &val) {
+	this->clear();
+	for (size_type i = 0; i < n; ++i) {
+		this->push_back(val);
+	}
+}
+
+template<class T, class Alloc>
+typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, const value_type &val) {
+	node *tmp = new node();
+	tmp->data = val;
+	tmp->next = position.elem;
+	tmp->prev = position.elem->prev;
+	position.elem->prev->next = tmp;
+	position.elem->prev = tmp;
+	return (position);
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, ft::List<T, Alloc>::size_type n, const value_type &val) {
+	for (size_type i = 0; i < n; ++i) {
+		insert(position, val);
+	}
+}
+
+template<class T, class Alloc>
+template<class InputIterator>
+void
+ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category *) {
+	while (first != last)
+	{
+		insert(position, *first);
+		first++;
+	}
+}
 
 #endif
