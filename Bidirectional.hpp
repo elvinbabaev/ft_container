@@ -269,7 +269,7 @@ namespace ft{
 			return (tmp);
 		}
 
-		class_name * operator->(){
+		const class_name * operator->(){
 			return (elem->data);
 		}
 	};

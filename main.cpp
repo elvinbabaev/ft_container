@@ -6,40 +6,54 @@
 #include "List.hpp"
 #include <iostream>
 #include <list>
+
+
+void testConstructorFill()
+{
+	std::cout<<"TEST ConstructorFill"<<std::endl;
+	ft::List<int> test(5, 10);
+	for (ft::List<int>::iterator i = test.begin(); i != test.end() ; ++i) {
+		std::cout<<*i<<" ";
+	}
+	std::cout<<std::endl;
+}
+
+void testConstructorRange()
+{
+	{
+		std::cout<<"TEST ConstructRange"<<std::endl;
+		ft::List<std::string>test;
+		test.push_back("test1");
+		test.push_back("test2");
+		test.push_back("test3");
+		test.push_back("test4");
+		test.push_back("test5");
+
+
+		ft::List<std::string>range(test.begin(), test.end());
+		for (ft::List<std::string>::iterator i = range.begin(); i != range.end() ; ++i) {
+			std::cout<<*i<<" ";
+		}
+		std::cout<<std::endl;
+	}
+	{
+		ft::List<int>test;
+		test.push_back(1);
+		test.push_back(2);
+		test.push_back(3);
+		test.push_back(4);
+		test.push_back(5);
+
+
+		ft::List<int>range(test.begin(), test.end());
+		for (ft::List<int>::iterator i = range.begin(); i != range.end() ; ++i) {
+			std::cout<<*i<<" ";
+		}
+	}
+}
+
 int main()
 {
-	ft::List<int> const *test = new ft::List<int>();
-//	std::list<int> const *test1 = new std::list<int>();
-	ft::List<int>::const_iterator i1 = test->begin();
-//	std::list<int>::const_iterator i2 = test1->begin();
-	i1++;
-
-
-	//	test->push_back(5);
-//	test->push_back(10);
-//	test->push_back(15);
-//	test->push_front(4);
-//	test->push_front(3);
-//	test->push_front(2);
-//	test->push_front(1);
-//	*(test->begin()) = 6666;
-//	*(test->end().operator--().operator--().operator--()) = 3333;
-//	ft::List<int>::const_iterator i = test->begin();
-
-//	for (ft::List<int>::const_iterator i = test->begin(); i != test->end() ; i++) {
-//		std::cout<<*i<<std::endl;
-//	}
-//	for (ft::List<int>::reverse_iterator i = test->rbegin(); i != test->rend(); ++i) {
-//		std::cout<<*i<<std::endl;
-//	}
-//	std::list<int> *test1 = new std::list<int>();
-//	if (test1->empty())
-//		std::cout<<"1";
-//	else
-//		std::cout<<"2";
-//	test1->push_front()
-//	for (ft::List<int>::iterator i = test->begin(); i < 5; ++i) {
-//		std::cout<<(*i);
-//	}
-
+	testConstructorFill();
+	testConstructorRange();
 }
