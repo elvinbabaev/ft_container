@@ -36,9 +36,7 @@ namespace ft{
 		{
 			if (this == &arg)
 				return (*this);
-			this->elem->prev = arg.elem.prev;
-			this->elem->next = arg.elem.next;
-			this->elem->data = arg.elem.data;
+			elem = arg.elem;
 			return (*this);
 		}
 		~Bidirectional(){}

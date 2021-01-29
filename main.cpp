@@ -148,14 +148,110 @@ void testInsert()
 		for (ft::List<int>::iterator i = a2.begin(); i != a2.end() ; ++i) {
 			std::cout<<*i<<" ";
 		}
+		std::cout<<std::endl;
 	}
 }
 
 int main()
 {
-	testConstructorFill();
-	testConstructorRange();
-	testConstructorCopy();
-	testAssign();
-	testInsert();
+	{
+		testConstructorFill();
+		testConstructorRange();
+		testConstructorCopy();
+		testAssign();
+		testInsert();
+
+		std::cout<<"CHECK"<<std::endl;
+		std::list<int> first, second;
+
+		first.push_back (1);
+		first.push_back (10);
+		first.push_back (4);
+		first.push_back(5);
+
+		second.push_back (2);
+		second.push_back (0);
+		second.push_back (2);
+		second.push_back (3);
+//	first.sort();
+//	second.sort();
+
+		first.merge(second);
+		for (std::list<int>::iterator it = first.begin(); it!=first.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout<<std::endl;
+	}
+	std::cout<<"check ft_list"<<std::endl;
+	{
+		ft::List<int> first, second;
+
+		first.push_back (1);
+		first.push_back (10);
+		first.push_back (4);
+		first.push_back(5);
+
+		second.push_back (2);
+		second.push_back (0);
+		second.push_back (2);
+		second.push_back (3);
+//	first.sort();
+//	second.sort();
+
+		first.merge(second);
+		for (ft::List<int>::iterator it=first.begin(); it!=first.end(); ++it)
+			std::cout << ' ' << *it;
+	}
+//	testConstructorFill();
+//	testConstructorRange();
+//	testConstructorCopy();
+//	testAssign();
+//	testInsert();
+	{
+		std::cout<<"test"<<std::endl;
+		ft::List<int> test;
+		test.push_back(5);
+		test.push_back(10);
+		test.push_back(15);
+		test.push_back(20);
+		ft::List<int>::iterator j = test.begin();
+		j = test.insert(j, 1);
+		j++;j++;j++;
+		j = test.insert(j, 999);
+		for (ft::List<int>::iterator i = test.begin(); i != test.end() ; i++) {
+			std::cout<<*i<<" ";
+		}
+		std::cout<<std::endl;
+	}
+	{
+		std::cout<<"test"<<std::endl;
+		std::list<int> test;
+		test.push_back(5);
+		test.push_back(10);
+		test.push_back(15);
+		test.push_back(20);
+		std::list<int>::iterator j = test.begin();
+		j = test.insert(j, 1);
+		j++;j++;j++;
+		j = test.insert(j, 999);
+		for (std::list<int>::iterator i = test.begin(); i != test.end() ; i++) {
+			std::cout<<*i<<" ";
+		}
+		std::cout<<std::endl;
+	}
+	{
+		std::cout<<"test unit"<<std::endl;
+		ft::List<int> test;
+		test.push_back(5);
+		test.push_back(10);
+		test.push_back(15);
+		test.push_back(20);
+		ft::List<int>::iterator i = test.begin();
+		std::cout<<*i<<std::endl;
+		++i;
+		std::cout<<*i<<std::endl;
+		++i;
+		std::cout<<*i<<std::endl;
+		++i;
+		std::cout<<*i<<std::endl;
+	}
 }

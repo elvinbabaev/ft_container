@@ -13,7 +13,7 @@ namespace ft{
 	}
 
 	template <class T>
-	T	swap(T &a, T &b)
+	T	swap_c(T &a, T &b)
 	{
 		T tmp = a;
 		a = b;
@@ -73,10 +73,28 @@ namespace ft{
 		void pop_back ();
 		iterator insert(iterator position, const value_type& val);
 		void insert (iterator position, size_type n, const value_type& val);
-
 		template<class InputIterator>
 		void insert (iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category* = nullptr);
+		iterator erase(iterator position);
+		iterator erase(iterator first, iterator last);
+		void swap (List& x);
+		void resize (size_type n, value_type val = value_type ());
 		void clear();
+		void splice (iterator position, List& x);
+		void splice (iterator position, List& x, iterator i);
+		void splice (iterator position, List& x, iterator first, iterator last);
+		void remove (const value_type& val);
+		template <class Predicate>
+		void remove_if (Predicate pred);
+		void unique();
+		template <class BinaryPredicate>
+		void unique (BinaryPredicate binary_pred);
+		void merge (List& x);
+		template <class Compare>
+		void merge (List& x, Compare comp);
+		void sort();
+		template <class Compare>
+		void sort (Compare comp);
 	};
 }
 
@@ -282,7 +300,7 @@ typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::insert(ft::List<T, All
 	tmp->prev = position.elem->prev;
 	position.elem->prev->next = tmp;
 	position.elem->prev = tmp;
-	return (position);
+	return (tmp);
 }
 
 template<class T, class Alloc>
@@ -302,5 +320,143 @@ ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, InputIterator 
 		first++;
 	}
 }
+
+template<class T, class Alloc>
+typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::erase(ft::List<T, Alloc>::iterator position) {
+	node* tmp = position.elem;
+	position.elem->next->prev = position.elem->prev;
+	position.elem->prev->next = position.elem->next;
+	position++;
+	sizeType--;
+	delete tmp;
+	return (position);
+}
+
+template<class T, class Alloc>
+typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::erase(ft::List<T, Alloc>::iterator first, ft::List<T, Alloc>::iterator last) {
+	while (first != last)
+	{
+		first = erase(first);
+	}
+	return (last);
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::swap(ft::List<T, Alloc> &x) {
+	swap_c(this, x);
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::resize(ft::List<T, Alloc>::size_type n, value_type val) {
+	if (n < sizeType)
+	{
+		while (n != sizeType)
+			this->pop_back();
+	} else
+	{
+		while (n != sizeType)
+			this->push_back(val);
+	}
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::splice(ft::List<T, Alloc>::iterator position, ft::List<T, Alloc> &x) {
+	for (reverse_iterator i = x.rbegin(); i != x.rend() ; ++i) {
+		this->insert(position, i.elem->data);
+	}
+	x.clear();
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::splice(ft::List<T, Alloc>::iterator position, ft::List<T, Alloc> &x, ft::List<T, Alloc>::iterator i) {
+	this->insert(position, i.elem->data);
+	x.erase(i);
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::splice(ft::List<T, Alloc>::iterator position, ft::List<T, Alloc> &x, ft::List<T, Alloc>::iterator first,
+								ft::List<T, Alloc>::iterator last) {
+	while (first != last)
+	{
+		this->insert(position, first.elem->data);
+		first++;
+	}
+	x.erase(first, last);
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::remove(const value_type &val) {
+	for (iterator i; i != this->end() ; ++i) {
+		if((*i) == val)
+		{
+			i = this->erase(i);
+			i--;
+		}
+	}
+}
+
+template<class T, class Alloc>
+template<class Predicate>
+void ft::List<T, Alloc>::remove_if(Predicate pred) {
+	for (iterator i; i != this->end() ; ++i) {
+		if(pred(*i))
+		{
+			i = this->erase(i);
+			i--;
+		}
+	}
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::unique() {
+	iterator j = this->begin();
+	j++;
+	for (iterator i = this->begin(); i != this->end(), j != this->end(); ++i, j++) {
+		while (*j == *i)
+		{
+			i = this->erase(i);
+			j++;
+		}
+	}
+}
+
+template<class T, class Alloc>
+template<class BinaryPredicate>
+void ft::List<T, Alloc>::unique(BinaryPredicate binary_pred) {
+	iterator j = this->begin();
+	j++;
+	for (iterator i = this->begin(); i != this->end(), j != this->end(); ++i, j++) {
+		while (binary_pred(*i, *j))
+		{
+			i = this->erase(i);
+			j++;
+		}
+	}
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::merge(ft::List<T, Alloc> &x) {
+	iterator iteratorThis = this->begin();
+	iterator iteratorX = x.begin();
+	while (iteratorThis != this->end() && iteratorX != x.end())
+	{
+		if ((*iteratorThis) < (*iteratorX))
+		{
+			iteratorThis++;
+		} else
+		{
+			iteratorThis = insert(iteratorThis, *iteratorX);
+//			std::cout<<*iteratorThis<<*iteratorX<<std::endl;
+			iteratorThis++;
+			iteratorX++;
+		}
+	}
+	if (iteratorThis == this->end() && iteratorX != x.end())
+	{
+		this->splice(this->end(), x, iteratorX, x.end());
+	}
+	x.clear();
+}
+
 
 #endif
