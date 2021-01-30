@@ -2,6 +2,7 @@
 # define LIST_HPP
 
 #include <memory>
+#include <ostream>
 #include "Bidirectional.hpp"
 #include "Node.hpp"
 
@@ -13,7 +14,7 @@ namespace ft{
 	}
 
 	template <class T>
-	T	swap_c(T &a, T &b)
+	void	swap_c(T &a, T &b)
 	{
 		T tmp = a;
 		a = b;
@@ -95,6 +96,7 @@ namespace ft{
 		void sort();
 		template <class Compare>
 		void sort (Compare comp);
+		void reverse();
 	};
 }
 
@@ -440,23 +442,91 @@ void ft::List<T, Alloc>::merge(ft::List<T, Alloc> &x) {
 	iterator iteratorX = x.begin();
 	while (iteratorThis != this->end() && iteratorX != x.end())
 	{
-		if ((*iteratorThis) < (*iteratorX))
+		if (*iteratorThis < *iteratorX)
 		{
-			iteratorThis++;
+			while (*iteratorThis < *iteratorX && iteratorThis != this->end())
+			{
+				iteratorThis++;
+			}
 		} else
 		{
-			iteratorThis = insert(iteratorThis, *iteratorX);
-//			std::cout<<*iteratorThis<<*iteratorX<<std::endl;
+			iteratorThis = this->insert(iteratorThis, *iteratorX);
 			iteratorThis++;
 			iteratorX++;
 		}
 	}
 	if (iteratorThis == this->end() && iteratorX != x.end())
 	{
-		this->splice(this->end(), x, iteratorX, x.end());
+		while (iteratorX != x.end())
+		{
+			this->insert(this->end(), *iteratorX);
+			iteratorX++;
+		}
 	}
 	x.clear();
 }
 
+template<class T, class Alloc>
+template<class Compare>
+void ft::List<T, Alloc>::merge(ft::List<T, Alloc> &x, Compare comp) {
+	iterator iteratorThis = this->begin();
+	iterator iteratorX = x.begin();
+	while (iteratorThis != this->end() && iteratorX != x.end())
+	{
+		if (!comp(*iteratorX, *iteratorThis))
+		{
+			while (!comp(*iteratorX, *iteratorThis) && iteratorThis != this->end())
+			{
+				iteratorThis++;
+			}
+		} else
+		{
+			iteratorThis = this->insert(iteratorThis, *iteratorX);
+			iteratorThis++;
+			iteratorX++;
+		}
+	}
+	if (iteratorThis == this->end() && iteratorX != x.end())
+	{
+		while (iteratorX != x.end())
+		{
+			this->insert(this->end(), *iteratorX);
+			iteratorX++;
+		}
+	}
+	x.clear();
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::sort() {
+	for (iterator i = this->begin(); i != this->end(); ++i) {
+		for (iterator j = this->begin(); j != this->end(); ++j) {
+			if (*i < *j)
+				swap_c(*i, *j);
+		}
+	}
+}
+
+template<class T, class Alloc>
+template<class Compare>
+void ft::List<T, Alloc>::sort(Compare comp) {
+	for (iterator i = this->begin(); i != this->end(); ++i) {
+		for (iterator j = this->begin(); j != this->end(); ++j) {
+			if (comp(*i, *j))
+				swap_c(*i, *j);
+		}
+	}
+}
+
+template<class T, class Alloc>
+void ft::List<T, Alloc>::reverse() {
+	iterator i = this->begin();
+	swap_c(_begin->next, _begin->prev);
+	for (; i != this->end() ; --i) {
+		swap_c(i.elem->next, i.elem->prev);
+	}
+	swap_c(_end->next, _end->prev);
+	swap_c(_end, _begin);
+}
 
 #endif

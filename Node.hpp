@@ -32,6 +32,22 @@ public:
 	bool operator!=(const Node &rhs) const {
 		return !(rhs == *this);
 	}
+
+	bool operator<(const Node &rhs) const {
+		return data < rhs.data;
+	}
+
+	bool operator>(const Node &rhs) const {
+		return rhs < *this;
+	}
+
+	bool operator<=(const Node &rhs) const {
+		return !(rhs < *this);
+	}
+
+	bool operator>=(const Node &rhs) const {
+		return !(*this < rhs);
+	}
 };
 
 #endif

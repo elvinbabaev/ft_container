@@ -20,10 +20,9 @@ namespace ft{
 		typedef Node<T>				node;
 		typedef iterator_tag		iterator_category;
 		node *elem;
-//		Bidirectional(){
-//			elem.next = NULL;
-//			elem.prev = NULL;
-//		}
+		Bidirectional(){
+			elem = nullptr;
+		}
 
 		Bidirectional(Node<T> *data){
 			elem = data;
@@ -42,7 +41,7 @@ namespace ft{
 		~Bidirectional(){}
 
 		bool operator==(const class_name &rhs) const {
-			return elem->data == rhs.elem->data;
+			return elem == rhs.elem;
 		}
 
 		bool operator!=(const class_name &rhs) const {
@@ -114,6 +113,10 @@ namespace ft{
 		typedef Node<T>				node;
 		node *elem;
 
+		ReverseBidirectional()
+		{
+			elem = nullptr;
+		}
 		ReverseBidirectional(Node<T> *data){
 			elem = data;
 		}
@@ -200,6 +203,9 @@ namespace ft{
 		typedef Node<T>				node;
 		node *elem;
 
+		ConstBidirectional(){
+			elem = nullptr;
+		}
 		ConstBidirectional(Node<T> *data){
 			elem = data;
 		}
@@ -286,6 +292,9 @@ namespace ft{
 		typedef Node<T>				node;
 		node *elem;
 
+		ConstReverseBidirectional(){
+			elem = nullptr;
+		}
 		ConstReverseBidirectional(Node<T> *data){
 			elem = data;
 		}
