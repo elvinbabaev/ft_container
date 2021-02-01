@@ -7,6 +7,9 @@
 #include "Node.hpp"
 
 namespace ft{
+	template<class T, class Alloc>
+	class list;
+
 	template <class T>
 	bool compare(T a, T b)
 	{
@@ -21,8 +24,11 @@ namespace ft{
 		b = tmp;
 	}
 
+//	template <class T, class Alloc>
+//	bool operator==(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs);
+
 	template<class T, class Alloc = std::allocator <T> >
-	class List{
+	class list{
 	public:
 		typedef T								value_type;
 		typedef Alloc							allocator_type;
@@ -43,11 +49,12 @@ namespace ft{
 		node		*_end;
 		size_type	sizeType;
 	public:
-		List();
-		List(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
-		List(iterator first, iterator last, const allocator_type& alloc = allocator_type());
-		List(const List& x);
-		~List();
+		list();
+		list(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
+		list(iterator first, iterator last, const allocator_type& alloc = allocator_type());
+		list(const list& x);
+		~list();
+		list<T, Alloc> operator=(const list<T, Alloc> &arg);
 
 		iterator begin();
 		const_iterator begin()const;
@@ -78,30 +85,36 @@ namespace ft{
 		void insert (iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category* = nullptr);
 		iterator erase(iterator position);
 		iterator erase(iterator first, iterator last);
-		void swap (List& x);
+		void swap (list& x);
 		void resize (size_type n, value_type val = value_type ());
 		void clear();
-		void splice (iterator position, List& x);
-		void splice (iterator position, List& x, iterator i);
-		void splice (iterator position, List& x, iterator first, iterator last);
+		void splice (iterator position, list& x);
+		void splice (iterator position, list& x, iterator i);
+		void splice (iterator position, list& x, iterator first, iterator last);
 		void remove (const value_type& val);
 		template <class Predicate>
 		void remove_if (Predicate pred);
 		void unique();
 		template <class BinaryPredicate>
 		void unique (BinaryPredicate binary_pred);
-		void merge (List& x);
+		void merge (list& x);
 		template <class Compare>
-		void merge (List& x, Compare comp);
+		void merge (list& x, Compare comp);
 		void sort();
 		template <class Compare>
 		void sort (Compare comp);
 		void reverse();
+
+//	public:
+//		bool operator==(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs);
 	};
+//	template<class InputIterator1, class InputIterator2, class Compare>
+//	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+//									 InputIterator2 first2, InputIterator2 last2, Compare comp);
 }
 
 template<class T, class Alloc>
-ft::List<T, Alloc>::List() {
+ft::list<T, Alloc>::list() {
 	_begin = new Node<T>();
 	_end = new Node<T>();
 	_begin->next = _end;
@@ -110,7 +123,7 @@ ft::List<T, Alloc>::List() {
 }
 
 template<class T, class Alloc>
-ft::List<T, Alloc>::List(ft::List<T, Alloc>::size_type n, const value_type &val, const allocator_type &alloc) {
+ft::list<T, Alloc>::list(ft::list<T, Alloc>::size_type n, const value_type &val, const allocator_type &alloc) {
 	_begin = new Node<T>();
 	_end = new Node<T>();
 	_begin->next = _end;
@@ -122,7 +135,7 @@ ft::List<T, Alloc>::List(ft::List<T, Alloc>::size_type n, const value_type &val,
 }
 
 template<class T, class Alloc>
-ft::List<T, Alloc>::List(ft::List<T, Alloc>::iterator first, ft::List<T, Alloc>::iterator last, const allocator_type &alloc) {
+ft::list<T, Alloc>::list(ft::list<T, Alloc>::iterator first, ft::list<T, Alloc>::iterator last, const allocator_type &alloc) {
 	_begin = new Node<T>();
 	_end = new Node<T>();
 	_begin->next = _end;
@@ -139,7 +152,28 @@ ft::List<T, Alloc>::List(ft::List<T, Alloc>::iterator first, ft::List<T, Alloc>:
 }
 
 template<class T, class Alloc>
-ft::List<T, Alloc>::List(const ft::List<T, Alloc> &x) {
+ft::list<T, Alloc> ft::list<T, Alloc>::operator=(const ft::list<T, Alloc> &arg) {
+//	if (&arg == this)
+//		return (*this);
+//	_begin = arg._begin;
+//	_end = arg._end;
+//	sizeType = arg.sizeType;
+//	return (*this);
+
+	if (this == &arg)
+		return (*this);
+	this->clear();
+	_begin->next = _end;
+	_end->prev = _begin;
+	sizeType = 0;
+	for (list<T, Alloc>::const_iterator i = arg.begin(); i != arg.end() ; i++) {
+		this->push_back(*i);
+	}
+	return (*this);
+}
+
+template<class T, class Alloc>
+ft::list<T, Alloc>::list(const ft::list<T, Alloc> &x) {
 	_begin = new Node<T>();
 	_end = new Node<T>();
 	_begin->next = _end;
@@ -151,12 +185,12 @@ ft::List<T, Alloc>::List(const ft::List<T, Alloc> &x) {
 }
 
 template<class T, class Alloc>
-ft::List<T, Alloc>::~List() {
+ft::list<T, Alloc>::~list() {
 
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::push_back(const value_type &_x) {
+void ft::list<T, Alloc>::push_back(const value_type &_x) {
 	Node<value_type> *element = new Node<value_type>();
 	element->data = _x;
 	_end->prev->next = element;
@@ -167,7 +201,7 @@ void ft::List<T, Alloc>::push_back(const value_type &_x) {
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::push_front(const value_type &_x) {
+void ft::list<T, Alloc>::push_front(const value_type &_x) {
 	Node<value_type> *element = new Node<value_type>();
 	element->data = _x;
 	_begin->next->prev = element;
@@ -178,49 +212,49 @@ void ft::List<T, Alloc>::push_front(const value_type &_x) {
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::size_type ft::List<T, Alloc>::size() const {
+typename ft::list<T, Alloc>::size_type ft::list<T, Alloc>::size() const {
 	return sizeType;
 }
 
 template<class T, class Alloc>
-bool ft::List<T, Alloc>::empty() const {
+bool ft::list<T, Alloc>::empty() const {
 	return (!(static_cast<bool>(sizeType)));
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::begin() {
+typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::begin() {
 	return iterator(_begin->next);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::end() {
+typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::end() {
 	return iterator(_end);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::reference ft::List<T, Alloc>::front() {
+typename ft::list<T, Alloc>::reference ft::list<T, Alloc>::front() {
 //	if (!empty())
 	return (_begin->next->data);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::const_reference ft::List<T, Alloc>::front() const {
+typename ft::list<T, Alloc>::const_reference ft::list<T, Alloc>::front() const {
 //	if (!empty())
 	return (_begin->next->data);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::reference ft::List<T, Alloc>::back() {
+typename ft::list<T, Alloc>::reference ft::list<T, Alloc>::back() {
 	return (_end->prev->data);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::const_reference ft::List<T, Alloc>::back() const {
+typename ft::list<T, Alloc>::const_reference ft::list<T, Alloc>::back() const {
 	return (_end->prev->data);
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::pop_front() {
+void ft::list<T, Alloc>::pop_front() {
 	if (sizeType != 0){
 		_begin->next = _begin->next->next;
 		delete _begin->next->prev;
@@ -230,7 +264,7 @@ void ft::List<T, Alloc>::pop_front() {
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::pop_back() {
+void ft::list<T, Alloc>::pop_back() {
 	if (sizeType != 0){
 		_end->prev = _end->prev->prev;
 		delete _end->prev->next;
@@ -240,38 +274,38 @@ void ft::List<T, Alloc>::pop_back() {
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::reverse_iterator ft::List<T, Alloc>::rbegin() {
+typename ft::list<T, Alloc>::reverse_iterator ft::list<T, Alloc>::rbegin() {
 	return reverse_iterator(_end->prev);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::reverse_iterator ft::List<T, Alloc>::rend() {
+typename ft::list<T, Alloc>::reverse_iterator ft::list<T, Alloc>::rend() {
 	return reverse_iterator (_begin);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::const_iterator ft::List<T, Alloc>::end() const {
+typename ft::list<T, Alloc>::const_iterator ft::list<T, Alloc>::end() const {
 	return const_iterator(_end);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::const_iterator ft::List<T, Alloc>::begin() const {
+typename ft::list<T, Alloc>::const_iterator ft::list<T, Alloc>::begin() const {
 	return const_iterator(_begin->next);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::const_reverse_iterator ft::List<T, Alloc>::rbegin() const {
+typename ft::list<T, Alloc>::const_reverse_iterator ft::list<T, Alloc>::rbegin() const {
 	return const_reverse_iterator (_end->prev);
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::const_reverse_iterator ft::List<T, Alloc>::rend() const {
+typename ft::list<T, Alloc>::const_reverse_iterator ft::list<T, Alloc>::rend() const {
 	return const_reverse_iterator (_begin);
 }
 
 template<class T, class Alloc>
 template<class InputIterator>
-void ft::List<T, Alloc>::assign(InputIterator first, InputIterator last, typename InputIterator::iterator_category*) {
+void ft::list<T, Alloc>::assign(InputIterator first, InputIterator last, typename InputIterator::iterator_category*) {
 	this->clear();
 	while (first != last)
 	{
@@ -281,13 +315,13 @@ void ft::List<T, Alloc>::assign(InputIterator first, InputIterator last, typenam
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::clear() {
+void ft::list<T, Alloc>::clear() {
 	while (!empty())
 		pop_back();
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::assign(ft::List<T, Alloc>::size_type n, const value_type &val) {
+void ft::list<T, Alloc>::assign(ft::list<T, Alloc>::size_type n, const value_type &val) {
 	this->clear();
 	for (size_type i = 0; i < n; ++i) {
 		this->push_back(val);
@@ -295,7 +329,7 @@ void ft::List<T, Alloc>::assign(ft::List<T, Alloc>::size_type n, const value_typ
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, const value_type &val) {
+typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::insert(ft::list<T, Alloc>::iterator position, const value_type &val) {
 	node *tmp = new node();
 	tmp->data = val;
 	tmp->next = position.elem;
@@ -306,7 +340,7 @@ typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::insert(ft::List<T, All
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, ft::List<T, Alloc>::size_type n, const value_type &val) {
+void ft::list<T, Alloc>::insert(ft::list<T, Alloc>::iterator position, ft::list<T, Alloc>::size_type n, const value_type &val) {
 	for (size_type i = 0; i < n; ++i) {
 		insert(position, val);
 	}
@@ -315,7 +349,7 @@ void ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, ft::List<
 template<class T, class Alloc>
 template<class InputIterator>
 void
-ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category *) {
+ft::list<T, Alloc>::insert(ft::list<T, Alloc>::iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category *) {
 	while (first != last)
 	{
 		insert(position, *first);
@@ -324,7 +358,7 @@ ft::List<T, Alloc>::insert(ft::List<T, Alloc>::iterator position, InputIterator 
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::erase(ft::List<T, Alloc>::iterator position) {
+typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::erase(ft::list<T, Alloc>::iterator position) {
 	node* tmp = position.elem;
 	position.elem->next->prev = position.elem->prev;
 	position.elem->prev->next = position.elem->next;
@@ -335,7 +369,7 @@ typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::erase(ft::List<T, Allo
 }
 
 template<class T, class Alloc>
-typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::erase(ft::List<T, Alloc>::iterator first, ft::List<T, Alloc>::iterator last) {
+typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::erase(ft::list<T, Alloc>::iterator first, ft::list<T, Alloc>::iterator last) {
 	while (first != last)
 	{
 		first = erase(first);
@@ -344,12 +378,12 @@ typename ft::List<T, Alloc>::iterator ft::List<T, Alloc>::erase(ft::List<T, Allo
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::swap(ft::List<T, Alloc> &x) {
+void ft::list<T, Alloc>::swap(ft::list<T, Alloc> &x) {
 	swap_c(this, x);
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::resize(ft::List<T, Alloc>::size_type n, value_type val) {
+void ft::list<T, Alloc>::resize(ft::list<T, Alloc>::size_type n, value_type val) {
 	if (n < sizeType)
 	{
 		while (n != sizeType)
@@ -361,23 +395,39 @@ void ft::List<T, Alloc>::resize(ft::List<T, Alloc>::size_type n, value_type val)
 	}
 }
 
+//template<class T, class Alloc>
+//void put_elem(typename ft::list<T, Alloc>::iterator &position, typename ft::list<T, Alloc>::iterator &i)
+//{
+//	i.elem->prev->next = i.elem->next;
+//	i.elem->next->prev = i.elem->prev;
+//	i.elem->next = position.elem;
+//	i.elem->prev = position.elem->prev;
+//	position.elem->prev->next = i.elem;
+//	position.elem->prev = i.elem;
+//}
+
 template<class T, class Alloc>
-void ft::List<T, Alloc>::splice(ft::List<T, Alloc>::iterator position, ft::List<T, Alloc> &x) {
-	for (reverse_iterator i = x.rbegin(); i != x.rend() ; ++i) {
-		this->insert(position, i.elem->data);
+void ft::list<T, Alloc>::splice(ft::list<T, Alloc>::iterator position, ft::list<T, Alloc> &x) {
+	for (iterator i = (--x.end()); i != (--x.begin()) ; --i) {
+		splice(position, x, i);
+//		this->insert(position, i.elem->data);
 	}
 	x.clear();
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::splice(ft::List<T, Alloc>::iterator position, ft::List<T, Alloc> &x, ft::List<T, Alloc>::iterator i) {
-	this->insert(position, i.elem->data);
-	x.erase(i);
+void ft::list<T, Alloc>::splice(ft::list<T, Alloc>::iterator position, ft::list<T, Alloc> &x, ft::list<T, Alloc>::iterator i) {
+	i.elem->prev->next = i.elem->next;
+	i.elem->next->prev = i.elem->prev;
+	i.elem->next = position.elem;
+	i.elem->prev = position.elem->prev;
+	position.elem->prev->next = i.elem;
+	position.elem->prev = i.elem;
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::splice(ft::List<T, Alloc>::iterator position, ft::List<T, Alloc> &x, ft::List<T, Alloc>::iterator first,
-								ft::List<T, Alloc>::iterator last) {
+void ft::list<T, Alloc>::splice(ft::list<T, Alloc>::iterator position, ft::list<T, Alloc> &x, ft::list<T, Alloc>::iterator first,
+								ft::list<T, Alloc>::iterator last) {
 	while (first != last)
 	{
 		this->insert(position, first.elem->data);
@@ -387,7 +437,7 @@ void ft::List<T, Alloc>::splice(ft::List<T, Alloc>::iterator position, ft::List<
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::remove(const value_type &val) {
+void ft::list<T, Alloc>::remove(const value_type &val) {
 	for (iterator i; i != this->end() ; ++i) {
 		if((*i) == val)
 		{
@@ -399,7 +449,7 @@ void ft::List<T, Alloc>::remove(const value_type &val) {
 
 template<class T, class Alloc>
 template<class Predicate>
-void ft::List<T, Alloc>::remove_if(Predicate pred) {
+void ft::list<T, Alloc>::remove_if(Predicate pred) {
 	for (iterator i; i != this->end() ; ++i) {
 		if(pred(*i))
 		{
@@ -410,7 +460,7 @@ void ft::List<T, Alloc>::remove_if(Predicate pred) {
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::unique() {
+void ft::list<T, Alloc>::unique() {
 	iterator j = this->begin();
 	j++;
 	for (iterator i = this->begin(); i != this->end(), j != this->end(); ++i, j++) {
@@ -424,7 +474,7 @@ void ft::List<T, Alloc>::unique() {
 
 template<class T, class Alloc>
 template<class BinaryPredicate>
-void ft::List<T, Alloc>::unique(BinaryPredicate binary_pred) {
+void ft::list<T, Alloc>::unique(BinaryPredicate binary_pred) {
 	iterator j = this->begin();
 	j++;
 	for (iterator i = this->begin(); i != this->end(), j != this->end(); ++i, j++) {
@@ -437,7 +487,7 @@ void ft::List<T, Alloc>::unique(BinaryPredicate binary_pred) {
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::merge(ft::List<T, Alloc> &x) {
+void ft::list<T, Alloc>::merge(ft::list<T, Alloc> &x) {
 	iterator iteratorThis = this->begin();
 	iterator iteratorX = x.begin();
 	while (iteratorThis != this->end() && iteratorX != x.end())
@@ -468,7 +518,7 @@ void ft::List<T, Alloc>::merge(ft::List<T, Alloc> &x) {
 
 template<class T, class Alloc>
 template<class Compare>
-void ft::List<T, Alloc>::merge(ft::List<T, Alloc> &x, Compare comp) {
+void ft::list<T, Alloc>::merge(ft::list<T, Alloc> &x, Compare comp) {
 	iterator iteratorThis = this->begin();
 	iterator iteratorX = x.begin();
 	while (iteratorThis != this->end() && iteratorX != x.end())
@@ -498,7 +548,7 @@ void ft::List<T, Alloc>::merge(ft::List<T, Alloc> &x, Compare comp) {
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::sort() {
+void ft::list<T, Alloc>::sort() {
 	for (iterator i = this->begin(); i != this->end(); ++i) {
 		for (iterator j = this->begin(); j != this->end(); ++j) {
 			if (*i < *j)
@@ -509,7 +559,7 @@ void ft::List<T, Alloc>::sort() {
 
 template<class T, class Alloc>
 template<class Compare>
-void ft::List<T, Alloc>::sort(Compare comp) {
+void ft::list<T, Alloc>::sort(Compare comp) {
 	for (iterator i = this->begin(); i != this->end(); ++i) {
 		for (iterator j = this->begin(); j != this->end(); ++j) {
 			if (comp(*i, *j))
@@ -519,7 +569,7 @@ void ft::List<T, Alloc>::sort(Compare comp) {
 }
 
 template<class T, class Alloc>
-void ft::List<T, Alloc>::reverse() {
+void ft::list<T, Alloc>::reverse() {
 	iterator i = this->begin();
 	swap_c(_begin->next, _begin->prev);
 	for (; i != this->end() ; --i) {
@@ -529,4 +579,98 @@ void ft::List<T, Alloc>::reverse() {
 	swap_c(_end, _begin);
 }
 
+////template<class T>
+////bool CompareEgual(T &first, T &second)
+////{
+////	return (first == second);
+////}
+//
+//template<class T>
+//bool CompareLess(T &first, T &second)
+//{
+//	return (first < second);
+//}
+//
+//template<class T>
+//bool CompareLessOrEqual(T &first, T &second)
+//{
+//	return (first <= second);
+//}
+//
+////template<class InputIterator1, class InputIterator2, class Compare>
+////bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+////							 InputIterator2 first2, InputIterator2 last2, Compare comp) {
+////	for (; first1 != last1 && first2 != last2; first1++, last2++) {
+////		if (!comp(*first1, *first2))
+////			return false;
+////	}
+////	if (first1 == last1 && first2 == last2)
+////		return true;
+////	return false;
+////}
+
+template <class T, class Alloc>
+bool operator==(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
+{
+	if (lhs.size() == rhs.size())
+	{
+		typename ft::list<T>::const_iterator iL = lhs.begin();
+		typename ft::list<T>::const_iterator iR = rhs.begin();
+		for (; iL != lhs.end() && iR != rhs.end() ; iL++, iR++) {
+			if (!(*iL == *iR))
+				return false;
+		}
+		if (iL == lhs.end() && iR == rhs.end())
+			return true;
+	}
+	return false;
+}
+
+template <class T, class Alloc>
+bool operator!=(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
+{
+	return (!operator==(lhs, rhs));
+}
+
+template <class T, class Alloc>
+bool operator<(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
+{
+	typename ft::list<T>::const_iterator iL = lhs.begin();
+	typename ft::list<T>::const_iterator iR = rhs.begin();
+	for (; iL != lhs.end() && iR != rhs.end() ; iL++, iR++) {
+		if (!(*iL == *iR))
+			return (*iL < *iR);
+	}
+	if (iL == lhs.end() && iR != rhs.end())
+		return true;
+	else
+		return false;
+}
+
+template <class T, class Alloc>
+bool operator>=(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
+{
+	return (!operator<(lhs, rhs));
+}
+
+template <class T, class Alloc>
+bool operator>(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
+{
+	typename ft::list<T>::const_iterator iL = lhs.begin();
+	typename ft::list<T>::const_iterator iR = rhs.begin();
+	for (; iL != lhs.end() && iR != rhs.end() ; iL++, iR++) {
+		if (!(*iL == *iR))
+			return (*iL > *iR);
+	}
+	if (iR == rhs.end() && iL != lhs.end())
+		return true;
+	else
+		return false;
+}
+
+template <class T, class Alloc>
+bool operator<=(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
+{
+	return (!operator>(lhs, rhs));
+}
 #endif

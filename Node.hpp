@@ -17,6 +17,8 @@ public:
 	Node(const Node &arg):next(arg.next), prev(arg.next), data(arg.data){}
 	virtual ~Node() {}
 	Node &operator=(Node const&arg){
+		if (&arg == this)
+			return (*this);
 		this->data = arg.data;
 		this->next = arg.next;
 		this->prev = arg.prev;
