@@ -15,7 +15,7 @@ public:
 
 	Node():next(nullptr), prev(nullptr), data(value_type()){}
 	Node(const Node &arg):next(arg.next), prev(arg.next), data(arg.data){}
-	virtual ~Node() {}
+	~Node() {}
 	Node &operator=(Node const&arg){
 		if (&arg == this)
 			return (*this);

@@ -42,7 +42,7 @@ namespace ft{
 		typedef ConstBidirectional<T>			const_iterator;
 		typedef ConstReverseBidirectional<T>	const_reverse_iterator;
 		typedef std::ptrdiff_t					difference_type;
-		typedef std::size_t 					size_type;
+		typedef size_t 							size_type;
 		typedef Node<T>							node;
 	private:
 		node		*_begin;
@@ -66,6 +66,7 @@ namespace ft{
 		const_reverse_iterator rend() const;
 		bool empty () const;
 		size_type size() const;
+		size_type max_size() const;
 
 		reference front();
 		const_reference front() const;
@@ -379,7 +380,10 @@ typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::erase(ft::list<T, Allo
 
 template<class T, class Alloc>
 void ft::list<T, Alloc>::swap(ft::list<T, Alloc> &x) {
-	swap_c(this, x);
+//	swap_c(*this, x);
+	swap_c(this->_begin, x._begin);
+	swap_c(this->_end, x._end);
+	swap_c(this->sizeType, x.sizeType);
 }
 
 template<class T, class Alloc>
@@ -408,11 +412,16 @@ void ft::list<T, Alloc>::resize(ft::list<T, Alloc>::size_type n, value_type val)
 
 template<class T, class Alloc>
 void ft::list<T, Alloc>::splice(ft::list<T, Alloc>::iterator position, ft::list<T, Alloc> &x) {
-	for (iterator i = (--x.end()); i != (--x.begin()) ; --i) {
-		splice(position, x, i);
-//		this->insert(position, i.elem->data);
+	iterator begin_it2 = x.begin();
+	iterator end_it2 = x.end();
+
+	node *tmp;
+	while (begin_it2 != end_it2)
+	{
+		tmp = begin_it2.elem->next;
+		splice(position, x, begin_it2);
+		begin_it2.elem = tmp;
 	}
-	x.clear();
 }
 
 template<class T, class Alloc>
@@ -423,22 +432,25 @@ void ft::list<T, Alloc>::splice(ft::list<T, Alloc>::iterator position, ft::list<
 	i.elem->prev = position.elem->prev;
 	position.elem->prev->next = i.elem;
 	position.elem->prev = i.elem;
+	this->sizeType++;
+	x.sizeType--;
 }
 
 template<class T, class Alloc>
 void ft::list<T, Alloc>::splice(ft::list<T, Alloc>::iterator position, ft::list<T, Alloc> &x, ft::list<T, Alloc>::iterator first,
 								ft::list<T, Alloc>::iterator last) {
+	node *tmp;
 	while (first != last)
 	{
-		this->insert(position, first.elem->data);
-		first++;
+		tmp = first.elem->next;
+		splice(position, x, first);
+		first.elem = tmp;
 	}
-	x.erase(first, last);
 }
 
 template<class T, class Alloc>
 void ft::list<T, Alloc>::remove(const value_type &val) {
-	for (iterator i; i != this->end() ; ++i) {
+	for (iterator i = this->begin(); i != this->end() ; ++i) {
 		if((*i) == val)
 		{
 			i = this->erase(i);
@@ -450,7 +462,7 @@ void ft::list<T, Alloc>::remove(const value_type &val) {
 template<class T, class Alloc>
 template<class Predicate>
 void ft::list<T, Alloc>::remove_if(Predicate pred) {
-	for (iterator i; i != this->end() ; ++i) {
+	for (iterator i = this->begin(); i != this->end() ; ++i) {
 		if(pred(*i))
 		{
 			i = this->erase(i);
@@ -462,9 +474,10 @@ void ft::list<T, Alloc>::remove_if(Predicate pred) {
 template<class T, class Alloc>
 void ft::list<T, Alloc>::unique() {
 	iterator j = this->begin();
+	iterator i = this->begin();
 	j++;
-	for (iterator i = this->begin(); i != this->end(), j != this->end(); ++i, j++) {
-		while (*j == *i)
+	for (; i != this->end() && j != this->end(); ++i, ++j) {
+		while (*j == *i && i != this->end() && j != this->end())
 		{
 			i = this->erase(i);
 			j++;
@@ -477,11 +490,10 @@ template<class BinaryPredicate>
 void ft::list<T, Alloc>::unique(BinaryPredicate binary_pred) {
 	iterator j = this->begin();
 	j++;
-	for (iterator i = this->begin(); i != this->end(), j != this->end(); ++i, j++) {
-		while (binary_pred(*i, *j))
+	for (iterator i = this->begin(); i != this->end() && j != this->end(); ++i, ++j) {
+		while (binary_pred(*i, *j) && i != this->end() && j != this->end())
 		{
-			i = this->erase(i);
-			j++;
+			j = this->erase(j);
 		}
 	}
 }
@@ -492,9 +504,9 @@ void ft::list<T, Alloc>::merge(ft::list<T, Alloc> &x) {
 	iterator iteratorX = x.begin();
 	while (iteratorThis != this->end() && iteratorX != x.end())
 	{
-		if (*iteratorThis < *iteratorX)
+		if (*iteratorThis <= *iteratorX)
 		{
-			while (*iteratorThis < *iteratorX && iteratorThis != this->end())
+			while (*iteratorThis <= *iteratorX && iteratorThis != this->end())
 			{
 				iteratorThis++;
 			}
@@ -579,35 +591,10 @@ void ft::list<T, Alloc>::reverse() {
 	swap_c(_end, _begin);
 }
 
-////template<class T>
-////bool CompareEgual(T &first, T &second)
-////{
-////	return (first == second);
-////}
-//
-//template<class T>
-//bool CompareLess(T &first, T &second)
-//{
-//	return (first < second);
-//}
-//
-//template<class T>
-//bool CompareLessOrEqual(T &first, T &second)
-//{
-//	return (first <= second);
-//}
-//
-////template<class InputIterator1, class InputIterator2, class Compare>
-////bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
-////							 InputIterator2 first2, InputIterator2 last2, Compare comp) {
-////	for (; first1 != last1 && first2 != last2; first1++, last2++) {
-////		if (!comp(*first1, *first2))
-////			return false;
-////	}
-////	if (first1 == last1 && first2 == last2)
-////		return true;
-////	return false;
-////}
+template<class T, class Alloc>
+typename ft::list<T, Alloc>::size_type ft::list<T, Alloc>::max_size() const {
+	return (std::numeric_limits<size_type>::max() / sizeof(Node<value_type>));
+}
 
 template <class T, class Alloc>
 bool operator==(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)

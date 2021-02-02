@@ -791,50 +791,272 @@ void testBegin()
 
 void	testSplice()
 {
-	std::list<int>	std_list1(5, 4);
-	std::list<int>	std_list2(3, 2);
-	std::list<int>	std_list3;
-	ft::list<int>	ft_list1(5, 4);
-	ft::list<int>	ft_list2(3, 2);
-	ft::list<int>	ft_list3;
 
-	std::cout<<MAGENTA<<"\tTEST Splice (iterator position, list& x)"<<RESET<<std::endl;
+	{
+		std::list<int> std_list1(5, 4);
+		std::list<int> std_list2(3, 2);
+		std::list<int> std_list3;
+		ft::list<int> ft_list1(5, 4);
+		ft::list<int> ft_list2(3, 2);
+		ft::list<int> ft_list3;
 
-	std_list3 = std_list2;
-	ft_list3 = ft_list2;
+		std::cout << MAGENTA << "\tTEST Splice (iterator position, list& x)" << RESET << std::endl;
 
-	std_list1.splice((++std_list1.begin()), std_list2);
-	ft_list1.splice((++ft_list1.begin()), ft_list2);
-	for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end(); i++)
-		std::cout<<*i<<" ";
-	std::cout<<std::endl;
-	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end(); i++)
-		std::cout<<CYAN<<*i<<RESET<<" ";
-	std::cout<<std::endl;
+		std_list3 = std_list2;
+		ft_list3 = ft_list2;
 
-	std_list2 = std_list3;
-	ft_list2 = ft_list3;
+		std_list1.splice((++std_list1.begin()), std_list2);
+		ft_list1.splice((++ft_list1.begin()), ft_list2);
+		for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end(); i++)
+			std::cout << *i << " ";
+		std::cout << std::endl;
+		for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end(); i++)
+			std::cout << CYAN << *i << RESET << " ";
+		std::cout << std::endl;
 
-	std::cout<<MAGENTA<<"\tTEST Splice (iterator position, list& x, iterator i)"<<RESET<<std::endl;
-	std_list1.splice((--std_list1.end()), std_list2, (++std_list2.begin()));
-	ft_list1.splice((--ft_list1.end()), ft_list2, (++ft_list2.begin()));
-	for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end(); i++)
-		std::cout<<*i<<" ";
-	std::cout<<std::endl;
-	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end(); i++)
-		std::cout<<CYAN<<*i<<RESET<<" ";
-	std::cout<<std::endl;
+		std_list2 = std_list3;
+		ft_list2 = ft_list3;
 
-	std::list<int>	std_list4;
-	ft::list<int>	ft_list4;
-	for (int i = 0; i < 5; ++i) {
-		std_list4.push_back(i * 10);
-		ft_list4.push_back(i * 10);
+		std::cout << MAGENTA << "\tTEST Splice (iterator position, list& x, iterator i)" << RESET << std::endl;
+		std_list1.splice((--std_list1.end()), std_list2, (++std_list2.begin()));
+		ft_list1.splice((--ft_list1.end()), ft_list2, (++ft_list2.begin()));
+		for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end(); i++)
+			std::cout << *i << " ";
+		std::cout << std::endl;
+		for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end(); i++)
+			std::cout << CYAN << *i << RESET << " ";
+		std::cout << std::endl;
+
+		std::list<int> std_list4;
+		ft::list<int> ft_list4;
+		for (int i = 0; i < 5; ++i) {
+			std_list4.push_back(i * 10);
+			ft_list4.push_back(i * 10);
+		}
 	}
-	std::cout<<MAGENTA<<"\tTEST Splice (iterator position, list& x, iterator first, iterator last)"<<RESET<<std::endl;
-//	std_list1.splice()
+	{
+		std::cout<<MAGENTA<<"\tTEST Splice (iterator position, list& x, iterator first, iterator last)"<<RESET<<std::endl;
+		ft::list<int> ft_list1, ft_list2;
+		std::list<int> std_list1, std_list2;
+		for (int i = 1; i < 4; ++i) {
+			ft_list1.push_back(i);
+			std_list1.push_back(i);
+		}
+		for (int i = 4; i < 10; ++i) {
+			ft_list2.push_back(i);
+			std_list2.push_back(i);
+		}
 
+		std_list1.splice(++(std_list1.begin()), std_list2, (++std_list2.begin()), (--std_list2.end()));
+		ft_list1.splice(++(ft_list1.begin()), ft_list2, (++ft_list2.begin()), (--ft_list2.end()));
+		for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end() ; ++i) {
+			std::cout<<*i<<" ";
+		}
+		std::cout<<std::endl;
+		for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<std::endl;
+	}
 }
+
+bool predRemoveIf(int a)
+{
+	if (a < 15)
+		return true;
+	else
+		return false;
+}
+
+void testEraseAndSwap()
+{
+	{
+		std::cout<<MAGENTA<<"\tTEST erase"<<RESET<<std::endl;
+		ft::list<int> ft_list1, ft_list2;
+		std::list<int> std_list1, std_list2;
+		for (int i = 1; i < 10; ++i) {
+			ft_list1.push_back(i);
+			std_list1.push_back(i);
+		}
+		for (int i = 10; i < 20; ++i) {
+			ft_list2.push_back(i);
+			std_list2.push_back(i);
+		}
+		std::cout<<CYAN<<"return iterator value "<<*(ft_list1.erase((++ft_list1.begin()), (--ft_list1.end())))<<RESET<<std::endl;
+		std::cout<<"return iterator value "<<*(std_list1.erase((++std_list1.begin()), (--std_list1.end())))<<std::endl;
+
+		for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<std::endl;
+		for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end() ; ++i) {
+			std::cout<<*i<<" ";
+		}
+		std::cout<<std::endl;
+
+		std::cout<<CYAN<<"return iterator value "<<*(ft_list2.erase((++(++ft_list2.begin()))))<<RESET<<std::endl;
+		std::cout<<"return iterator value "<<*(std_list2.erase((++(++std_list2.begin()))))<<std::endl;
+
+		for (ft::list<int>::iterator i = ft_list2.begin(); i != ft_list2.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<std::endl;
+		for (std::list<int>::iterator i = std_list2.begin(); i != std_list2.end() ; ++i) {
+			std::cout<<*i<<" ";
+		}
+		std::cout<<std::endl;
+
+		std::cout<<MAGENTA<<"\tTEST swap"<<RESET<<std::endl;
+		std::cout<<"Before swap"<<std::endl;
+		std::cout<<"List 1: ";
+		for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<"\nList 2: ";
+		for (ft::list<int>::iterator i = ft_list2.begin(); i != ft_list2.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<std::endl;
+
+		ft_list1.swap(ft_list2);
+		std::cout<<"After swap"<<std::endl;
+		std::cout<<"List 1: ";
+		for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<"\nList 2: ";
+		for (ft::list<int>::iterator i = ft_list2.begin(); i != ft_list2.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<std::endl;
+
+		std::cout<<MAGENTA<<"\tTEST remove"<<RESET<<std::endl;
+		ft_list1.swap(ft_list2);
+
+
+		std_list2.remove(15);
+		ft_list2.remove(15);
+		for (ft::list<int>::iterator i = ft_list2.begin(); i != ft_list2.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<std::endl;
+		for (std::list<int>::iterator i = std_list2.begin(); i != std_list2.end() ; ++i) {
+			std::cout<<*i<<" ";
+		}
+		std::cout<<std::endl;
+
+		std::cout<<MAGENTA<<"\tTEST remove_if"<<RESET<<std::endl;
+		std_list2.remove_if(predRemoveIf);
+		ft_list2.remove_if(predRemoveIf);
+		for (ft::list<int>::iterator i = ft_list2.begin(); i != ft_list2.end() ; ++i) {
+			std::cout<<CYAN<<*i<<RESET<<" ";
+		}
+		std::cout<<std::endl;
+		for (std::list<int>::iterator i = std_list2.begin(); i != std_list2.end() ; ++i) {
+			std::cout<<*i<<" ";
+		}
+		std::cout<<std::endl;
+	}
+}
+
+bool uniquePred(int a, int b)
+{
+	return (a < b);
+}
+
+void testUnique()
+{
+	std::list<int> std_list1(4, 10);
+	std::list<int> std_list3(5, 15);
+	std::list<int> std_list2(3, 20);
+	ft::list<int> ft_list1(4, 10);
+	ft::list<int> ft_list3(5, 15);
+	ft::list<int> ft_list2(3, 20);
+	std_list1.merge(std_list2);
+	std_list1.merge(std_list3);
+	ft_list1.merge(ft_list2);
+	ft_list1.merge(ft_list3);
+
+	std::cout<<MAGENTA<<"\tTEST Unique"<<RESET<<std::endl;
+	std::cout<<"Before unique"<<std::endl;
+	for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end() ; i++) {
+		std::cout<<*i<<" ";
+	}
+	std::cout<<std::endl;
+	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; i++) {
+		std::cout<<CYAN<<*i<<" ";
+	}
+	std::cout<<std::endl;
+
+	std_list1.unique();
+	ft_list1.unique();
+	std::cout<<"After unique"<<std::endl;
+	for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end() ; i++) {
+		std::cout<<*i<<" ";
+	}
+	std::cout<<std::endl;
+	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; i++) {
+		std::cout<<CYAN<<*i<<" ";
+	}
+	std::cout<<std::endl;
+
+	std::cout<<MAGENTA<<"\tTEST Unique (pred)"<<RESET<<std::endl;
+	std_list1.push_back(100);
+	std_list1.push_back(50);
+	std_list1.push_back(200);
+	std_list1.push_back(150);
+	std_list1.push_front(100);
+	std_list1.push_front(50);
+	std_list1.push_front(200);
+	std_list1.push_front(150);
+
+	ft_list1.push_back(100);
+	ft_list1.push_back(50);
+	ft_list1.push_back(200);
+	ft_list1.push_back(150);
+	ft_list1.push_front(100);
+	ft_list1.push_front(50);
+	ft_list1.push_front(200);
+	ft_list1.push_front(150);
+	std::cout<<"Before unique"<<std::endl;
+	for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end() ; i++) {
+		std::cout<<*i<<" ";
+	}
+	std::cout<<std::endl;
+	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; i++) {
+		std::cout<<CYAN<<*i<<" ";
+	}
+	std::cout<<std::endl;
+
+	std_list1.unique(uniquePred);
+	ft_list1.unique(uniquePred);
+	std::cout<<"After unique"<<std::endl;
+	for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end() ; i++) {
+		std::cout<<*i<<" ";
+	}
+	std::cout<<std::endl;
+	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; i++) {
+		std::cout<<CYAN<<*i<<" ";
+	}
+	std::cout<<std::endl;
+	std_list1.max_size();
+}
+
+void testMaxsize()
+{
+	std::cout<<MAGENTA<<"\tTEST maxsize"<<RESET<<std::endl;
+	std::list<int> std_list1;
+	std::list<std::string> std_list2;
+	std::list<double> std_list3;
+	ft::list<int> ft_list1;
+	ft::list<std::string> ft_list2;
+	ft::list<double> ft_list3;
+
+	std::cout<<std_list1.max_size()<< " == " <<ft_list1.max_size()<<std::endl;
+	std::cout<<std_list2.max_size()<< " == " <<ft_list2.max_size()<<std::endl;
+	std::cout<<std_list3.max_size()<< " == " <<ft_list3.max_size()<<std::endl;
+}
+
 int main()
 {
 	testConstructorCopy();
@@ -847,16 +1069,8 @@ int main()
 	testSort();
 	testReverse();
 	testOperator();
-//	testSplice();
-
-//	{
-//		ft::list<int> test, test2;
-//		test.push_back(1);
-//		test.push_back(2);
-//		test.push_back(3);
-//		test2.push_back(4);
-//		test2.push_back(5);
-//		test2.push_back(6);
-//		test.splice(test.begin(), test2);
-//	}
+	testSplice();
+	testEraseAndSwap();
+	testUnique();
+	testMaxsize();
 }
