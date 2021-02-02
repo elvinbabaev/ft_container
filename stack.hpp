@@ -12,7 +12,6 @@ namespace ft {
 	class stack {
 	public:
 		typedef T value_type;
-		typedef T const const_value_type;
 		typedef Container container_type;
 		typedef size_t size_type;
 	protected:
