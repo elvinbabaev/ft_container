@@ -984,19 +984,19 @@ void testUnique()
 	}
 	std::cout<<std::endl;
 	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; i++) {
-		std::cout<<CYAN<<*i<<" ";
+		std::cout<<CYAN<<*i<<RESET<<" ";
 	}
 	std::cout<<std::endl;
 
 	std_list1.unique();
 	ft_list1.unique();
-	std::cout<<"After unique"<<std::endl;
+	std::cout<<MAGENTA<<"After unique"<<RESET<<std::endl;
 	for (std::list<int>::iterator i = std_list1.begin(); i != std_list1.end() ; i++) {
 		std::cout<<*i<<" ";
 	}
 	std::cout<<std::endl;
 	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; i++) {
-		std::cout<<CYAN<<*i<<" ";
+		std::cout<<CYAN<<*i<<RESET<<" ";
 	}
 	std::cout<<std::endl;
 
@@ -1024,7 +1024,7 @@ void testUnique()
 	}
 	std::cout<<std::endl;
 	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; i++) {
-		std::cout<<CYAN<<*i<<" ";
+		std::cout<<CYAN<<*i<<RESET<<" ";
 	}
 	std::cout<<std::endl;
 
@@ -1036,10 +1036,9 @@ void testUnique()
 	}
 	std::cout<<std::endl;
 	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end() ; i++) {
-		std::cout<<CYAN<<*i<<" ";
+		std::cout<<CYAN<<*i<<RESET<<" ";
 	}
 	std::cout<<std::endl;
-	std_list1.max_size();
 }
 
 void testMaxsize()
@@ -1052,11 +1051,45 @@ void testMaxsize()
 	ft::list<std::string> ft_list2;
 	ft::list<double> ft_list3;
 
-	std::cout<<std_list1.max_size()<< " == " <<ft_list1.max_size()<<std::endl;
+	std::cout<<CYAN<<std_list1.max_size()<< " == " <<ft_list1.max_size()<<std::endl;
 	std::cout<<std_list2.max_size()<< " == " <<ft_list2.max_size()<<std::endl;
-	std::cout<<std_list3.max_size()<< " == " <<ft_list3.max_size()<<std::endl;
+	std::cout<<std_list3.max_size()<< " == " <<ft_list3.max_size()<<RESET<<std::endl;
 }
 
+void testSwapFt()
+{
+	std::cout<<MAGENTA<<"\tTEST swap"<<RESET<<std::endl;
+	ft::list<int> ft_list1(5, 10);
+	ft::list<int> ft_list2(10, 4);
+	std::cout<<"Before: "<<std::endl;
+	std::cout<<"list1: ";
+	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end(); i++)
+	{
+		std::cout<<CYAN<<*i<<RESET<<" ";
+	}
+	std::cout<<std::endl;
+	std::cout<<"list2: ";
+	for (ft::list<int>::iterator i = ft_list2.begin(); i != ft_list2.end(); i++)
+	{
+		std::cout<<CYAN<<*i<<RESET<<" ";
+	}
+	std::cout<<std::endl;
+
+	ft::swap(ft_list1, ft_list2);
+	std::cout<<"After: "<<std::endl;
+	std::cout<<"list1: ";
+	for (ft::list<int>::iterator i = ft_list1.begin(); i != ft_list1.end(); i++)
+	{
+		std::cout<<CYAN<<*i<<RESET<<" ";
+	}
+	std::cout<<std::endl;
+	std::cout<<"list2: ";
+	for (ft::list<int>::iterator i = ft_list2.begin(); i != ft_list2.end(); i++)
+	{
+		std::cout<<CYAN<<*i<<RESET<<" ";
+	}
+	std::cout<<std::endl;
+}
 int main()
 {
 	testConstructorCopy();
@@ -1073,4 +1106,5 @@ int main()
 	testEraseAndSwap();
 	testUnique();
 	testMaxsize();
+	testSwapFt();
 }

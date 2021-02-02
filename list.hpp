@@ -109,6 +109,12 @@ namespace ft{
 //	public:
 //		bool operator==(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs);
 	};
+
+	template <class T, class Alloc>
+	void swap (list<T,Alloc>& x, list<T,Alloc>& y)
+	{
+		x.swap(y);
+	}
 //	template<class InputIterator1, class InputIterator2, class Compare>
 //	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
 //									 InputIterator2 first2, InputIterator2 last2, Compare comp);
@@ -337,6 +343,7 @@ typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::insert(ft::list<T, All
 	tmp->prev = position.elem->prev;
 	position.elem->prev->next = tmp;
 	position.elem->prev = tmp;
+	sizeType++;
 	return (tmp);
 }
 
