@@ -187,7 +187,7 @@ ft::list<T, Alloc>::list(const ft::list<T, Alloc> &x) {
 
 template<class T, class Alloc>
 ft::list<T, Alloc>::~list() {
-
+	this->clear();
 }
 
 template<class T, class Alloc>
