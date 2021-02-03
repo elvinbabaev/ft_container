@@ -15,8 +15,16 @@ namespace ft {
 		typedef Container container_type;
 		typedef size_t size_type;
 	protected:
-		list<T> c;
+		container_type c;
 	public:
+		~stack(){
+			c.clear();
+		}
+		stack(const stack& copy) : c(copy.c) {}
+		stack &operator=(const stack & copy){
+			c = copy.c;
+			return (*this);
+		}
 		explicit stack(const container_type &ctnr = container_type())
 		{
 			this->c = ctnr;
@@ -76,7 +84,5 @@ namespace ft {
 		}
 	};
 }
-
-
 
 #endif
