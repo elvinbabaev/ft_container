@@ -95,7 +95,11 @@ namespace ft{
 			return (elem->data);
 		}
 
-		class_name * operator->(){
+		value_type* operator->(){
+			return (elem->data);
+		}
+
+		value_type* operator->() const{
 			return (elem->data);
 		}
 	};
