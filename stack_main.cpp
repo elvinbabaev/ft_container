@@ -11,7 +11,7 @@
 # define RESET   "\033[0m"
 
 template<class T>
-void print(ft::stack<T> &ft_stack, std::stack<T> &std_stack)
+void print(ft::stack<T> ft_stack, std::stack<T> &std_stack)
 {
 	std::cout <<CYAN<< "ft::stack"<<RESET<<"\tstd::stack" << std::endl;
 	std::cout << CYAN << "size\t" << ft_stack.size() << RESET << "\t" << "size\t" << std_stack.size() << std::endl;

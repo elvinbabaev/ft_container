@@ -1,7 +1,7 @@
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
-#include <ostream>
+#include <ostream>//!!!!
 #include "Node.hpp"
 
 namespace ft{
@@ -27,6 +27,7 @@ namespace ft{
 		Bidirectional(Node<T> *data){
 			elem = data;
 		}
+//		~Bidirectional(){}
 
 //		Bidirectional(const Bidirectional<T> &arg){
 //			*this = arg;
