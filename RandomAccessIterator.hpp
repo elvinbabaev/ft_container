@@ -7,42 +7,45 @@
 
 #include <iostream>
 
-namespace ft{
+namespace ft {
 	template<typename T>
-	class RandomAccess{
+	class RandomAccess {
 	public:
-		struct iterator_tag{};
+		struct iterator_tag {
+		};
 
-		typedef T			value_type;
-		typedef T*			pointer;
-		typedef const T*	const_pointer;
-		typedef T&			reference;
-		typedef const T&	const_reference;
-		typedef RandomAccess<T>	iterator;
-		typedef RandomAccess<T>	class_name;
+		typedef T value_type;
+		typedef T *pointer;
+		typedef const T *const_pointer;
+		typedef T &reference;
+		typedef const T &const_reference;
+		typedef RandomAccess<T> iterator;
+		typedef RandomAccess<T> class_name;
 		//const;
-		typedef iterator_tag	iterator_category;
-		typedef size_t			size_type;
+		typedef iterator_tag iterator_category;
+		typedef size_t size_type;
 
 		pointer elem;
 
-		RandomAccess(){
+		RandomAccess() {
 			elem = nullptr;
 		}
 
-		RandomAccess(const pointer p){
+		RandomAccess(const pointer p) {
 			elem = p;
 		}
 
-		RandomAccess(const RandomAccess<T> &arg): elem(arg.elem){
+		RandomAccess(const RandomAccess<T> &arg) : elem(arg.elem) {
 		}
-		class_name &operator=(class_name const &arg){
+
+		class_name &operator=(class_name const &arg) {
 			if (this == &arg)
 				return (*this);
 			elem = arg.elem;
 			return (*this);
 		}
-		~RandomAccess(){}
+
+		~RandomAccess() {}
 
 		bool operator==(const RandomAccess &rhs) const {
 			return elem == rhs.elem;
@@ -68,449 +71,470 @@ namespace ft{
 			return !(*this < rhs);
 		}
 
-		value_type &operator*(const class_name &rhs)const {
+		value_type &operator*(const class_name &rhs) const {
 			return (*elem);
 		}
-		value_type &operator*(){
-			return(*elem);
-		}
-		value_type *operator->(){
-			return(*elem);
-		}
-		value_type *operator->()const{
+
+		value_type &operator*() {
 			return (*elem);
 		}
-		class_name &operator++(){
+
+		value_type *operator->() {
+			return (*elem);
+		}
+
+		value_type *operator->() const {
+			return (*elem);
+		}
+
+		class_name &operator++() {
 			elem++;
 			return (*this);
 		}
-		class_name operator++(int){
+
+		class_name operator++(int) {
 			class_name tmp = *this;
 			elem++;
 			return (tmp);
 		}
-		class_name &operator--()
-		{
+
+		class_name &operator--() {
 			elem--;
 			return (*this);
 		}
-		class_name operator--(int){
+
+		class_name operator--(int) {
 			class_name tmp = *this;
 			elem--;
 			return (tmp);
 		}
 
-		reference operator[](size_type n){
+		reference operator[](size_type n) {
 			return *(elem + n);
 		}
 
-		const_reference operator[](size_type n)const{
+		const_reference operator[](size_type n) const {
 			return *(elem + n);
 		}
 
-		class_name	operator+(size_type n) const
-		{
+		class_name operator+(size_type n) const {
 			class_name tmp = *this;
 			tmp.elem += n;
 			return (tmp);
 		}
 
-		class_name operator-(size_type n) const
-		{
+		class_name operator-(size_type n) const {
 			class_name tmp = *this;
 			tmp.elem -= n;
 			return (tmp);
 		}
 
-		class_name &operator+=(size_type n)
-		{
+		class_name &operator+=(size_type n) {
 			this->elem += n;
 			return (*this);
 		}
 
-		class_name &operator-=(size_type n){
+		class_name &operator-=(size_type n) {
 			this->elem -= n;
 			return (*this);
 		}
 	};
 
 	template<typename T>
-	class ReverseRandomAccess{
+	class ReverseRandomAccess {
 	public:
-		struct iterator_tag{};
+		struct iterator_tag {
+		};
 
-		typedef T			value_type;
-		typedef T*			pointer;
-		typedef const T*	const_pointer;
-		typedef T&			reference;
-		typedef const T&	const_reference;
-		typedef RandomAccess<T>	iterator;
-		typedef RandomAccess<T>	class_name;
+		typedef T value_type;
+		typedef T *pointer;
+		typedef const T *const_pointer;
+		typedef T &reference;
+		typedef const T &const_reference;
+		typedef RandomAccess<T> iterator;
+		typedef RandomAccess<T> class_name;
 		//const;
-		typedef iterator_tag	iterator_category;
-		typedef size_t			size_type;
+		typedef iterator_tag iterator_category;
+		typedef size_t size_type;
 
 		pointer elem;
 
-		RandomAccess(){
+		ReverseRandomAccess() {
 			elem = nullptr;
 		}
 
-		RandomAccess(const pointer p){
+		ReverseRandomAccess(const pointer p) {
 			elem = p;
 		}
 
-		RandomAccess(const RandomAccess<T> &arg): elem(arg.elem){
+		ReverseRandomAccess(const ReverseRandomAccess<T> &arg) : elem(arg.elem) {
 		}
-		class_name &operator=(class_name const &arg){
+
+		class_name &operator=(class_name const &arg) {
 			if (this == &arg)
 				return (*this);
 			elem = arg.elem;
 			return (*this);
 		}
-		~RandomAccess(){}
 
-		bool operator==(const RandomAccess &rhs) const {
+		~ReverseRandomAccess() {}
+
+		bool operator==(const ReverseRandomAccess &rhs) const {
 			return elem == rhs.elem;
 		}
 
-		bool operator!=(const RandomAccess &rhs) const {
+		bool operator!=(const ReverseRandomAccess &rhs) const {
 			return !(rhs == *this);
 		}
 
-		bool operator<(const RandomAccess &rhs) const {
+		bool operator<(const ReverseRandomAccess &rhs) const {
 			return elem < rhs.elem;
 		}
 
-		bool operator>(const RandomAccess &rhs) const {
+		bool operator>(const ReverseRandomAccess &rhs) const {
 			return rhs < *this;
 		}
 
-		bool operator<=(const RandomAccess &rhs) const {
+		bool operator<=(const ReverseRandomAccess &rhs) const {
 			return !(rhs < *this);
 		}
 
-		bool operator>=(const RandomAccess &rhs) const {
+		bool operator>=(const ReverseRandomAccess &rhs) const {
 			return !(*this < rhs);
 		}
 
-		value_type &operator*(const class_name &rhs)const {
+		value_type &operator*(const class_name &rhs) const {
 			return (*elem);
 		}
-		value_type &operator*(){
-			return(*elem);
-		}
-		value_type *operator->(){
-			return(*elem);
-		}
-		value_type *operator->()const{
+
+		value_type &operator*() {
 			return (*elem);
 		}
-		class_name &operator++(){
+
+		value_type *operator->() {
+			return (*elem);
+		}
+
+		value_type *operator->() const {
+			return (*elem);
+		}
+
+		class_name &operator++() {
 			elem++;
 			return (*this);
 		}
-		class_name operator++(int){
+
+		class_name operator++(int) {
 			class_name tmp = *this;
 			elem--;
 			return (tmp);
 		}
-		class_name &operator--()
-		{
+
+		class_name &operator--() {
 			elem++;
 			return (*this);
 		}
-		class_name operator--(int){
+
+		class_name operator--(int) {
 			class_name tmp = *this;
 			elem++;
 			return (tmp);
 		}
 
-		reference operator[](size_type n){
+		reference operator[](size_type n) {
 			return *(elem - n);
 		}
 
-		const_reference operator[](size_type n)const{
+		const_reference operator[](size_type n) const {
 			return *(elem - n);
 		}
 
-		class_name	operator+(size_type n) const
-		{
+		class_name operator+(size_type n) const {
 			class_name tmp = *this;
 			tmp.elem -= n;
 			return (tmp);
 		}
 
-		class_name operator-(size_type n) const
-		{
+		class_name operator-(size_type n) const {
 			class_name tmp = *this;
 			tmp.elem += n;
 			return (tmp);
 		}
 
-		class_name &operator+=(size_type n)
-		{
+		class_name &operator+=(size_type n) {
 			this->elem -= n;
 			return (*this);
 		}
 
-		class_name &operator-=(size_type n){
+		class_name &operator-=(size_type n) {
 			this->elem += n;
 			return (*this);
 		}
 	};
 
 	template<typename T>
-	class ConstRandomAccess{
+	class ConstRandomAccess {
 	public:
-		struct iterator_tag{};
+		struct iterator_tag {
+		};
 
-		typedef T			value_type;
-		typedef T*			pointer;
-		typedef const T*	const_pointer;
-		typedef T&			reference;
-		typedef const T&	const_reference;
-		typedef RandomAccess<T>	iterator;
-		typedef RandomAccess<T>	class_name;
+		typedef T value_type;
+		typedef T *pointer;
+		typedef const T *const_pointer;
+		typedef T &reference;
+		typedef const T &const_reference;
+		typedef RandomAccess<T> iterator;
+		typedef RandomAccess<T> class_name;
 		//const;
-		typedef iterator_tag	iterator_category;
-		typedef size_t			size_type;
+		typedef iterator_tag iterator_category;
+		typedef size_t size_type;
 
 		pointer elem;
 
-		RandomAccess(){
+		ConstRandomAccess() {
 			elem = nullptr;
 		}
 
-		RandomAccess(const pointer p){
+		ConstRandomAccess(const pointer p) {
 			elem = p;
 		}
 
-		RandomAccess(const RandomAccess<T> &arg): elem(arg.elem){
+		ConstRandomAccess(const ConstRandomAccess<T> &arg) : elem(arg.elem) {
 		}
-		class_name &operator=(class_name const &arg){
+
+		class_name &operator=(class_name const &arg) {
 			if (this == &arg)
 				return (*this);
 			elem = arg.elem;
 			return (*this);
 		}
-		~RandomAccess(){}
 
-		bool operator==(const RandomAccess &rhs) const {
+		~ConstRandomAccess() {}
+
+		bool operator==(const ConstRandomAccess &rhs) const {
 			return elem == rhs.elem;
 		}
 
-		bool operator!=(const RandomAccess &rhs) const {
+		bool operator!=(const ConstRandomAccess &rhs) const {
 			return !(rhs == *this);
 		}
 
-		bool operator<(const RandomAccess &rhs) const {
+		bool operator<(const ConstRandomAccess &rhs) const {
 			return elem < rhs.elem;
 		}
 
-		bool operator>(const RandomAccess &rhs) const {
+		bool operator>(const ConstRandomAccess &rhs) const {
 			return rhs < *this;
 		}
 
-		bool operator<=(const RandomAccess &rhs) const {
+		bool operator<=(const ConstRandomAccess &rhs) const {
 			return !(rhs < *this);
 		}
 
-		bool operator>=(const RandomAccess &rhs) const {
+		bool operator>=(const ConstRandomAccess &rhs) const {
 			return !(*this < rhs);
 		}
 
-		const value_type &operator*(const class_name &rhs)const {
+		const value_type &operator*(const class_name &rhs) const {
 			return (*elem);
 		}
-		const value_type &operator*(){
-			return(*elem);
-		}
-		const value_type *operator->(){
-			return(*elem);
-		}
-		const value_type *operator->()const{
+
+		const value_type &operator*() {
 			return (*elem);
 		}
-		const class_name &operator++(){
+
+		const value_type *operator->() {
+			return (*elem);
+		}
+
+		const value_type *operator->() const {
+			return (*elem);
+		}
+
+		const class_name &operator++() {
 			elem++;
 			return (*this);
 		}
-		const class_name operator++(int){
+
+		const class_name operator++(int) {
 			class_name tmp = *this;
 			elem++;
 			return (tmp);
 		}
-		const class_name &operator--()
-		{
+
+		const class_name &operator--() {
 			elem--;
 			return (*this);
 		}
-		const class_name operator--(int){
+
+		const class_name operator--(int) {
 			class_name tmp = *this;
 			elem--;
 			return (tmp);
 		}
 
-		const reference operator[](size_type n){
+		reference operator[](size_type n) {
 			return *(elem + n);
 		}
 
-		const const_reference operator[](size_type n)const{
+		const_reference operator[](size_type n) const {
 			return *(elem + n);
 		}
 
-		const class_name	operator+(size_type n) const
-		{
+		const class_name operator+(size_type n) const {
 			class_name tmp = *this;
 			tmp.elem += n;
 			return (tmp);
 		}
 
-		const class_name operator-(size_type n) const
-		{
+		const class_name operator-(size_type n) const {
 			class_name tmp = *this;
 			tmp.elem -= n;
 			return (tmp);
 		}
 
-		const class_name &operator+=(size_type n)
-		{
+		const class_name &operator+=(size_type n) {
 			this->elem += n;
 			return (*this);
 		}
 
-		const class_name &operator-=(size_type n){
+		const class_name &operator-=(size_type n) {
 			this->elem -= n;
 			return (*this);
 		}
 	};
 
 	template<typename T>
-	class ConstReverseRandomAccess{
+	class ConstReverseRandomAccess {
 	public:
-		struct iterator_tag{};
+		struct iterator_tag {
+		};
 
-		typedef T			value_type;
-		typedef T*			pointer;
-		typedef const T*	const_pointer;
-		typedef T&			reference;
-		typedef const T&	const_reference;
-		typedef RandomAccess<T>	iterator;
-		typedef RandomAccess<T>	class_name;
+		typedef T value_type;
+		typedef T *pointer;
+		typedef const T *const_pointer;
+		typedef T &reference;
+		typedef const T &const_reference;
+		typedef RandomAccess<T> iterator;
+		typedef RandomAccess<T> class_name;
 		//const;
-		typedef iterator_tag	iterator_category;
-		typedef size_t			size_type;
+		typedef iterator_tag iterator_category;
+		typedef size_t size_type;
 
 		pointer elem;
 
-		RandomAccess(){
+		ConstReverseRandomAccess() {
 			elem = nullptr;
 		}
 
-		RandomAccess(const pointer p){
+		ConstReverseRandomAccess(const pointer p) {
 			elem = p;
 		}
 
-		RandomAccess(const RandomAccess<T> &arg): elem(arg.elem){
+		ConstReverseRandomAccess(const ConstReverseRandomAccess<T> &arg) : elem(arg.elem) {
 		}
-		class_name &operator=(class_name const &arg){
+
+		class_name &operator=(class_name const &arg) {
 			if (this == &arg)
 				return (*this);
 			elem = arg.elem;
 			return (*this);
 		}
-		~RandomAccess(){}
 
-		bool operator==(const RandomAccess &rhs) const {
+		~ConstReverseRandomAccess() {}
+
+		bool operator==(const ConstReverseRandomAccess &rhs) const {
 			return elem == rhs.elem;
 		}
 
-		bool operator!=(const RandomAccess &rhs) const {
+		bool operator!=(const ConstReverseRandomAccess &rhs) const {
 			return !(rhs == *this);
 		}
 
-		bool operator<(const RandomAccess &rhs) const {
+		bool operator<(const ConstReverseRandomAccess &rhs) const {
 			return elem < rhs.elem;
 		}
 
-		bool operator>(const RandomAccess &rhs) const {
+		bool operator>(const ConstReverseRandomAccess &rhs) const {
 			return rhs < *this;
 		}
 
-		bool operator<=(const RandomAccess &rhs) const {
+		bool operator<=(const ConstReverseRandomAccess &rhs) const {
 			return !(rhs < *this);
 		}
 
-		bool operator>=(const RandomAccess &rhs) const {
+		bool operator>=(const ConstReverseRandomAccess &rhs) const {
 			return !(*this < rhs);
 		}
 
-		const value_type &operator*(const class_name &rhs)const {
+		const value_type &operator*(const class_name &rhs) const {
 			return (*elem);
 		}
-		const value_type &operator*(){
-			return(*elem);
-		}
-		const value_type *operator->(){
-			return(*elem);
-		}
-		const value_type *operator->()const{
+
+		const value_type &operator*() {
 			return (*elem);
 		}
-		const class_name &operator++(){
+
+		const value_type *operator->() {
+			return (*elem);
+		}
+
+		const value_type *operator->() const {
+			return (*elem);
+		}
+
+		const class_name &operator++() {
 			elem++;
 			return (*this);
 		}
-		const class_name operator++(int){
+
+		const class_name operator++(int) {
 			class_name tmp = *this;
 			elem--;
 			return (tmp);
 		}
-		const class_name &operator--()
-		{
+
+		const class_name &operator--() {
 			elem++;
 			return (*this);
 		}
-		const 	class_name operator--(int){
+
+		const class_name operator--(int) {
 			class_name tmp = *this;
 			elem++;
 			return (tmp);
 		}
 
-		const reference operator[](size_type n){
+		reference operator[](size_type n) {
 			return *(elem - n);
 		}
 
-		const const_reference operator[](size_type n)const{
+		const_reference operator[](size_type n) const {
 			return *(elem - n);
 		}
 
-		const class_name	operator+(size_type n) const
-		{
+		class_name operator+(size_type n) const {
 			class_name tmp = *this;
 			tmp.elem -= n;
 			return (tmp);
 		}
 
-		const class_name operator-(size_type n) const
-		{
+		class_name operator-(size_type n) const {
 			class_name tmp = *this;
 			tmp.elem += n;
 			return (tmp);
 		}
 
-		const class_name &operator+=(size_type n)
-		{
+		const class_name &operator+=(size_type n) {
 			this->elem -= n;
 			return (*this);
 		}
 
-		const class_name &operator-=(size_type n){
+		const class_name &operator-=(size_type n) {
 			this->elem += n;
 			return (*this);
-		}
+		};
+	};
+
 }
-
-
 #endif
