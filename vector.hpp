@@ -206,6 +206,8 @@ bool ft::vector<T, Alloc>::empty() const {
 
 template<class T, class Alloc>
 void ft::vector<T, Alloc>::realloc(ft::vector<T, Alloc>::size_type n) {
+	if (n == 0)
+		n = 2;
 	pointer _c;
 	_c = _alloc.allocate(n);
 	size_type i = 0;
@@ -214,6 +216,9 @@ void ft::vector<T, Alloc>::realloc(ft::vector<T, Alloc>::size_type n) {
 		_c[i] = c[i];
 		i++;
 	}
+	if (c)
+		_alloc.deallocate(c, _capacity);
+	c = _c;
 	_capacity = n;
 }
 

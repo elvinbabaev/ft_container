@@ -115,6 +115,18 @@ void testBegin()
 
 int main()
 {
-	testBegin();
+//	testBegin();
+	ft::vector<int> test;
+	std::vector<int> test1;
+	for (int i = 0; i < 100; ++i) {
+		test.push_back(i);
+		test1.push_back(i);
+	}
+
+	ft::vector<int>::iterator i = test.begin();
+	std::vector<int>::iterator j = test1.begin();
+
+	std::cout<<*j<<" "<<*(j + 10)<<" "<<*(j + 20)<<std::endl;
+	std::cout<<*i<<" "<<*(i + 10)<<" "<<*(i + 20)<<std::endl;
 	return (0);
 }
