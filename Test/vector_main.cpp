@@ -3,7 +3,7 @@
 //
 
 #include <vector>
-#include "vector.hpp"
+#include "../Container/vector.hpp"
 #include <iostream>
 
 void testBegin()
@@ -113,20 +113,72 @@ void testBegin()
 	std::cout<<"front : "<<std_vector.front()<<" == "<<ft_vector.front()<<std::endl;
 }
 
+template<class T>
+void printer(std::vector<T> std, ft::vector<T> ft)
+{
+    for (typename std::vector<T>::iterator i = std.begin(); i != std.end(); ++i) {
+        if (i == std.begin())
+            std::cout<<"std::vector\t";
+        std::cout<<*i<<" ";
+    }
+    std::cout<<std::endl;
+    for (typename ft::vector<T>::iterator i = ft.begin(); i != ft.end(); ++i) {
+        if (i == ft.begin())
+            std::cout<<"ft::vector\t";
+        std::cout<<*i<<" ";
+    }
+    std::cout<<std::endl;
+}
+
+void testSecond(){
+    {
+        std::vector<int> std_vector;
+        ft::vector<int> ft_vector;
+
+        for (int i = 0; i < 16; ++i) {
+            std_vector.push_back(i);
+            ft_vector.push_back(i);
+        }
+        printer(std_vector, ft_vector);
+
+        std::cout<<"\tTest insert\n";
+        std_vector.insert(((std_vector.begin()++)), -5);
+        ft_vector.insert(((ft_vector.begin()++)), -5);
+        printer(std_vector, ft_vector);
+
+        std::vector<int>::iterator i1 = std_vector.begin();
+        ft::vector<int>::iterator i2 = ft_vector.begin();
+        for (int i = 0; i < 5; ++i) {
+            i1++;i2++;
+        }
+        std_vector.insert(i1, 999);
+        ft_vector.insert(i2, 999);
+        printer(std_vector, ft_vector);
+        std::cout<<ft_vector.size()<<" == "<<std_vector.size()<<std::endl;
+        std::cout<<ft_vector.capacity()<<" == "<<std_vector.capacity()<<std::endl;
+
+        std_vector.insert(i1, 5, -3);
+        ft_vector.insert(i2, 5, -3);
+        printer(std_vector, ft_vector);
+        std::cout<<ft_vector.size()<<" == "<<std_vector.size()<<std::endl;
+        std::cout<<ft_vector.capacity()<<" == "<<std_vector.capacity()<<std::endl;
+
+        std::vector<int> tmp;
+        for (int i = 100; i < 105; ++i) {
+            tmp.push_back(i);
+        }
+
+        std_vector.insert(i1, tmp.begin(), (--tmp.end()));
+        ft_vector.insert(i2, tmp.begin(), (--tmp.end()));
+        printer(std_vector, ft_vector);
+        std::cout<<ft_vector.size()<<" == "<<std_vector.size()<<std::endl;
+        std::cout<<ft_vector.capacity()<<" == "<<std_vector.capacity()<<std::endl;
+    }
+}
+
 int main()
 {
 //	testBegin();
-	ft::vector<int> test;
-	std::vector<int> test1;
-	for (int i = 0; i < 100; ++i) {
-		test.push_back(i);
-		test1.push_back(i);
-	}
-
-	ft::vector<int>::iterator i = test.begin();
-	std::vector<int>::iterator j = test1.begin();
-
-	std::cout<<*j<<" "<<*(j + 10)<<" "<<*(j + 20)<<std::endl;
-	std::cout<<*i<<" "<<*(i + 10)<<" "<<*(i + 20)<<std::endl;
+	testSecond();
 	return (0);
 }

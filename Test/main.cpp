@@ -2,8 +2,8 @@
 // Created by Elwin Babaew on 1/27/21.
 //
 
-#include "Node.hpp"
-#include "list.hpp"
+#include "../Element/Node.hpp"
+#include "../Container/list.hpp"
 #include <iostream>
 #include <list>
 #include <vector>

@@ -2,10 +2,18 @@
 # define VECTOR_HPP
 
 #include <memory>
-#include "RandomAccessIterator.hpp"
+#include "../iterator/RandomAccessIterator.hpp"
 #include <exception>
 
 namespace ft{
+    template <class T>
+    void	swap_c(T &a, T &b)
+    {
+        T tmp = a;
+        a = b;
+        b = tmp;
+    }
+
 	template < class T, class Alloc = std::allocator<T> >
 	class vector{
 	public:
@@ -27,7 +35,6 @@ namespace ft{
 		size_type _capacity;
 		std::allocator<T> _alloc;
 
-		void realloc(size_type n);
 	public:
 		explicit vector (const allocator_type& alloc = allocator_type());
 		explicit vector (size_type n, const value_type& val = value_type(),
@@ -65,11 +72,15 @@ namespace ft{
 		void push_back (const value_type& val);
 		void pop_back();
 		iterator insert (iterator position, const value_type& val);
-//		void insert (iterator position, size_type n, const value_type& val);
-//		template <class InputIterator>
-//		void insert (iterator position, InputIterator first, InputIterator last);
+		void insert (iterator position, size_type n, const value_type& val);
+		template <class InputIterator>
+		void insert (iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category* = nullptr);
 
 		void clear();
+
+    private:
+//	    void realloc_offset();
+        void realloc(size_type n);
 	};
 }
 
@@ -108,9 +119,6 @@ ft::vector<T, Alloc>::vector(ft::vector<T, Alloc>::size_type n, const value_type
 
 template<class T, class Alloc>
 ft::vector<T, Alloc>::vector(const ft::vector<T, Alloc> &x) {
-	if (this == &x)
-		return *this;
-	_alloc.deallocate(c, _capacity);
 	c = _alloc.allocate(x._capacity);
 	for (size_type i = 0; i < x._size; ++i) {
 		_alloc.construct((c + i), *(x.c + i));
@@ -221,6 +229,11 @@ void ft::vector<T, Alloc>::realloc(ft::vector<T, Alloc>::size_type n) {
 	c = _c;
 	_capacity = n;
 }
+//
+//template<class T, class Alloc>
+//void ft::vector<T, Alloc>::realloc_offset(ft::vector<T, Alloc>::iterator position) {
+//
+//}
 
 template<class T, class Alloc>
 void ft::vector<T, Alloc>::reserve(ft::vector<T, Alloc>::size_type n) {
@@ -299,11 +312,35 @@ void ft::vector<T, Alloc>::assign(ft::vector<T, Alloc>::size_type n, const value
 	}
 }
 
+
+
 template<class T, class Alloc>
 typename ft::vector<T, Alloc>::iterator ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, const value_type &val) {
-	if (_size == _capacity)
+    size_type len = 0;
+    for (iterator i = this->begin(); i != position ; ++i) {
+        len++;
+    }
+    if (_size == _capacity)
 		realloc(_size * 2);
+    size_type tmp_size = _size;
+    while (tmp_size != len)
+    {
+        swap_c(this->c[tmp_size], this->c[tmp_size + 1]);
+        tmp_size--;
+    }
+    swap_c(this->c[tmp_size], this->c[tmp_size + 1]);
+    this->c[tmp_size] = val;
+    _size++;
+    return position;
+}
 
+template<class T, class Alloc>
+void ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, ft::vector<T, Alloc>::size_type n, const value_type &val) {
+    while (_size + n >= _capacity)
+        realloc(2 * n);
+    for (size_type i = 0; i < n; i++) {
+        insert(position, val);
+    }
 }
 
 template<class T, class Alloc>
@@ -311,6 +348,16 @@ void ft::vector<T, Alloc>::clear() {
 	_alloc.deallocate(c, _capacity);
 	_capacity = 0;
 	_size = 0;
+}
+
+template<class T, class Alloc>
+template<class InputIterator>
+void ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category *) {
+    while (first != last)
+    {
+        insert(position, *first);
+        first++;
+    }
 }
 
 #endif

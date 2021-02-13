@@ -3,8 +3,8 @@
 
 #include <memory>
 #include <ostream>
-#include "Bidirectional.hpp"
-#include "Node.hpp"
+#include "../iterator/Bidirectional.hpp"
+#include "../Element/Node.hpp"
 
 namespace ft{
 	template<class T, class Alloc>
