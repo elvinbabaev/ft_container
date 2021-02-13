@@ -5,7 +5,6 @@ INC = Container/list.hpp Container/queue.hpp Container/stack.hpp Container/vecto
     Iterator/Bidirectional.hpp Iterator/RandomAccessIterator.hpp\
 #FLAGS = -Wall -Wextra -Werror
 CC = clang++
-#OBJ = obj/main.cpp obj/queue.cpp obj/stack_main.cpp obj/vector_main.cpp
 
 OSRC = $(SRC:.cpp=.o)
 
@@ -32,20 +31,3 @@ clean:
 fclean:clean
 	rm -rf $(NAME)
 re: fclean all
-#all: $(NAME)
-#
-#$(NAME):$(OSRC) $(INC)
-#	gcc $(OSRC) -o $(NAME)
-#
-#list:
-#
-#
-
-#
-#clean:
-#	rm -rf $(OSRC)
-#
-#fclean:clean
-#	rm -rf $(NAME)
-#
-#re: fclean all
