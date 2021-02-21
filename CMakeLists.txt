@@ -7,7 +7,7 @@ include_directories(Container)
 include_directories(Element)
 include_directories(iterator)
 
-add_executable(ft_container Test/vector_main.cpp
+add_executable(ft_container Test/test_vector_kanat.cpp
         Container/list.hpp
         Container/queue.hpp
         Container/stack.hpp

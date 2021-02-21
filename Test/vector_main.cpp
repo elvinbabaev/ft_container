@@ -179,6 +179,32 @@ void testSecond(){
 int main()
 {
 //	testBegin();
-	testSecond();
+//	testSecond();
+
+    std::vector<int> test;
+    for (int i = 0; i < 20; ++i) {
+        test.push_back(i);
+    }
+    std::cout<<test.size()<<" "<<test.capacity()<<std::endl;
+    std::cout<<"|"<<*(test.erase((++(++(++(test.begin())))), (--(--(--test.end())))))<<"|\n";
+    std::cout<<*(test.erase((++(++(++(test.begin()))))))<<"|\n";
+    std::cout<<test.size()<<" "<<test.capacity()<<std::endl;
+    for (std::vector<int>::iterator i = test.begin(); i != test.end() ; i++) {
+        std::cout<<*i<<" ";
+    }
+    std::cout<<std::endl;
+    ft::vector<int> test1;
+    for (int i = 0; i < 20; ++i) {
+        test1.push_back(i);
+    }
+    std::cout<<test1.size()<<" "<<test1.capacity()<<std::endl;
+    std::cout<<"|"<<*(test1.erase((++(++(++(test1.begin())))), (--(--(--test1.end())))))<<"|\n";
+    std::cout<<*(test1.erase((++(++(++(test1.begin()))))))<<"|\n";
+    std::cout<<test1.size()<<" "<<test1.capacity()<<std::endl;
+    for (ft::vector<int>::iterator i = test1.begin(); i != test1.end() ; i++) {
+        std::cout<<*i<<" ";
+    }
+    std::cout<<std::endl;
+
 	return (0);
 }

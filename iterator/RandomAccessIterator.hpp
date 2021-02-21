@@ -138,6 +138,10 @@ namespace ft {
 			this->elem -= n;
 			return (*this);
 		}
+
+		size_type operator-(iterator iterator1){
+            return (this->elem - iterator1.elem);
+		}
 	};
 
 	template<typename T>
@@ -151,8 +155,8 @@ namespace ft {
 		typedef const T *const_pointer;
 		typedef T &reference;
 		typedef const T &const_reference;
-		typedef RandomAccess<T> iterator;
-		typedef RandomAccess<T> class_name;
+		typedef ReverseRandomAccess<T> iterator;
+		typedef ReverseRandomAccess<T> class_name;
 		//const;
 		typedef iterator_tag iterator_category;
 		typedef size_t size_type;
@@ -188,11 +192,11 @@ namespace ft {
 		}
 
 		bool operator<(const ReverseRandomAccess &rhs) const {
-			return elem < rhs.elem;
+			return elem > rhs.elem;
 		}
 
 		bool operator>(const ReverseRandomAccess &rhs) const {
-			return rhs < *this;
+			return elem < rhs.elem;
 		}
 
 		bool operator<=(const ReverseRandomAccess &rhs) const {
@@ -200,7 +204,7 @@ namespace ft {
 		}
 
 		bool operator>=(const ReverseRandomAccess &rhs) const {
-			return !(*this < rhs);
+			return !(rhs > *this);
 		}
 
 		value_type &operator*(const class_name &rhs) const {
@@ -220,7 +224,7 @@ namespace ft {
 		}
 
 		class_name &operator++() {
-			elem++;
+			elem--;
 			return (*this);
 		}
 
@@ -270,6 +274,10 @@ namespace ft {
 			this->elem += n;
 			return (*this);
 		}
+
+		size_type operator-(iterator iterator1){
+            return (iterator1.elem - this->elem);
+        }
 	};
 
 	template<typename T>
@@ -283,8 +291,8 @@ namespace ft {
 		typedef const T *const_pointer;
 		typedef T &reference;
 		typedef const T &const_reference;
-		typedef RandomAccess<T> iterator;
-		typedef RandomAccess<T> class_name;
+		typedef ConstRandomAccess<T> iterator;
+		typedef ConstRandomAccess<T> class_name;
 		//const;
 		typedef iterator_tag iterator_category;
 		typedef size_t size_type;
@@ -324,7 +332,7 @@ namespace ft {
 		}
 
 		bool operator>(const ConstRandomAccess &rhs) const {
-			return rhs < *this;
+			return elem > rhs.elem;
 		}
 
 		bool operator<=(const ConstRandomAccess &rhs) const {
@@ -402,6 +410,9 @@ namespace ft {
 			this->elem -= n;
 			return (*this);
 		}
+        size_type operator-(iterator iterator1){
+            return (this->elem - iterator1.elem);
+        }
 	};
 
 	template<typename T>
@@ -415,8 +426,8 @@ namespace ft {
 		typedef const T *const_pointer;
 		typedef T &reference;
 		typedef const T &const_reference;
-		typedef RandomAccess<T> iterator;
-		typedef RandomAccess<T> class_name;
+		typedef ConstReverseRandomAccess<T> iterator;
+		typedef ConstReverseRandomAccess<T> class_name;
 		//const;
 		typedef iterator_tag iterator_category;
 		typedef size_t size_type;
@@ -452,11 +463,11 @@ namespace ft {
 		}
 
 		bool operator<(const ConstReverseRandomAccess &rhs) const {
-			return elem < rhs.elem;
+			return elem > rhs.elem;
 		}
 
 		bool operator>(const ConstReverseRandomAccess &rhs) const {
-			return rhs < *this;
+			return elem < rhs.elem;
 		}
 
 		bool operator<=(const ConstReverseRandomAccess &rhs) const {
@@ -484,7 +495,7 @@ namespace ft {
 		}
 
 		const class_name &operator++() {
-			elem++;
+			elem--;
 			return (*this);
 		}
 
@@ -534,6 +545,10 @@ namespace ft {
 			this->elem += n;
 			return (*this);
 		};
+
+        size_type operator-(iterator iterator1){
+            return (iterator1.elem - this->elem);
+        }
 	};
 
 }
