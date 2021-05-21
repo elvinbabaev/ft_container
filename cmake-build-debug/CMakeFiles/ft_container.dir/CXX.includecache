@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/OUT-BABAEV-E/CLionProjects/ft_container/Container/vector.hpp
+memory
+-
+../iterator/RandomAccessIterator.hpp
+/Users/OUT-BABAEV-E/CLionProjects/ft_container/iterator/RandomAccessIterator.hpp
+exception
+-
+
+/Users/OUT-BABAEV-E/CLionProjects/ft_container/Test/test_vector_kanat.cpp
+iostream
+-
+vector
+-
+list
+-
+../Container/vector.hpp
+/Users/OUT-BABAEV-E/CLionProjects/ft_container/Container/vector.hpp
+
+/Users/OUT-BABAEV-E/CLionProjects/ft_container/iterator/RandomAccessIterator.hpp
+iostream
+-
+
