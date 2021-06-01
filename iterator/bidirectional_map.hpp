@@ -16,33 +16,33 @@ namespace ft {
         typedef std::pair<K, T> &reference;
         typedef elem<K, T> *pointer;
     protected:
-        pointer _ptr;
+        pointer _elem;
     private:
-        pointer _successor(pointer ptr) {
+        pointer get_successor(pointer elem) {
             pointer next;
-            if (!ptr->right_child) {
-                next = ptr;
+            if (!elem->right_child) {
+                next = elem;
                 while (next->parent && next == next->parent->right_child)
                     next = next->parent;
                 next = next->parent;
             } else {
-                next = ptr->right_child;
+                next = elem->right_child;
                 while (next->left_child)
                     next = next->left_child;
             }
             return (next);
         };
 
-        pointer _predecessor(pointer ptr) {
+        pointer get_predecessor(pointer elem) {
             pointer next;
 
-            if (!ptr->left_child) {
-                next = ptr;
+            if (!elem->left_child) {
+                next = elem;
                 while (next->parent && next == next->parent->left_child)
                     next = next->parent;
                 next = next->parent;
             } else {
-                next = ptr->left_child;
+                next = elem->left_child;
                 while (next->right_child)
                     next = next->right_child;
             }
@@ -50,34 +50,34 @@ namespace ft {
         };
     public:
         bidirectional_map()
-                : _ptr(0) {};
+                : _elem(0) {};
 
-        bidirectional_map(const pointer ptr)
-                : _ptr(ptr) {};
+        bidirectional_map(const pointer elem)
+                : _elem(elem) {};
 
         bidirectional_map(const bidirectional_map &other) {
             *this = other;
         };
 
         bidirectional_map &operator=(const bidirectional_map &other) {
-            _ptr = other._ptr;
+            _elem = other._elem;
             return (*this);
         };
 
         pointer node() {
-            return (_ptr);
+            return (_elem);
         };
 
-        value_type &operator*(void) {
-            return (_ptr->pair);
+        value_type &operator*() {
+            return (_elem->pair);
         };
 
-        value_type *operator->(void) {
-            return (&_ptr->pair);
+        value_type *operator->() {
+            return (&_elem->pair);
         };
 
         bool operator==(const bidirectional_map<K, T> &other) {
-            return (_ptr == other._ptr);
+            return (_elem == other._elem);
         };
 
         bool operator!=(const bidirectional_map<K, T> &other) {
@@ -85,28 +85,28 @@ namespace ft {
         };
 
         bool operator>(const bidirectional_map<K, T> &other) {
-            return (_ptr > other._ptr);
+            return (_elem > other._elem);
         };
 
         bool operator<(const bidirectional_map<K, T> &other) {
-            return (_ptr < other._ptr);
+            return (_elem < other._elem);
         };
 
         bool operator>=(const bidirectional_map<K, T> &other) {
-            return (_ptr >= other._ptr);
+            return (_elem >= other._elem);
         };
 
         bool operator<=(const bidirectional_map<K, T> &other) {
-            return (_ptr <= other._ptr);
+            return (_elem <= other._elem);
         };
 
         bidirectional_map &operator++() {
-            _ptr = _successor(_ptr);
+            _elem = get_successor(_elem);
             return (*this);
         };
 
         bidirectional_map &operator--() {
-            _ptr = _predecessor(_ptr);
+            _elem = get_predecessor(_elem);
             return (*this);
         };
 
