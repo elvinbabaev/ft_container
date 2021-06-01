@@ -92,6 +92,13 @@ namespace ft {
             return std::pair<iterator, bool>(nullptr, false);
         }
 
+        size_type count(const key_type& k) const {
+            if (_find(k)) {
+                return 1;
+            }
+            return 0;
+        }
+
         iterator find(const key_type &k) const {
             iterator it = iterator(_find(k));
             if (it != nullptr) {
