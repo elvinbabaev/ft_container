@@ -14,8 +14,10 @@ add_executable(ft_container Test/test_vector_kanat.cpp
         Container/vector.hpp
         Element/Node.hpp
         iterator/Bidirectional.hpp
-        iterator/RandomAccessIterator.hpp)
+        iterator/RandomAccessIterator.hpp Test/map_test.cpp Element/elem.hpp)
 #        Test/main.cpp
 #        Test/queue.cpp
 #        Test/stack_main.cpp
 #        Test/vector_main.cpp)
+
+add_executable(map Test/map_test.cpp Container/map.hpp iterator/bidirectional_map.hpp)
