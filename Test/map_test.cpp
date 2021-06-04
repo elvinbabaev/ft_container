@@ -2,6 +2,17 @@
 #include <iostream>
 #include <map>
 #include "map.hpp"
+#include <vector>
+
+std::vector<std::pair<std::string, std::string>> g_vec_str;
+std::vector<std::pair<int, int>> g_vec_int;
+
+void init_global() {
+    for (int i = 0; i < 50; ++i) {
+        g_vec_int.push_back(std::pair<int, int>(i, i * 10));
+        g_vec_str.push_back(std::pair<std::string, std::string>(i + "", i + " value"));
+    }
+}
 
 ft::map<int, int> get_map_int_int() {
     ft::map<int, int> ft_map;
@@ -16,7 +27,6 @@ ft::map<int, int> get_map_int_int() {
     std::pair<int, int> b8(8, 888);
     std::pair<int, int> b9(9, 999);
     std::pair<int, int> b10(10, 101010);
-    std::pair<int, int> b11(11, 111111);
 
 
     std::pair<ft::map<int, int>::iterator, bool> a;
@@ -32,6 +42,11 @@ ft::map<int, int> get_map_int_int() {
     a = ft_map.insert(b6);
     a = ft_map.insert(b9);
     return ft_map;
+}
+
+ft::map<std::string, std::string> test_insert() {
+    ft::map<std::string, std::string> ft_map;
+
 }
 
 int main() {

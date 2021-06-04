@@ -60,7 +60,6 @@ namespace ft {
                 while (true) {
                     parent = current;
                     if (val.first < current->node.first) {
-                        //налево
                         current = current->left_child;
                         if (!current) {
                             parent->left_child = new elem<Key, T>(val, _tree);
@@ -68,10 +67,6 @@ namespace ft {
                             size++;
                             //TODO:iterator(pair, bool) убрать nullptr
                             return std::pair<iterator, bool>(parent->left_child, true);
-//                            tmp.first = iterator(parent->left_child);
-//                            tmp.second = true;
-//                            return tmp;
-//                            return std::pair<iterator, bool>(std::pair<iterator, bool>(new iterator(parent->left_child), true));
                         }
                     } else if (val.first > current->node.first) {
                         current = current->right_child;
@@ -84,7 +79,6 @@ namespace ft {
                         }
                     } else {
                         //TODO: iterator на элемент который с этим ключом и false
-//                        return std::pair<iterator, bool>(std::pair<iterator, bool>(new iterator(current), true));
                         return std::pair<iterator, bool>(current, false);
                     }
                 }
@@ -92,7 +86,19 @@ namespace ft {
             return std::pair<iterator, bool>(nullptr, false);
         }
 
-        size_type count(const key_type& k) const {
+        template <class InputIterator>
+        void insert(InputIterator first, InputIterator last) {
+            while (first != last) {
+                insert(*first);
+                first++;
+            }
+        }
+
+        iterator insert(iterator position, const value_type& val) {
+            insert(val);
+        }
+
+        size_type count(const key_type &k) const {
             if (_find(k)) {
                 return 1;
             }
@@ -121,24 +127,6 @@ namespace ft {
 //        void erase (iterator first, iterator last);
 
     private:
-//        tree _find(const key_type &key) const {
-//            elem<Key, T> *current = _tree;
-//            elem<Key, T> *parent;
-//            while (true) {
-//                parent = current;
-//                if (key < current->node.first) {
-//                    current = current->left_child;
-//                } else if (key > current->node.first) {
-//                    current = current->right_child;
-//                } else {
-//                    if (current) {
-//                        return current;
-//                    } else {
-//                        return nullptr;
-//                    }
-//                }
-//            }
-//        }
         tree _find(const key_type &key) const {
             tree current = _tree;
             while (current->node.first != key) {

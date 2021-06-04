@@ -21,3 +21,5 @@ add_executable(ft_container Test/test_vector_kanat.cpp
 #        Test/vector_main.cpp)
 
 add_executable(map Test/map_test.cpp Container/map.hpp iterator/bidirectional_map.hpp)
+
+add_executable(test_std_map test.cpp test.cpp)
