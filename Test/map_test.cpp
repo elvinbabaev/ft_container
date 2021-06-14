@@ -81,6 +81,19 @@ T get_map_string_string() {
 	return map;
 }
 
+template<class T>
+T get_map_string_string_mini() {
+	T map;
+	std::pair<std::string, std::string> b2("22", "222");
+	std::pair<std::string, std::string> b3("33", "333");
+	std::pair<std::string, std::string> b5("55", "555");
+	std::pair<std::string, std::string> b8("88", "888");
+	map.insert(b5);
+	map.insert(b3);
+	map.insert(b8);
+	map.insert(b2);
+	return map;
+}
 
 
 //ft::map<std::string, std::string> test_insert() {
@@ -169,6 +182,18 @@ void operator_assign() {
 	std_map = std_map_constructor;
 	printer(std_map, ft_map);
 	std::cout << std::endl;
+
+	std::cout << "construct assign string string" << std::endl;
+	ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string>>();
+	std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string>>();
+
+	ft::map<std::string, std::string> ft_map_string_construct = get_map_string_string_mini<ft::map<std::string, std::string>>();
+	std::map<std::string, std::string> std_map_string_construct = get_map_string_string_mini<std::map<std::string, std::string>>();
+
+	ft_map_string_construct = ft_map_string;
+	std_map_string_construct = std_map_string;
+	printer(std_map_string_construct, ft_map_string_construct);
+	std::cout<<std::endl;
 }
 
 int main() {
@@ -176,6 +201,8 @@ int main() {
 	construct_first_last();
 	construct_copy();
 	operator_assign();
+
+
 //    std::map<std::string, std::string> std_map;
 //    ft::map<int, int> ft_map = get_map_int_int();
 //    std::pair<std::string, std::string> a1("a1", "111");

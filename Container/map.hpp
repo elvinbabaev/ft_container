@@ -84,7 +84,7 @@ namespace ft {
 			this->clear();
 			this->compare = x.compare;
 			this->allocator = x.allocator;
-//			this->insert(iterator(x._begin), (iterator(x._end)));
+			this->insert(iterator(x._begin), (iterator(x._end)));
 			return *this;
 		}
 
@@ -104,7 +104,7 @@ namespace ft {
 					parent = current;
 					if (val.first < current->node.first) {
 						current = current->left_child;
-						if (!_check_begin_and_end(current)) {
+						if (!_check_end(current)) {
 							parent->left_child = new elem<Key, T>(val, _tree);
 							parent->left_child->parent = parent;
 							_size++;
@@ -114,7 +114,7 @@ namespace ft {
 						}
 					} else if (val.first > current->node.first) {
 						current = current->right_child;
-						if (!_check_begin_and_end(current)) {
+						if (!_check_end(current)) {
 							parent->right_child = new elem<Key, T>(val, _tree);
 							parent->right_child->parent = parent;
 							_size++;
@@ -192,8 +192,8 @@ namespace ft {
 		}
 
 		void clear() {
-			for (iterator it = begin(); it != end(); it++) {
-				_delete(it._elem->node.first);
+			for (ft::bidirectional_map<Key, T> it = begin(); it != end(); it++) {
+				_delete(it->first);
 			}
 		}
 
@@ -215,7 +215,7 @@ namespace ft {
 
 //		const_iterator end() const;
 	private:
-		elem<Key, T> _find(const key_type &key) const {
+		elem<Key, T> *_find(const key_type &key) const {
 			tree current = _tree;
 			while (current->node.first != key) {
 				if (key < current->node.first) {
@@ -230,7 +230,7 @@ namespace ft {
 			return current;
 		}
 
-		bool _check_begin_and_end(tree el) const{
+		bool _check_end(tree el) const{
 			return (el && el != _end);
 		}
 
@@ -239,9 +239,9 @@ namespace ft {
 			if (!delete_elem) {
 				return nullptr;
 			}
-			if (!delete_elem->left_child && !delete_elem->right_child) {
+			if (!delete_elem->left_child && !_check_end(delete_elem->right_child)) {
 				if (!delete_elem->parent) {
-					_tree = nullptr;
+					_tree = new elem<Key, T>();
 				} else if (is_left_child(delete_elem)) {
 					//TODO: delete left child + очистку
 					delete_elem->parent->left_child = nullptr;
@@ -249,7 +249,7 @@ namespace ft {
 					//TODO: delete right child + очистку
 					delete_elem->parent->right_child = nullptr;
 				}
-			} else if (!delete_elem->right_child) {
+			} else if (!_check_end(delete_elem->right_child)) {
 				if (!delete_elem->parent) {
 					_tree = delete_elem->left_child;
 					_tree->parent = nullptr;
@@ -260,8 +260,8 @@ namespace ft {
 					delete_elem->parent->right_child = delete_elem->left_child;
 					delete_elem->parent->right_child->parent = delete_elem->parent;
 				}
-			} else if (!delete_elem->left_child) {
-				if (!delete_elem->parent) {
+			} else if (!_check_end(delete_elem->left_child)) {
+				if (!_check_end(delete_elem->parent)) {
 					_tree = delete_elem->right_child;
 					_tree->parent = nullptr;
 				} else if (is_left_child(delete_elem)) {
@@ -330,6 +330,7 @@ namespace ft {
 
 		void search_begin_end(){
 			tree tmp = _tree;
+			_begin = _tree;
 			while (tmp->left_child) {
 				_begin = tmp->left_child;
 				tmp = tmp->left_child;
