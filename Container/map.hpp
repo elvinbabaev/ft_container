@@ -195,6 +195,7 @@ namespace ft {
 			for (ft::bidirectional_map<Key, T> it = begin(); it != end(); it++) {
 				_delete(it->first);
 			}
+			_size = 0;
 		}
 
 		iterator begin() {

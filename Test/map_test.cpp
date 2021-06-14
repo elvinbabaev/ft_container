@@ -14,6 +14,8 @@ std::vector<std::pair<int, int>> g_vec_int;
 //	}
 //}
 
+void test_empty();
+
 template<class T>
 T get_map_int_int() {
 	T map;
@@ -193,7 +195,68 @@ void operator_assign() {
 	ft_map_string_construct = ft_map_string;
 	std_map_string_construct = std_map_string;
 	printer(std_map_string_construct, ft_map_string_construct);
-	std::cout<<std::endl;
+	std::cout << std::endl;
+}
+
+void test_size() {
+	std::cout<<"test size()"<<std::endl;
+	ft::map<int, int> ft_map;
+	std::map<int, int> std_map;
+
+	assert(ft_map.size() == std_map.size());
+
+	ft_map = get_map_int_int<ft::map<int, int>>();
+	std_map = get_map_int_int<std::map<int, int>>();
+
+	assert(ft_map.size() == std_map.size());
+
+	ft_map = get_map_int_int_mini<ft::map<int, int>>();
+	std_map = get_map_int_int_mini<std::map<int, int>>();
+
+	assert(ft_map.size() == std_map.size());
+	std::cout<<"SUCCESS"<<std::endl;
+}
+
+
+void test_empty() {
+	std::cout<<"test empty()"<<std::endl;
+	ft::map<int, int> ft_map;
+	std::map<int, int> std_map;
+
+	assert(ft_map.empty() == std_map.empty());
+
+	ft_map = get_map_int_int<ft::map<int, int>>();
+	std_map = get_map_int_int<std::map<int, int>>();
+
+	assert(ft_map.empty() == std_map.empty());
+
+	ft_map.clear();
+	std_map.clear();
+
+	assert(ft_map.empty() == std_map.empty());
+
+	ft_map = get_map_int_int_mini<ft::map<int, int>>();
+	std_map = get_map_int_int_mini<std::map<int, int>>();
+
+	assert(ft_map.empty() == std_map.empty());
+
+	ft_map.clear();
+	std_map.clear();
+
+	assert(ft_map.empty() == std_map.empty());
+	std::cout<<"SUCCESS"<<std::endl;
+}
+
+void test_max_size() {
+//	ft::map<int, int> ft_map;
+//	std::map<int, int> std_map;
+//	std::cout<<"max_size std::map = "<<std_map.max_size()<<std::endl;
+//	std::cout<<"max_size ft::map = "<<ft_map.max_size()<<std::endl;
+//
+//	ft::map<std::string, std::string> ft_map_string;
+//	std::map<std::string, std::string> std_map_string;
+//	std::cout<<"max_size std::map = "<<std_map_string.max_size()<<std::endl;
+//	std::cout<<"max_size ft::map = "<<ft_map_string.max_size()<<std::endl;
 }
 
 int main() {
@@ -201,7 +264,9 @@ int main() {
 	construct_first_last();
 	construct_copy();
 	operator_assign();
-
+	test_size();
+	test_empty();
+	test_max_size();
 
 //    std::map<std::string, std::string> std_map;
 //    ft::map<int, int> ft_map = get_map_int_int();
