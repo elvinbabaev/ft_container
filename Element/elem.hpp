@@ -19,7 +19,7 @@ namespace ft {
         elem *right_child;
         elem *parent;
 
-        elem() : left_child(nullptr), right_child(nullptr), parent(nullptr) {}
+        elem() : node(), left_child(nullptr), right_child(nullptr), parent(nullptr) {}
 
         elem(const elem &arg) : node(arg.node), left_child(arg.left_child), right_child(arg.right_child),
                                 parent(arg.parent) {}

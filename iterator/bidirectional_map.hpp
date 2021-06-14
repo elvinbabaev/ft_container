@@ -69,11 +69,11 @@ namespace ft {
         };
 
         value_type &operator*() {
-            return (_elem->pair);
+            return (_elem->node);
         };
 
         value_type *operator->() {
-            return (&_elem->pair);
+            return (&_elem->node);
         };
 
         bool operator==(const bidirectional_map<K, T> &other) {

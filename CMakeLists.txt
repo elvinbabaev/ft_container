@@ -7,19 +7,19 @@ include_directories(Container)
 include_directories(Element)
 include_directories(iterator)
 
-add_executable(ft_container Test/test_vector_kanat.cpp
-        Container/list.hpp
-        Container/queue.hpp
-        Container/stack.hpp
-        Container/vector.hpp
-        Element/Node.hpp
-        iterator/Bidirectional.hpp
-        iterator/RandomAccessIterator.hpp Test/map_test.cpp Element/elem.hpp)
-#        Test/main.cpp
-#        Test/queue.cpp
-#        Test/stack_main.cpp
-#        Test/vector_main.cpp)
+#add_executable(ft_container
+#        Container/list.hpp
+#        Container/queue.hpp
+#        Container/stack.hpp
+#        Container/vector.hpp
+#        Element/Node.hpp
+#        iterator/Bidirectional.hpp
+#        iterator/RandomAccessIterator.hpp Test/map_test.cpp Element/elem.hpp)
+##        Test/main.cpp
+##        Test/queue.cpp
+##        Test/stack_main.cpp
+##        Test/vector_main.cpp)
+#
+#add_executable(map Test/map_test.cpp Container/map.hpp iterator/bidirectional_map.hpp)
 
-add_executable(map Test/map_test.cpp Container/map.hpp iterator/bidirectional_map.hpp)
-
-add_executable(test_std_map test.cpp test.cpp)
+add_executable(test_std_map Test/map_test.cpp Container/map.hpp)

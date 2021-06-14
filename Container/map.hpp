@@ -34,7 +34,7 @@ namespace ft {
 	private:
 		allocator_type allocator;
 		tree _tree;
-		size_type size;
+		size_type _size;
 		key_compare compare;
 		tree _begin;
 		tree _end;
@@ -42,22 +42,60 @@ namespace ft {
 	public:
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type()) {
-			_tree = nullptr;
+
+			_tree = new elem<Key, T>;
+			_end = new elem<Key, T>;
+			_begin = _tree;
+			_size = 0;
+			_tree->right_child = _end;
+			_end->parent = _tree;
 			compare = comp;
 			allocator = alloc;
 		}
 
+		template <class InputIterator>
+		map (InputIterator first, InputIterator last,
+			 const key_compare& comp = key_compare(),
+			 const allocator_type& alloc = allocator_type()) {
+			_tree = new elem<Key, T>;
+			_end = new elem<Key, T>;
+			_begin = _tree;
+			_tree->right_child = _end;
+			_end->parent = _tree;
+			compare = comp;
+			allocator = alloc;
+			_size = 0;
+			insert(first, last);
+		}
+
+		map (const map& x) {
+			_tree = new elem<Key, T>;
+			_end = new elem<Key, T>;
+			_begin = _tree;
+			_tree->right_child = _end;
+			_end->parent = _tree;
+			compare = x.compare;
+			allocator = x.allocator;
+			_size = 0;
+			insert(iterator(x._begin), (iterator(x._end)));
+		}
+
+		map& operator=(const map& x) {
+			this->clear();
+			this->compare = x.compare;
+			this->allocator = x.allocator;
+//			this->insert(iterator(x._begin), (iterator(x._end)));
+			return *this;
+		}
+
 		std::pair<iterator, bool> insert(const value_type &val) {
-			if (!_tree) {
-				_tree = new elem<Key, T>();
-				_end = new elem<Key, T>();
+			if (_size == 0) {
 				_tree->node = val;
 				_tree->left_child = nullptr;
 				_tree->right_child = nullptr;
 				_tree->parent = nullptr;
-				_begin = _tree;
-				_tree->right_child = _end;
-				size++;
+				_size++;
+				search_begin_end();
 				return std::pair<iterator, bool>(_tree, true);
 			} else {
 				elem<Key, T> *current = _tree;
@@ -66,20 +104,20 @@ namespace ft {
 					parent = current;
 					if (val.first < current->node.first) {
 						current = current->left_child;
-						if (!current) {
+						if (!_check_begin_and_end(current)) {
 							parent->left_child = new elem<Key, T>(val, _tree);
 							parent->left_child->parent = parent;
-							size++;
+							_size++;
 							//TODO:iterator(pair, bool) убрать nullptr
 							search_begin_end();
 							return std::pair<iterator, bool>(parent->left_child, true);
 						}
 					} else if (val.first > current->node.first) {
 						current = current->right_child;
-						if (!current) {
+						if (!_check_begin_and_end(current)) {
 							parent->right_child = new elem<Key, T>(val, _tree);
 							parent->right_child->parent = parent;
-							size++;
+							_size++;
 							//TODO:iterator(pair, bool) убрать nullptr
 							search_begin_end();
 							return std::pair<iterator, bool>(parent->right_child, true);
@@ -138,11 +176,11 @@ namespace ft {
 		}
 
 		bool empty() const {
-			return !size;
+			return !_size;
 		}
 
 		size_type size() const {
-			return size;
+			return _size;
 		}
 
 		size_type max_size() const {
@@ -150,7 +188,7 @@ namespace ft {
 		}
 
 		mapped_type& operator[] (const key_type& k) {
-			return _find(key_type).tmp.node.second;
+			return _find(k).tmp.node.second;
 		}
 
 		void clear() {
@@ -160,25 +198,19 @@ namespace ft {
 		}
 
 		iterator begin() {
-			tree min_elem = _tree;
-			tree tmp = _tree;
-			while (tmp->left_child) {
-				min_elem = tmp;
-				tmp = min_elem->left_child;
-			}
-			return (iterator(min_elem));
+//			tree min_elem = _tree;
+//			tree tmp = _tree;
+//			while (tmp->left_child) {
+//				min_elem = tmp;
+//				tmp = min_elem->left_child;
+//			}
+			return (iterator(_begin));
 		}
 
 //		const_iterator begin() const {}
 
 		iterator end() {
-			tree max_elem = _tree;
-			tree tmp = _tree;
-			while (tmp->right_child) {
-				max_elem = tmp;
-				tmp = max_elem->right_child;
-			}
-//			return (iterator(max_elem.));
+			return iterator(_end);
 		}
 
 //		const_iterator end() const;
@@ -196,6 +228,10 @@ namespace ft {
 				}
 			}
 			return current;
+		}
+
+		bool _check_begin_and_end(tree el) const{
+			return (el && el != _end);
 		}
 
 		tree _delete(const key_type &key) {
@@ -251,7 +287,7 @@ namespace ft {
 				}
 			}
 			//TODO: что возвращать??? вроде так / проверить!!!
-			size--;
+			_size--;
 			if (!delete_elem->parent) {
 				return _tree;
 			} else if (is_left_child(delete_elem)) {
@@ -299,12 +335,13 @@ namespace ft {
 				tmp = tmp->left_child;
 			}
 			tmp = _tree;
-			tree max;
-			while (tmp->right_child) {
+			tree max = new elem<Key, T>();
+			while (tmp->right_child && tmp->right_child != _end) {
 				max = tmp->right_child;
 				tmp = tmp->right_child;
 			}
 			max->right_child = _end;
+			_end->parent = max;
 		}
 	};
 }
