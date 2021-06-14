@@ -156,7 +156,7 @@ namespace ft {
 				return it;
 			}
 			//TODO: map::end
-			return nullptr;
+			return _end;
 		}
 
         void erase (iterator position) {
@@ -188,7 +188,11 @@ namespace ft {
 		}
 
 		mapped_type& operator[] (const key_type& k) {
-			return _find(k).tmp.node.second;
+			elem<Key, T> *tmp = _find(k);
+			if (tmp)
+				return tmp->node.second;
+			else
+				return insert(std::pair<Key, T>(k, T())).first.node()->node.second;
 		}
 
 		void clear() {

@@ -259,6 +259,47 @@ void test_max_size() {
 //	std::cout<<"max_size ft::map = "<<ft_map_string.max_size()<<std::endl;
 }
 
+void operator_read_write() {
+	{
+		ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int>>();
+		ft_map[15] = 1555;
+		ft_map[12] = 123;
+		ft_map[-1] = 432;
+		ft_map[0] = -123;
+		ft_map[2] = 12345;
+
+		std::map<int, int> std_map = get_map_int_int<std::map<int, int>>();
+		std_map[15] = 1555;
+		std_map[12] = 123;
+		std_map[-1] = 432;
+		std_map[0] = -123;
+		std_map[2] = 12345;
+
+		std::cout<<"operator read write int"<<std::endl;
+		printer(std_map, ft_map);
+		std::cout<<std::endl;
+	}
+	{
+		ft::map<std::string, std::string> ft_map = get_map_string_string<ft::map<std::string, std::string>>();
+		ft_map["15"] = "1555";
+		ft_map["12"] = "123";
+		ft_map["-1"] = "432";
+		ft_map["0"] = "-123";
+		ft_map["2"] = "1234";
+
+		std::map<std::string, std::string> std_map = get_map_string_string<std::map<std::string, std::string>>();
+		std_map["15"] = "1555";
+		std_map["12"] = "123";
+		std_map["-1"] = "432";
+		std_map["0"] = "-123";
+		std_map["2"] = "1234";
+
+		std::cout<<"operator read write string"<<std::endl;
+		printer(std_map, ft_map);
+		std::cout<<std::endl;
+	}
+}
+
 int main() {
 	insert_test();
 	construct_first_last();
@@ -267,7 +308,7 @@ int main() {
 	test_size();
 	test_empty();
 	test_max_size();
-
+	operator_read_write();
 //    std::map<std::string, std::string> std_map;
 //    ft::map<int, int> ft_map = get_map_int_int();
 //    std::pair<std::string, std::string> a1("a1", "111");
