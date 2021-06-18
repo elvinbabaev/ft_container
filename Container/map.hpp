@@ -163,7 +163,7 @@ namespace ft {
         }
 
         iterator insert(iterator position, const value_type &val) {
-            insert(val);
+	        return insert(val).first;
         }
 
         size_type count(const key_type &k) const {
@@ -178,8 +178,7 @@ namespace ft {
             if (it != nullptr) {
                 return it;
             }
-            //TODO: map::end
-            return _end;
+            return iterator(_end);
         }
 
         const_iterator find (const key_type& k) const {
@@ -188,22 +187,27 @@ namespace ft {
                 return it;
             }
             //TODO: map::end
-            return _end;
+            return const_iterator(_end);
         }
 
         void erase(iterator position) {
-            _delete(position._elem->node.first);
+        	if (position != nullptr)
+                _delete(position.node()->node.first);
         }
 
         size_type erase(const key_type &k) {
+        	if (!_find(k))
+		        return 0;
             _delete(k);
             return 1;
         }
 
         void erase(iterator first, iterator last) {
-            while (first != last) {
-                _delete(first._elem->node.first);
-                first++;
+            if (first != nullptr && last != nullptr) {
+	            while (first != last) {
+		            _delete(first.node()->node.first);
+		            first++;
+	            }
             }
         }
 
@@ -228,7 +232,7 @@ namespace ft {
         }
 
         void clear() {
-            for (ft::bidirectional_map<Key, T> it = begin(); it != end(); it++) {
+            for (ft::bidirectional_map<Key, T> it = begin(); _size != 0 && it != end(); it++) {
                 _delete(it->first);
             }
             _size = 0;
@@ -291,7 +295,7 @@ namespace ft {
     private:
         elem<Key, T> *_find(const key_type &key) const {
             tree current = _tree;
-            while (current->node.first != key) {
+            while (current && current->node.first != key) {
                 if (key < current->node.first) {
                     current = current->left_child;
                 } else {
@@ -362,6 +366,7 @@ namespace ft {
             }
             //TODO: что возвращать??? вроде так / проверить!!!
             _size--;
+            search_begin_end();
             if (!delete_elem->parent) {
                 return _tree;
             } else if (is_left_child(delete_elem)) {
@@ -376,6 +381,7 @@ namespace ft {
             tree successor = delete_elem;
             tree current = delete_elem->right_child;
             while (!current) {
+            	//TODO: неправильно работает и delete не правильно работает
                 successor_parent = successor;
                 successor = current;
                 current = current->left_child;
@@ -411,12 +417,17 @@ namespace ft {
             }
             tmp = _tree;
             tree max = new elem<Key, T>();
-            while (tmp->right_child && tmp->right_child != _end) {
-                max = tmp->right_child;
-                tmp = tmp->right_child;
+            if (tmp->right_child && tmp->right_child != _end) {
+	            while (tmp->right_child && tmp->right_child != _end) {
+		            max = tmp->right_child;
+		            tmp = tmp->right_child;
+	            }
+	            max->right_child = _end;
+	            _end->parent = max;
+            } else {
+            	_tree->right_child = _end;
+            	_end->parent = _tree;
             }
-            max->right_child = _end;
-            _end->parent = max;
         }
     };
 }

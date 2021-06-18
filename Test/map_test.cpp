@@ -4,6 +4,11 @@
 #include "map.hpp"
 #include <vector>
 
+typedef std::map<std::string, std::string> std_map_str;
+typedef std::map<int, int> std_map_int;
+typedef ft::map<std::string, std::string> ft_map_str;
+typedef ft::map<int, int> ft_map_int;
+
 std::vector<std::pair<std::string, std::string>> g_vec_str;
 std::vector<std::pair<int, int>> g_vec_int;
 
@@ -11,7 +16,7 @@ void test_empty();
 
 void init_vector() {
 	for (int i = 1; i < 20; ++i) {
-		g_vec_int.push_back(std::pair<int, int>(i, i * 10 + i));
+		g_vec_int.emplace_back(i, i * 10 + i);
 	}
 }
 
@@ -108,13 +113,10 @@ void check_assign(std::map<T, T> std_map, ft::map<T, T> ft_map) {
 		if ((std_iterator == std_map.end() && ft_iterator != ft_map.end())
 		    || (std_iterator != std_map.end() && ft_iterator == ft_map.end())) {
 			assert(false);
+			return;
 		}
 	}
 }
-
-//ft::map<std::string, std::string> test_insert() {
-//    ft::map<std::string, std::string> ft_map;
-//}
 
 template<class T, class K>
 void printer(std::map<T, K> &std_map, ft::map<T, K> &ft_map) {
@@ -144,7 +146,26 @@ void insert_test() {
 		std::cout << std::endl;
 	}
 	{
-
+		std::cout << "insert(position, val)" << std::endl;
+		std::map<int, int> std_map;
+		ft::map<int, int> ft_map;
+		for (int i = 1; i < 10; ++i) {
+			std_map.insert(std_map.begin(), g_vec_int[i]);
+			ft_map.insert(ft_map.begin(), g_vec_int[i]);
+		}
+		printer(std_map, ft_map);
+		assert(std_map.size() == ft_map.size());
+		check_assign(std_map, ft_map);
+	}
+	{
+		std::cout << "insert(first, last)" << std::endl;
+		std::map<int, int> std_map;
+		ft::map<int, int> ft_map;
+		std_map.insert(g_vec_int.begin(), (g_vec_int.end()--));
+		ft_map.insert(g_vec_int.begin(), (g_vec_int.end()--));
+		printer(std_map, ft_map);
+		assert(std_map.size() == ft_map.size());
+		check_assign(std_map, ft_map);
 	}
 }
 
@@ -422,6 +443,54 @@ void begin_end_rbegin_rend() {
 	std::cout << std::endl;
 }
 
+void erase_test() {
+	{
+		std_map_str std_map = get_map_string_string<std_map_str>();
+		ft_map_str ft_map = get_map_string_string<ft_map_str>();
+
+		std::cout << "test erase(position)" << std::endl;
+		std_map_str::iterator std_iterator = std_map.begin();
+		ft_map_str::iterator ft_iterator = ft_map.begin();
+
+		for (int i = 0; i < 5; ++i) {
+			std_map.erase(std_iterator++);
+			ft_map.erase(ft_iterator++);
+			check_assign(std_map, ft_map);
+		}
+	}
+	{
+		std_map_int std_map = get_map_int_int<std_map_int>();
+		ft_map_int ft_map = get_map_int_int<ft_map_int>();
+
+		std::cout<< "test erase(key)" << std::endl;
+
+		for (int i = 1; i < 20; ++i) {
+			std_map.erase(i);
+			ft_map.erase(i);
+			assert(std_map.size() == ft_map.size());
+			check_assign(std_map, ft_map);
+		}
+	}
+	{
+		std_map_str std_map = get_map_string_string<std_map_str>();
+		ft_map_str ft_map = get_map_string_string<ft_map_str>();
+
+		std::cout<<"test erase(first, last)"<<std::endl;
+
+		std_map_str::iterator std_it = std_map.begin();
+		ft_map_str::iterator ft_it = ft_map.begin();
+		std_map_str::iterator std_end_it = std_map.end();
+		ft_map_str::iterator ft_end_it = ft_map.end();
+		std_it++;std_it++;std_it++;std_end_it--;std_end_it--;std_end_it--;
+		ft_it++;ft_it++;ft_it++;ft_end_it--;ft_end_it--;ft_end_it--;
+
+		std_map.erase(std_it, std_end_it);
+		ft_map.erase(ft_it, ft_end_it);
+		assert(std_map.size() == ft_map.size());
+		check_assign(std_map, ft_map);
+	}
+}
+
 int main() {
 	init_vector();
 
@@ -443,13 +512,14 @@ int main() {
 	test_size();
 
 	//TODO: max_size
-//	test_max_size();
+	test_max_size();
 
 	// operator[]
-//	operator_read_write();
+	operator_read_write();
 
 	// insert()
 	insert_test();
-//	test_max_size();
+
+	erase_test();
 	return 0;
 }
