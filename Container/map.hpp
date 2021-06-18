@@ -49,7 +49,6 @@ namespace ft {
         typedef value_type *pointer;
         typedef const value_type *const_pointer;
         typedef std::size_t size_type;
-        //TODO:iterator
         typedef bidirectional_map<Key, T> iterator;
         typedef const_bidirectional_map<Key, T> const_iterator;
         typedef reverse_bidirectional_map<Key, T> reverse_iterator;
@@ -264,11 +263,11 @@ namespace ft {
         }
 
         reverse_iterator rend() {
-            return reverse_iterator(_tree);
+            return reverse_iterator(_begin->left_child);
         }
 
         const_reverse_iterator rend() const {
-            return reverse_iterator(_tree);
+            return reverse_iterator(_begin->left_child);
         }
 
         void swap(map &x) {

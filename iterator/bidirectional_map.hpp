@@ -126,7 +126,7 @@ namespace ft {
     template<class K, class T>
     class const_bidirectional_map {
     public:
-        typedef std::pair<K, T> value_type;
+		typedef std::pair<K, T> value_type;
         typedef std::pair<K, T> &reference;
         typedef elem<K, T> *pointer;
     protected:
@@ -235,6 +235,15 @@ namespace ft {
             this->operator--();
             return (tmp);
         };
+
+        const_bidirectional_map &operator=(bidirectional_map<K, T> &bidirectional_map) {
+	        this->_elem = bidirectional_map._elem;
+	        return *this;
+        }
+
+	    const_bidirectional_map(bidirectional_map<int, int> bidirectional_map) {
+		    this->_elem = bidirectional_map.node();
+	    }
     };
 
     //
@@ -357,7 +366,7 @@ namespace ft {
     template<class K, class T>
     class const_reverse_bidirectional_map {
     public:
-        typedef std::pair<K, T> value_type;
+	    typedef std::pair<K, T> value_type;
         typedef std::pair<K, T> &reference;
         typedef elem<K, T> *pointer;
     protected:
@@ -466,6 +475,15 @@ namespace ft {
             this->operator--();
             return (tmp);
         };
+
+	    const_reverse_bidirectional_map(reverse_bidirectional_map<int, int> map) {
+		    this->_elem = map.node();
+	    }
+
+	    const_reverse_bidirectional_map &operator=(reverse_bidirectional_map<K, T> reverse) {
+		    this->_elem = reverse._elem;
+		    return *this;
+	    }
     };
 }
 
