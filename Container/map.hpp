@@ -92,22 +92,27 @@ namespace ft {
         }
 
         map(const map &x) {
-            _tree = new elem<Key, T>;
-            _end = new elem<Key, T>;
-            _begin = _tree;
-            _tree->right_child = _end;
-            _end->parent = _tree;
-            compare = x.compare;
-            allocator = x.allocator;
-            _size = 0;
-            insert(iterator(x._begin), (iterator(x._end)));
+			_tree = new elem<Key, T>;
+			_end = new elem<Key, T>;
+			_begin = _tree;
+			_tree->right_child = _end;
+			_end->parent = _tree;
+			compare = x.compare;
+			allocator = x.allocator;
+	        _size = 0;
+			if (x._size != 0) {
+		        insert(iterator(x._begin), (iterator(x._end)));
+			}
+			search_begin_end();
         }
 
         map &operator=(const map &x) {
             this->clear();
             this->compare = x.compare;
             this->allocator = x.allocator;
-            this->insert(iterator(x._begin), (iterator(x._end)));
+	        if (x._size != 0)
+                this->insert(iterator(x._begin), (iterator(x._end)));
+	        this->search_begin_end();
             return *this;
         }
 
@@ -203,12 +208,28 @@ namespace ft {
         }
 
         void erase(iterator first, iterator last) {
-            if (first != nullptr && last != nullptr) {
-	            while (first != last) {
-		            _delete(first.node()->node.first);
-		            first++;
-	            }
-            }
+			if (first != nullptr && last != nullptr) {
+				iterator i_tmp = first;
+				int i = 0;
+				while (i_tmp != last) {
+					i_tmp++;
+					i++;
+				}
+				Key *tmp = new Key[i];
+				i_tmp = first;
+				int len = i;
+				i = 0;
+				while (i_tmp != last) {
+					tmp[i] = i_tmp.node()->node.first;
+					i_tmp++;
+					i++;
+				}
+				i = 0;
+				while (i != len) {
+					_delete(tmp[i]);
+					i++;
+				}
+			}
         }
 
         bool empty() const {
@@ -239,10 +260,14 @@ namespace ft {
         }
 
         iterator begin() {
+        	if (_size == 0)
+		        return end();
             return (iterator(_begin));
         }
 
         const_iterator begin() const {
+	        if (_size == 0)
+		        return end();
             return (const_iterator(_begin));
         }
 
@@ -255,12 +280,16 @@ namespace ft {
         }
 
         reverse_iterator rbegin() {
+        	if (_size == 0)
+		        return rend();
             iterator i = end();
             i--;
             return (reverse_iterator(i.node()));
         }
 
         const_reverse_iterator rbegin() const {
+        	if (_size == 0)
+		        return rend();
             iterator i = end();
             i--;
             return (reverse_iterator(i.node()));
@@ -279,8 +308,8 @@ namespace ft {
             ft::swap(_tree, x._tree);
             ft::swap(compare, x.compare);
             ft::swap(allocator, x.allocator);
-            x.search_begin_end();
-            this->search_begin_end();
+	        ft::swap(this->_begin, x._begin);
+	        ft::swap(this->_end, x._end);
         }
 
         key_compare key_comp() const {
@@ -311,6 +340,8 @@ namespace ft {
         bool _check_end(tree el) const {
             return (el && el != _end);
         }
+
+
 
         tree _delete(const key_type &key) {
             elem<Key, T> *delete_elem = _find(key);
@@ -359,9 +390,13 @@ namespace ft {
                 } else if (is_left_child(delete_elem)) {
                     delete_elem->parent->left_child = success;
                     success->parent = delete_elem->parent;
+                    success->left_child = delete_elem->left_child;
+                    delete_elem->left_child->parent = success;
                 } else {
                     delete_elem->parent->right_child = success;
                     success->parent = delete_elem->parent;
+					success->left_child = delete_elem->left_child;
+					delete_elem->left_child->parent = success;
                 }
             }
             //TODO: что возвращать??? вроде так / проверить!!!
@@ -380,7 +415,7 @@ namespace ft {
             tree successor_parent = delete_elem;
             tree successor = delete_elem;
             tree current = delete_elem->right_child;
-            while (!current) {
+            while (current) {
             	//TODO: неправильно работает и delete не правильно работает
                 successor_parent = successor;
                 successor = current;
@@ -389,19 +424,22 @@ namespace ft {
             if (successor != delete_elem->right_child) {
                 successor_parent->left_child = successor->right_child;
                 successor->right_child = delete_elem->right_child;
+                successor->left_child = delete_elem->left_child;
+                successor->left_child->parent = successor;
+                successor->right_child->parent = successor;
             }
             return successor;
         }
 
         bool is_left_child(tree elem) const {
-            if (elem->parent->left_child == elem) {
+            if (elem->parent->node.first > elem->node.first) {
                 return true;
             } else
                 return false;
         }
 
         bool is_right_child(tree elem) const {
-            if (elem->parent->right_child == elem) {
+            if (elem->parent->node.first <= elem->node.first) {
                 return true;
             } else {
                 return false;
@@ -432,4 +470,4 @@ namespace ft {
     };
 }
 
-#endif //FT_CONTAINER_MAP_HPP
+#endif

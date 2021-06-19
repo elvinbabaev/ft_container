@@ -20,6 +20,38 @@ void init_vector() {
 	}
 }
 
+//template<class T>
+//T insert_left_right(T &map, int i, int len) {
+//	if (i == 0) {
+//		return map;
+//	}
+//	if (!map.insert(std::pair<int, int>(i, i * 10)).second)
+//		return map;
+//	if (i > 0) {
+//		insert_left_right(map, i / 2, len);
+//		if (i < len)
+//			insert_left_right(map, i + i / 2, len);
+//		i /= 2;
+//	}
+//	return map;
+//}
+
+//template <class T>
+//T get_map_long_array_int(int len) {
+//	T map;
+//	map = insert_left_right(map, len/2, len);
+//	return map;
+//}
+
+template <class T>
+T get_map_long_array_int(int i, int len) {
+	T map;
+	for (; i < len; i++) {
+		map.insert(std::pair<int, int>(i, i * 10));
+	}
+	return map;
+}
+
 template<class T>
 T get_map_int_int() {
 	T map;
@@ -485,15 +517,138 @@ void erase_test() {
 		ft_it++;ft_it++;ft_it++;ft_end_it--;ft_end_it--;ft_end_it--;
 
 		std_map.erase(std_it, std_end_it);
+ 		ft_map.erase(ft_it, ft_end_it);
+		assert(std_map.size() == ft_map.size());
+		check_assign(std_map, ft_map);
+	}
+	{
+		std_map_int std_map = get_map_long_array_int<std_map_int>(1, 1000);
+		ft_map_int ft_map = get_map_long_array_int<ft_map_int>(1, 1000);
+		std_map_int::iterator std_it = std_map.begin();
+		ft_map_int::iterator ft_it = ft_map.begin();
+		std_map_int::iterator std_end_it = std_map.end();
+		ft_map_int::iterator ft_end_it = ft_map.end();
+		for (int i = 0; i < 40; ++i) {
+			std_it++;
+			ft_it++;
+			std_end_it--;
+			ft_end_it--;
+		}
+		std_map.erase(std_it, std_end_it);
+		ft_map.erase(ft_it, ft_end_it);
+		assert(std_map.size() == ft_map.size());
+		check_assign(std_map, ft_map);
+	}
+	{
+		std_map_int std_map = get_map_long_array_int<std_map_int>(1, 1000);
+		ft_map_int ft_map = get_map_long_array_int<ft_map_int>(1, 1000);
+		std_map_int::iterator std_it = std_map.begin();
+		ft_map_int::iterator ft_it = ft_map.begin();
+		std_map_int::iterator std_end_it = std_map.end();
+		ft_map_int::iterator ft_end_it = ft_map.end();
+		for (int i = 0; i < 40; ++i) {
+			std_end_it--;
+			ft_end_it--;
+		}
+		std_map.erase(std_it, std_end_it);
+		ft_map.erase(ft_it, ft_end_it);
+		assert(std_map.size() == ft_map.size());
+		check_assign(std_map, ft_map);
+	}
+	{
+		std_map_int std_map = get_map_long_array_int<std_map_int>(1, 1000);
+		ft_map_int ft_map = get_map_long_array_int<ft_map_int>(1, 1000);
+		std_map_int::iterator std_it = std_map.begin();
+		ft_map_int::iterator ft_it = ft_map.begin();
+		std_map_int::iterator std_end_it = std_map.end();
+		ft_map_int::iterator ft_end_it = ft_map.end();
+		for (int i = 0; i < 40; ++i) {
+			std_it++;
+			ft_it++;
+		}
+		std_map.erase(std_it, std_end_it);
 		ft_map.erase(ft_it, ft_end_it);
 		assert(std_map.size() == ft_map.size());
 		check_assign(std_map, ft_map);
 	}
 }
 
+void test_swap() {
+	{
+		std::cout<<"swap"<<std::endl;
+		std_map_int std_map = get_map_int_int<std_map_int>();
+		std_map_int std_map2 = get_map_long_array_int<std_map_int>(100, 120);
+		ft_map_int ft_map = get_map_int_int<ft_map_int>();
+		ft_map_int ft_map2 = get_map_long_array_int<ft_map_int>(100, 120);
+
+		std::cout<<"До swap"<<std::endl;
+		printer(std_map, ft_map);
+		printer(std_map2, ft_map2);
+
+		std_map.swap(std_map2);
+		ft_map.swap(ft_map2);
+
+		assert(std_map.size() == ft_map.size());
+		assert(std_map2.size() == ft_map2.size());
+		check_assign(std_map, ft_map);
+		check_assign(std_map2, ft_map2);
+		std::cout<<"После swap"<<std::endl;
+		printer(std_map, ft_map);
+		printer(std_map2, ft_map2);
+	}
+}
+
+void test_clear() {
+	{
+		std::cout<<"clear"<<std::endl;
+		std_map_int std_map = get_map_int_int<std_map_int>();
+		ft_map_int ft_map = get_map_int_int<ft_map_int>();
+
+		printer(std_map, ft_map);
+		std_map.clear();
+		ft_map.clear();
+		printer(std_map, ft_map);
+		assert(std_map.size() == ft_map.size());
+		check_assign(std_map, ft_map);
+	}
+}
+
+void value_key_comp() {
+	{
+		std_map_int std_map = get_map_int_int<std_map_int>();
+		std_map_int::key_compare keyCompare = std_map.key_comp();
+		ft_map_int ft_map = get_map_int_int<ft_map_int>();
+		ft_map_int::key_compare keyCompare1 = ft_map.key_comp();
+	}
+	{
+		std_map_int std_map = get_map_int_int<std_map_int>();
+		std_map_int::value_compare keyCompare = std_map.value_comp();
+		ft_map_int ft_map = get_map_int_int<ft_map_int>();
+		ft_map_int::value_compare keyCompare1 = ft_map.value_comp();
+	}
+}
+
+void test_find() {
+	std::cout<<"test find"<<std::endl;
+	std_map_int std_map = get_map_int_int<std_map_int>();
+	ft_map_int ft_map = get_map_int_int<ft_map_int>();
+	assert(std_map.find(5)->first == ft_map.find(5)->first);
+	assert(std_map.find(5)->second == ft_map.find(5)->second);
+	assert((std_map.find(123) == std_map.end()) == (ft_map.find(123) == ft_map.end()));
+	std::cout<<"SUCCESS"<<std::endl;
+}
+
+void test_count() {
+	std::cout<<"test count"<<std::endl;
+	std_map_int std_map = get_map_int_int<std_map_int>();
+	ft_map_int ft_map = get_map_int_int<ft_map_int>();
+	assert(std_map.count(5) == ft_map.count(5));
+	assert(std_map.count(1231) == ft_map.count(1231));
+	std::cout<<"SUCCESS"<<std::endl;
+}
+
 int main() {
 	init_vector();
-
 	// construct
 	construct_first_last();
 	construct_copy();
@@ -520,6 +675,22 @@ int main() {
 	// insert()
 	insert_test();
 
+	// erase
 	erase_test();
+
+	// swap
+	test_swap();
+
+	// clear
+	test_clear();
+
+	// key_comp
+	value_key_comp();
+
+	// find
+	test_find();
+
+	// count
+	test_count();
 	return 0;
 }
