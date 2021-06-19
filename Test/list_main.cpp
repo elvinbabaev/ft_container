@@ -1,7 +1,3 @@
-//
-// Created by Elwin Babaew on 1/27/21.
-//
-
 #include "../Element/Node.hpp"
 #include "../Container/list.hpp"
 #include <iostream>

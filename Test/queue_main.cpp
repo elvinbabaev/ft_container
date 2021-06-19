@@ -1,7 +1,3 @@
-//
-// Created by Elwin Babaew on 2/3/21.
-//
-
 #include <iostream>
 #include <queue>
 #include "../Container/queue.hpp"

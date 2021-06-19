@@ -24,9 +24,6 @@ namespace ft{
 		b = tmp;
 	}
 
-//	template <class T, class Alloc>
-//	bool operator==(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs);
-
 	template<class T, class Alloc = std::allocator <T> >
 	class list{
 	public:
@@ -106,8 +103,6 @@ namespace ft{
 		void sort (Compare comp);
 		void reverse();
 
-//	public:
-//		bool operator==(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs);
 	};
 
 	template <class T, class Alloc>
@@ -115,9 +110,6 @@ namespace ft{
 	{
 		x.swap(y);
 	}
-//	template<class InputIterator1, class InputIterator2, class Compare>
-//	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
-//									 InputIterator2 first2, InputIterator2 last2, Compare comp);
 }
 
 template<class T, class Alloc>
@@ -153,20 +145,10 @@ ft::list<T, Alloc>::list(ft::list<T, Alloc>::iterator first, ft::list<T, Alloc>:
 		this->push_back(*first);
 		first++;
 	}
-//	for (iterator i = first; i != last; ++i) {
-//		this->push_back(*i);
-//	}
 }
 
 template<class T, class Alloc>
 ft::list<T, Alloc> ft::list<T, Alloc>::operator=(const ft::list<T, Alloc> &arg) {
-//	if (&arg == this)
-//		return (*this);
-//	_begin = arg._begin;
-//	_end = arg._end;
-//	sizeType = arg.sizeType;
-//	return (*this);
-
 	if (this == &arg)
 		return (*this);
 	this->clear();
@@ -240,13 +222,11 @@ typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::end() {
 
 template<class T, class Alloc>
 typename ft::list<T, Alloc>::reference ft::list<T, Alloc>::front() {
-//	if (!empty())
 	return (_begin->next->data);
 }
 
 template<class T, class Alloc>
 typename ft::list<T, Alloc>::const_reference ft::list<T, Alloc>::front() const {
-//	if (!empty())
 	return (_begin->next->data);
 }
 
@@ -405,17 +385,6 @@ void ft::list<T, Alloc>::resize(ft::list<T, Alloc>::size_type n, value_type val)
 			this->push_back(val);
 	}
 }
-
-//template<class T, class Alloc>
-//void put_elem(typename ft::list<T, Alloc>::iterator &position, typename ft::list<T, Alloc>::iterator &i)
-//{
-//	i.elem->prev->next = i.elem->next;
-//	i.elem->next->prev = i.elem->prev;
-//	i.elem->next = position.elem;
-//	i.elem->prev = position.elem->prev;
-//	position.elem->prev->next = i.elem;
-//	position.elem->prev = i.elem;
-//}
 
 template<class T, class Alloc>
 void ft::list<T, Alloc>::splice(ft::list<T, Alloc>::iterator position, ft::list<T, Alloc> &x) {

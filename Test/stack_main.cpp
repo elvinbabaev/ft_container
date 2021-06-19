@@ -1,7 +1,3 @@
-//
-// Created by Elwin Babaew on 2/2/21.
-//
-//
 #include <iostream>
 #include <stack>
 #include "../Container/stack.hpp"

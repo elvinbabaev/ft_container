@@ -20,29 +20,6 @@ void init_vector() {
 	}
 }
 
-//template<class T>
-//T insert_left_right(T &map, int i, int len) {
-//	if (i == 0) {
-//		return map;
-//	}
-//	if (!map.insert(std::pair<int, int>(i, i * 10)).second)
-//		return map;
-//	if (i > 0) {
-//		insert_left_right(map, i / 2, len);
-//		if (i < len)
-//			insert_left_right(map, i + i / 2, len);
-//		i /= 2;
-//	}
-//	return map;
-//}
-
-//template <class T>
-//T get_map_long_array_int(int len) {
-//	T map;
-//	map = insert_left_right(map, len/2, len);
-//	return map;
-//}
-
 template <class T>
 T get_map_long_array_int(int i, int len) {
 	T map;
@@ -351,15 +328,11 @@ void test_empty() {
 }
 
 void test_max_size() {
-//	ft::map<int, int> ft_map;
-//	std::map<int, int> std_map;
-//	std::cout<<"max_size std::map = "<<std_map.max_size()<<std::endl;
-//	std::cout<<"max_size ft::map = "<<ft_map.max_size()<<std::endl;
-//
-//	ft::map<std::string, std::string> ft_map_string;
-//	std::map<std::string, std::string> std_map_string;
-//	std::cout<<"max_size std::map = "<<std_map_string.max_size()<<std::endl;
-//	std::cout<<"max_size ft::map = "<<ft_map_string.max_size()<<std::endl;
+	ft::map<int, int> ft_map;
+	std::cout<<"max_size ft::map = "<<ft_map.max_size()<<std::endl;
+
+	ft::map<std::string, std::string> ft_map_string;
+	std::cout<<"max_size ft::map = "<<ft_map_string.max_size()<<std::endl;
 }
 
 void operator_read_write() {
@@ -647,6 +620,101 @@ void test_count() {
 	std::cout<<"SUCCESS"<<std::endl;
 }
 
+void test_lower_bound() {
+	std::cout<<"test lower bound"<<std::endl;
+	std_map_int std_map = get_map_int_int<std_map_int>();
+	std_map.insert(std::pair<int, int>(100, 2000));
+	std_map.insert(std::pair<int, int>(120, 3000));
+	ft_map_int ft_map = get_map_int_int<ft_map_int>();
+	ft_map.insert(std::pair<int, int>(100, 2000));
+	ft_map.insert(std::pair<int, int>(120, 3000));
+
+	assert(std_map.lower_bound(100)->first == ft_map.lower_bound(100)->first);
+	assert(std_map.lower_bound(100)->second == ft_map.lower_bound(100)->second);
+	assert(std_map.lower_bound(101)->first == ft_map.lower_bound(101)->first);
+	assert(std_map.lower_bound(101)->second == ft_map.lower_bound(101)->second);
+	assert(std_map.lower_bound(99)->first == ft_map.lower_bound(99)->first);
+	assert(std_map.lower_bound(99)->second == ft_map.lower_bound(99)->second);
+
+	const std::map<int, int> std_const(std_map);
+	const ft::map<int, int> ft_const(ft_map);
+
+	assert(std_const.lower_bound(100)->first == ft_const.lower_bound(100)->first);
+	assert(std_const.lower_bound(100)->second == ft_const.lower_bound(100)->second);
+	assert(std_const.lower_bound(101)->first == ft_const.lower_bound(101)->first);
+	assert(std_const.lower_bound(101)->second == ft_const.lower_bound(101)->second);
+	assert(std_const.lower_bound(99)->first == ft_const.lower_bound(99)->first);
+	assert(std_const.lower_bound(99)->second == ft_const.lower_bound(99)->second);
+}
+
+void test_upper_bound() {
+	std::cout<<"test upper bound"<<std::endl;
+	std_map_int std_map = get_map_int_int<std_map_int>();
+	std_map.insert(std::pair<int, int>(100, 2000));
+	std_map.insert(std::pair<int, int>(120, 3000));
+	ft_map_int ft_map = get_map_int_int<ft_map_int>();
+	ft_map.insert(std::pair<int, int>(100, 2000));
+	ft_map.insert(std::pair<int, int>(120, 3000));
+
+	assert(std_map.upper_bound(100)->first == ft_map.upper_bound(100)->first);
+	assert(std_map.upper_bound(100)->second == ft_map.upper_bound(100)->second);
+	assert(std_map.upper_bound(101)->first == ft_map.upper_bound(101)->first);
+	assert(std_map.upper_bound(101)->second == ft_map.upper_bound(101)->second);
+	assert(std_map.upper_bound(99)->first == ft_map.upper_bound(99)->first);
+	assert(std_map.upper_bound(99)->second == ft_map.upper_bound(99)->second);
+
+	const std::map<int, int> std_const(std_map);
+	const ft::map<int, int> ft_const(ft_map);
+
+	assert(std_const.upper_bound(100)->first == ft_const.upper_bound(100)->first);
+	assert(std_const.upper_bound(100)->second == ft_const.upper_bound(100)->second);
+	assert(std_const.upper_bound(101)->first == ft_const.upper_bound(101)->first);
+	assert(std_const.upper_bound(101)->second == ft_const.upper_bound(101)->second);
+	assert(std_const.upper_bound(99)->first == ft_const.upper_bound(99)->first);
+	assert(std_const.upper_bound(99)->second == ft_const.upper_bound(99)->second);
+}
+
+void test_equal_range() {
+	std::cout<<"test equal range"<<std::endl;
+	std_map_int std_map = get_map_int_int<std_map_int>();
+	std_map.insert(std::pair<int, int>(100, 2000));
+	std_map.insert(std::pair<int, int>(110, 2000));
+	std_map.insert(std::pair<int, int>(120, 3000));
+	ft_map_int ft_map = get_map_int_int<ft_map_int>();
+	ft_map.insert(std::pair<int, int>(100, 2000));
+	ft_map.insert(std::pair<int, int>(110, 2000));
+	ft_map.insert(std::pair<int, int>(120, 3000));
+
+	assert(std_map.equal_range(100).first->first == ft_map.equal_range(100).first->first);
+	assert(std_map.equal_range(100).first->second == ft_map.equal_range(100).first->second);
+	assert(std_map.equal_range(100).second->first == ft_map.equal_range(100).second->first);
+	assert(std_map.equal_range(100).second->second == ft_map.equal_range(100).second->second);
+	assert(std_map.equal_range(101).first->first == ft_map.equal_range(101).first->first);
+	assert(std_map.equal_range(101).first->second == ft_map.equal_range(101).first->second);
+	assert(std_map.equal_range(101).second->first == ft_map.equal_range(101).second->first);
+	assert(std_map.equal_range(101).second->second == ft_map.equal_range(101).second->second);
+	assert(std_map.equal_range(99).first->first == ft_map.equal_range(99).first->first);
+	assert(std_map.equal_range(99).first->second == ft_map.equal_range(99).first->second);
+	assert(std_map.equal_range(99).second->first == ft_map.equal_range(99).second->first);
+	assert(std_map.equal_range(99).second->second == ft_map.equal_range(99).second->second);
+
+	const std::map<int, int> std_const(std_map);
+	const ft::map<int, int> ft_const(ft_map);
+
+	assert(std_const.equal_range(100).first->first == ft_const.equal_range(100).first->first);
+	assert(std_const.equal_range(100).first->second == ft_const.equal_range(100).first->second);
+	assert(std_const.equal_range(100).second->first == ft_const.equal_range(100).second->first);
+	assert(std_const.equal_range(100).second->second == ft_const.equal_range(100).second->second);
+	assert(std_const.equal_range(101).first->first == ft_const.equal_range(101).first->first);
+	assert(std_const.equal_range(101).first->second == ft_const.equal_range(101).first->second);
+	assert(std_const.equal_range(101).second->first == ft_const.equal_range(101).second->first);
+	assert(std_const.equal_range(101).second->second == ft_const.equal_range(101).second->second);
+	assert(std_const.equal_range(99).first->first == ft_const.equal_range(99).first->first);
+	assert(std_const.equal_range(99).first->second == ft_const.equal_range(99).first->second);
+	assert(std_const.equal_range(99).second->first == ft_const.equal_range(99).second->first);
+	assert(std_const.equal_range(99).second->second == ft_const.equal_range(99).second->second);
+}
+
 int main() {
 	init_vector();
 	// construct
@@ -666,7 +734,7 @@ int main() {
 	// size()
 	test_size();
 
-	//TODO: max_size
+	// max_size
 	test_max_size();
 
 	// operator[]
@@ -692,5 +760,14 @@ int main() {
 
 	// count
 	test_count();
+	// lower bound
+	test_lower_bound();
+
+	// upper_bound
+	test_upper_bound();
+
+	//equal_range
+	test_equal_range();
+
 	return 0;
 }

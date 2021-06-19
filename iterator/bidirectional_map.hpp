@@ -1,9 +1,5 @@
-//
-// Created by OUT-BABAEV-E on 29.05.2021.
-//
-
-#ifndef FT_CONTAINER_BIDIRECTIONAL_MAP_HPP
-#define FT_CONTAINER_BIDIRECTIONAL_MAP_HPP
+#ifndef BIDIRECTIONAL_MAP_HPP
+#define BIDIRECTIONAL_MAP_HPP
 
 #include "elem.hpp"
 #include <iostream>
@@ -246,8 +242,6 @@ namespace ft {
 	    }
     };
 
-    //
-
     template<class K, class T>
     class reverse_bidirectional_map {
     public:
@@ -487,4 +481,4 @@ namespace ft {
     };
 }
 
-#endif //FT_CONTAINER_BIDIRECTIONAL_MAP_HPP
+#endif

@@ -1,7 +1,3 @@
-//
-// Created by Elwin Babaew on 2/5/21.
-//
-
 #ifndef RANDOMACCESSITERATOR_HPP
 #define RANDOMACCESSITERATOR_HPP
 
@@ -21,7 +17,6 @@ namespace ft {
 		typedef const T &const_reference;
 		typedef RandomAccess<T> iterator;
 		typedef RandomAccess<T> class_name;
-		//const;
 		typedef iterator_tag iterator_category;
 		typedef size_t size_type;
 
@@ -139,8 +134,8 @@ namespace ft {
 			return (*this);
 		}
 
-		size_type operator-(iterator iterator1){
-            return (this->elem - iterator1.elem);
+		size_type operator-(iterator iterator1) {
+			return (this->elem - iterator1.elem);
 		}
 	};
 
@@ -157,7 +152,6 @@ namespace ft {
 		typedef const T &const_reference;
 		typedef ReverseRandomAccess<T> iterator;
 		typedef ReverseRandomAccess<T> class_name;
-		//const;
 		typedef iterator_tag iterator_category;
 		typedef size_t size_type;
 
@@ -275,9 +269,9 @@ namespace ft {
 			return (*this);
 		}
 
-		size_type operator-(iterator iterator1){
-            return (iterator1.elem - this->elem);
-        }
+		size_type operator-(iterator iterator1) {
+			return (iterator1.elem - this->elem);
+		}
 	};
 
 	template<typename T>
@@ -293,7 +287,6 @@ namespace ft {
 		typedef const T &const_reference;
 		typedef ConstRandomAccess<T> iterator;
 		typedef ConstRandomAccess<T> class_name;
-		//const;
 		typedef iterator_tag iterator_category;
 		typedef size_t size_type;
 
@@ -410,9 +403,19 @@ namespace ft {
 			this->elem -= n;
 			return (*this);
 		}
-        size_type operator-(iterator iterator1){
-            return (this->elem - iterator1.elem);
-        }
+
+		size_type operator-(iterator it) {
+			return (this->elem - it.elem);
+		}
+
+		ConstRandomAccess(RandomAccess<T> it) {
+			this->elem = it.elem;
+		}
+
+		ConstRandomAccess &operator=(RandomAccess<T> reverse) {
+			this->elem = reverse.elem;
+			return *this;
+		}
 	};
 
 	template<typename T>
@@ -428,7 +431,6 @@ namespace ft {
 		typedef const T &const_reference;
 		typedef ConstReverseRandomAccess<T> iterator;
 		typedef ConstReverseRandomAccess<T> class_name;
-		//const;
 		typedef iterator_tag iterator_category;
 		typedef size_t size_type;
 
@@ -546,9 +548,18 @@ namespace ft {
 			return (*this);
 		};
 
-        size_type operator-(iterator iterator1){
-            return (iterator1.elem - this->elem);
-        }
+		size_type operator-(iterator iterator1) {
+			return (iterator1.elem - this->elem);
+		}
+
+		ConstReverseRandomAccess(ReverseRandomAccess<T> it) {
+			this->elem = it.elem;
+		}
+
+		ConstReverseRandomAccess &operator=(ReverseRandomAccess<T> reverse) {
+			this->elem = reverse.elem;
+			return *this;
+		}
 	};
 
 }

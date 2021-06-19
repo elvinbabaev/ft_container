@@ -136,7 +136,6 @@ namespace ft {
                             parent->left_child = new elem<Key, T>(val, _tree);
                             parent->left_child->parent = parent;
                             _size++;
-                            //TODO:iterator(pair, bool) убрать nullptr
                             search_begin_end();
                             return std::pair<iterator, bool>(parent->left_child, true);
                         }
@@ -146,12 +145,10 @@ namespace ft {
                             parent->right_child = new elem<Key, T>(val, _tree);
                             parent->right_child->parent = parent;
                             _size++;
-                            //TODO:iterator(pair, bool) убрать nullptr
                             search_begin_end();
                             return std::pair<iterator, bool>(parent->right_child, true);
                         }
                     } else {
-                        //TODO: iterator на элемент который с этим ключом и false
                         return std::pair<iterator, bool>(current, false);
                     }
                 }
@@ -191,7 +188,6 @@ namespace ft {
             if (it != nullptr) {
                 return it;
             }
-            //TODO: map::end
             return const_iterator(_end);
         }
 
@@ -320,6 +316,49 @@ namespace ft {
             return value_compare(compare);
         }
 
+	    iterator lower_bound(const key_type &k) {
+		    for (typename map<Key, T>::iterator i = this->begin(); i != this->end(); i++) {
+			    if (this->compare(i->first, k) <= 0)
+				    return (i);
+		    }
+		    return (this->end());
+	    }
+
+	    const_iterator lower_bound(const key_type &k) const {
+		    for (typename map<Key, T>::const_iterator i = this->begin(); i != this->end(); i++) {
+			    if (this->compare(i->first, k) <= 0)
+				    return (i);
+		    }
+		    return (this->end());
+	    }
+
+	    iterator upper_bound(const key_type &k) {
+		    for (typename map<Key, T>::iterator i = this->begin(); i != this->end(); i++) {
+			    if (i->first != k && this->compare(i->first, k) <= 0)
+				    return i;
+		    }
+		    return this->end();
+	    }
+
+	    const_iterator upper_bound(const key_type &k) const {
+		    for (typename map<Key, T>::const_iterator i = this->begin(); i != this->end(); i++) {
+			    if (i->first != k && this->compare(i->first, k) <= 0)
+				    return i;
+		    }
+		    return this->end();
+	    }
+
+	    std::pair<iterator, iterator> equal_range(const key_type &k) {
+		    return (std::pair<iterator , iterator>(this->lower_bound(k), this->upper_bound(k)));
+	    }
+
+	    std::pair<const_iterator, const_iterator> equal_range(const key_type &k) const {
+		    return (std::pair<const_iterator, const_iterator>(this->lower_bound(k), this->upper_bound(k)));
+	    }
+
+	    allocator_type get_allocator() const {
+		    return allocator;
+        }
 
     private:
         elem<Key, T> *_find(const key_type &key) const {
@@ -341,8 +380,6 @@ namespace ft {
             return (el && el != _end);
         }
 
-
-
         tree _delete(const key_type &key) {
             elem<Key, T> *delete_elem = _find(key);
             if (!delete_elem) {
@@ -352,10 +389,8 @@ namespace ft {
                 if (!delete_elem->parent) {
                     _tree = new elem<Key, T>();
                 } else if (is_left_child(delete_elem)) {
-                    //TODO: delete left child + очистку
                     delete_elem->parent->left_child = nullptr;
                 } else if (is_right_child(delete_elem)) {
-                    //TODO: delete right child + очистку
                     delete_elem->parent->right_child = nullptr;
                 }
             } else if (!_check_end(delete_elem->right_child)) {
@@ -381,7 +416,6 @@ namespace ft {
                     delete_elem->parent->right_child->parent = delete_elem->parent;
                 }
             } else {
-                //TODO: delete если есть оба наследника
                 tree success = get_successor(delete_elem);
 
                 if (!delete_elem->parent) {
@@ -399,7 +433,6 @@ namespace ft {
 					delete_elem->left_child->parent = success;
                 }
             }
-            //TODO: что возвращать??? вроде так / проверить!!!
             _size--;
             search_begin_end();
             if (!delete_elem->parent) {
@@ -416,7 +449,6 @@ namespace ft {
             tree successor = delete_elem;
             tree current = delete_elem->right_child;
             while (current) {
-            	//TODO: неправильно работает и delete не правильно работает
                 successor_parent = successor;
                 successor = current;
                 current = current->left_child;
