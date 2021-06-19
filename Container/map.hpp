@@ -435,6 +435,7 @@ namespace ft {
             }
             _size--;
             search_begin_end();
+            delete delete_elem;
             if (!delete_elem->parent) {
                 return _tree;
             } else if (is_left_child(delete_elem)) {

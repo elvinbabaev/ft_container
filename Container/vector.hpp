@@ -44,11 +44,14 @@ namespace ft{
 		vector (InputIterator first, InputIterator last,
 				const allocator_type& alloc = allocator_type());
 		vector (const vector& x);
-		~vector() {
+		vector& operator=(const vector& x) {
 			if (_capacity != 0)
-				clear();
-			_size = 0;
-			_capacity = 0;
+				this->clear();
+			this->c = new value_type[x._capacity];
+			assign(x.begin(), x.end());
+		}
+		~vector() {
+			clear();
 		}
 		iterator begin();
 		const_iterator begin() const;
@@ -339,7 +342,8 @@ void ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, ft::v
 
 template<class T, class Alloc>
 void ft::vector<T, Alloc>::clear() {
-	delete []c;
+	if (_size != 0)
+		delete []c;
     _capacity = 0;
 	_size = 0;
 }
