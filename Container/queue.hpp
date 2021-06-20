@@ -1,7 +1,3 @@
-//
-// Created by Elwin Babaew on 2/3/21.
-//
-
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 

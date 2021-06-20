@@ -49,6 +49,7 @@ namespace ft{
 				this->clear();
 			this->c = new value_type[x._capacity];
 			assign(x.begin(), x.end());
+			return *this;
 		}
 		~vector() {
 			clear();
@@ -108,8 +109,8 @@ ft::vector<T, Alloc>::vector(const allocator_type &alloc) {
 
 template<class T, class Alloc>
 ft::vector<T, Alloc>::vector(ft::vector<T, Alloc>::size_type n, const value_type &val, const allocator_type &alloc) {
+	c = new value_type[n];
 	_alloc = alloc;
-    c = new value_type[n];
 	_size = 0;
 	while (_size != n) {
 		c[_size] = val;
@@ -120,7 +121,11 @@ ft::vector<T, Alloc>::vector(ft::vector<T, Alloc>::size_type n, const value_type
 
 template<class T, class Alloc>
 template<class InputIterator>
-ft::vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocator_type &alloc):c(nullptr), _size(0), _capacity(0) {
+ft::vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocator_type &alloc) {
+	c = nullptr;
+	this->_alloc = alloc;
+	this->_size = 0;
+	this->_capacity = 0;
     assign(first, last);
 }
 
@@ -130,7 +135,7 @@ ft::vector<T, Alloc>::vector(const ft::vector<T, Alloc> &x) {
 	this->_alloc = x._alloc;
 	this->_capacity = x._capacity;
 	this->_size = x._size;
-	for (int i = 0; i < _size; i++) {
+	for (size_type i = 0; i < _size; i++) {
 		this->c[i] = x.c[i];
 	}
 }
@@ -224,7 +229,7 @@ template<class T, class Alloc>
 void ft::vector<T, Alloc>::realloc(ft::vector<T, Alloc>::size_type n) {
 	if (n == 0)
 		n = 2;
-	pointer _c = new value_type[n];
+	value_type *_c = new value_type[n];
 	size_type i = 0;
 	while(i < _size)
 	{
@@ -270,7 +275,7 @@ typename ft::vector<T, Alloc>::reference ft::vector<T, Alloc>::back() {
 
 template<class T, class Alloc>
 typename ft::vector<T, Alloc>::const_reference ft::vector<T, Alloc>::back() const {
-	return *(c + _size);
+	return *(c + _size - 1);
 }
 
 template<class T, class Alloc>
@@ -314,7 +319,7 @@ void ft::vector<T, Alloc>::assign(ft::vector<T, Alloc>::size_type n, const value
 template<class T, class Alloc>
 typename ft::vector<T, Alloc>::iterator ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, const value_type &val) {
     size_type len = 0;
-    for (iterator i = this->begin(); i != position ; ++i) {
+    for (iterator i = this->begin(); i != position && i != this->end(); ++i) {
         len++;
     }
     if (_size == _capacity)
@@ -328,13 +333,11 @@ typename ft::vector<T, Alloc>::iterator ft::vector<T, Alloc>::insert(ft::vector<
     swap_c(this->c[tmp_size], this->c[tmp_size + 1]);
     this->c[tmp_size] = val;
     _size++;
-    return position;
+    return iterator(c) + tmp_size;
 }
 
 template<class T, class Alloc>
 void ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, ft::vector<T, Alloc>::size_type n, const value_type &val) {
-    while (_size + n >= _capacity)
-        realloc(2 * n);
     for (size_type i = 0; i < n; i++) {
         insert(position, val);
     }
@@ -342,7 +345,7 @@ void ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, ft::v
 
 template<class T, class Alloc>
 void ft::vector<T, Alloc>::clear() {
-	if (_size != 0)
+	if (_capacity != 0)
 		delete []c;
     _capacity = 0;
 	_size = 0;
@@ -351,18 +354,20 @@ void ft::vector<T, Alloc>::clear() {
 template<class T, class Alloc>
 template<class InputIterator>
 void ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, InputIterator first, InputIterator last, typename InputIterator::iterator_category *) {
+
+	if (first >= last)
+		return;
     while (first != last)
     {
-        insert(position, *first);
-        first++;
+        position = insert(position, *first);
         position++;
+        first++;
     }
 }
 
 template<class T, class Alloc>
 typename ft::vector<T, Alloc>::iterator ft::vector<T, Alloc>::erase(ft::vector<T, Alloc>::iterator position) {
     iterator begin(position);
-    value_type *tmp = position.elem;
     while (begin != this->end())
     {
         *begin = *(begin + 1);

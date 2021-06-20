@@ -66,7 +66,7 @@ namespace ft {
 			return !(*this < rhs);
 		}
 
-		value_type &operator*(const class_name &rhs) const {
+		value_type &operator*(const class_name &) const {
 			return (*elem);
 		}
 
@@ -201,7 +201,7 @@ namespace ft {
 			return !(rhs > *this);
 		}
 
-		value_type &operator*(const class_name &rhs) const {
+		value_type &operator*(const class_name &) const {
 			return (*elem);
 		}
 
@@ -336,7 +336,7 @@ namespace ft {
 			return !(*this < rhs);
 		}
 
-		const value_type &operator*(const class_name &rhs) const {
+		const value_type &operator*(const class_name &) const {
 			return (*elem);
 		}
 
@@ -480,7 +480,7 @@ namespace ft {
 			return !(*this < rhs);
 		}
 
-		const value_type &operator*(const class_name &rhs) const {
+		const value_type &operator*(const class_name &) const {
 			return (*elem);
 		}
 

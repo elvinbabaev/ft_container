@@ -1,13 +1,9 @@
-//
-// Created by OUT-BABAEV-E on 29.05.2021.
-//
-
 #ifndef MAP_HPP
 #define MAP_HPP
 
 #include <iostream>
-#include "elem.hpp"
-#include "bidirectional_map.hpp"
+#include "../iterator/bidirectional_map.hpp"
+#include "../Element/elem.hpp"
 
 namespace ft {
     template<typename T>
@@ -17,7 +13,7 @@ namespace ft {
         b = tmp;
     };
 
-    template<class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key, T>>>
+    template<class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key, T> > >
     class map {
     public:
         typedef Key key_type;
@@ -116,6 +112,16 @@ namespace ft {
             return *this;
         }
 
+        ~map() {
+        	clear();
+        	if (_begin)
+        	    delete _begin;
+        	if (_end)
+        	    delete _end;
+        	if (_tree)
+        	    delete _tree;
+        }
+
         std::pair<iterator, bool> insert(const value_type &val) {
             if (_size == 0) {
                 _tree->node = val;
@@ -192,14 +198,19 @@ namespace ft {
         }
 
         void erase(iterator position) {
-        	if (position != nullptr)
-                _delete(position.node()->node.first);
+        	if (position != nullptr){
+		        tree del = _delete(position.node()->node.first);
+				delete del;
+				del = nullptr;
+	        }
         }
 
         size_type erase(const key_type &k) {
         	if (!_find(k))
 		        return 0;
-            _delete(k);
+            tree del = _delete(k);
+            delete del;
+            del = nullptr;
             return 1;
         }
 
@@ -222,9 +233,12 @@ namespace ft {
 				}
 				i = 0;
 				while (i != len) {
-					_delete(tmp[i]);
+					tree del = _delete(tmp[i]);
+					delete del;
+					del = nullptr;
 					i++;
 				}
+				delete []tmp;
 			}
         }
 
@@ -250,7 +264,9 @@ namespace ft {
 
         void clear() {
             for (ft::bidirectional_map<Key, T> it = begin(); _size != 0 && it != end(); it++) {
-                _delete(it->first);
+                tree del = _delete(it->first);
+                delete del;
+                del = nullptr;
             }
             _size = 0;
         }
@@ -435,14 +451,7 @@ namespace ft {
             }
             _size--;
             search_begin_end();
-            delete delete_elem;
-            if (!delete_elem->parent) {
-                return _tree;
-            } else if (is_left_child(delete_elem)) {
-                return delete_elem->parent->left_child;
-            } else {
-                return delete_elem->parent->right_child;
-            }
+	        return delete_elem;
         }
 
         tree get_successor(tree delete_elem) {
@@ -487,7 +496,7 @@ namespace ft {
                 tmp = tmp->left_child;
             }
             tmp = _tree;
-            tree max = new elem<Key, T>();
+            tree max = _end;
             if (tmp->right_child && tmp->right_child != _end) {
 	            while (tmp->right_child && tmp->right_child != _end) {
 		            max = tmp->right_child;

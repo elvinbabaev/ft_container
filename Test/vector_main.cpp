@@ -12,10 +12,12 @@ typedef std::vector<int>::iterator std_iterator_int;
 typedef ft::vector<int>::iterator ft_iterator_int;
 
 template<class T>
-void check_assign(std::vector<T> std_vector, ft::vector<T> ft_vector) {
+void check_assign(std::vector<T> &std_vector, ft::vector<T> &ft_vector) {
 	typename std::vector<T>::iterator std_iterator = std_vector.begin();
 	typename ft::vector<T>::iterator ft_iterator = ft_vector.begin();
+	std::cout<<std::endl;
 	while (std_iterator != std_vector.end() && ft_iterator != ft_vector.end()) {
+//		std::cout<<"std: "<<*std_iterator<<" ft: "<<*ft_iterator<<std::endl;
 		assert(*std_iterator == *ft_iterator);
 		std_iterator++;
 		ft_iterator++;
@@ -27,7 +29,16 @@ void check_assign(std::vector<T> std_vector, ft::vector<T> ft_vector) {
 	}
 }
 
-void testBegin()
+template<class T>
+T get_vector_int(int i, int len) {
+	T vector;
+	for (; i < len; i++) {
+		vector.push_back(i * 10);
+	}
+	return vector;
+}
+
+void test_1()
 {
 	std::vector<int> std_vector(4, 10);
 	ft::vector<int> ft_vector(4, 10);
@@ -83,7 +94,7 @@ void testBegin()
 
 
 	std::cout<<"\tCheck at()\n";
-	for (int i = 0; i < ft_vector.size() || i < std_vector.size(); ++i) {
+	for (size_t i = 0; i < ft_vector.size() || i < std_vector.size(); ++i) {
 		std::cout<<std_vector.at(i)<<" == "<<ft_vector.at(i)<<std::endl;
 	}
 	check_assign(std_vector, ft_vector);
@@ -140,7 +151,7 @@ void testBegin()
 }
 
 template<class T>
-void printer(std::vector<T> std, ft::vector<T> ft)
+void printer(std::vector<T> &std, ft::vector<T> &ft)
 {
     for (typename std::vector<T>::iterator i = std.begin(); i != std.end(); ++i) {
         if (i == std.begin())
@@ -156,7 +167,7 @@ void printer(std::vector<T> std, ft::vector<T> ft)
     std::cout<<std::endl;
 }
 
-void testSecond(){
+void test_2(){
     {
         std::vector<int> std_vector;
         ft::vector<int> ft_vector;
@@ -208,10 +219,99 @@ void testSecond(){
     }
 }
 
+void test_3() {
+	{
+		std_vector_int std_vector = get_vector_int<std_vector_int>(1, 5);
+		ft_vector_int ft_vector = get_vector_int<ft_vector_int>(1, 5);
+		std_vector_int std_vector2;
+		ft_vector_int ft_vector2;
+		std_vector_int std_vector3(std_vector);
+		ft_vector_int ft_vector3(ft_vector);
+		std_vector2 = std_vector3;
+		ft_vector2 = ft_vector3;
+
+		printer(std_vector, ft_vector);
+		printer(std_vector2, ft_vector2);
+		printer(std_vector3, ft_vector3);
+		check_assign(std_vector, ft_vector);
+		check_assign(std_vector2, ft_vector2);
+		check_assign(std_vector3, ft_vector3);
+
+		std_vector2.erase(std_vector2.begin(), (--(--std_vector2.end())));
+		ft_vector2.erase(ft_vector2.begin(), (--(--ft_vector2.end())));
+
+		std_vector.swap(std_vector2);
+		ft_vector.swap(ft_vector2);
+
+		std_vector3.clear();
+		ft_vector3.clear();
+
+		printer(std_vector, ft_vector);
+		printer(std_vector2, ft_vector2);
+		printer(std_vector3, ft_vector3);
+		check_assign(std_vector, ft_vector);
+		check_assign(std_vector2, ft_vector2);
+		check_assign(std_vector3, ft_vector3);
+
+		std_vector2.insert((std_vector2.begin()++), std_vector3.begin(), (--std_vector3.end()));
+		ft_vector2.insert((ft_vector2.begin()++), ft_vector3.begin(), (--ft_vector3.end()));
+
+		std_vector3.insert(std_vector3.begin(), 5);
+		ft_vector3.insert(ft_vector3.begin(), 5);
+
+		std_vector.insert((std_vector.end()--), 5, 10);
+		ft_vector.insert((ft_vector.end()--), 5, 10);
+
+		printer(std_vector, ft_vector);
+		printer(std_vector2, ft_vector2);
+		printer(std_vector3, ft_vector3);
+		check_assign(std_vector, ft_vector);
+		check_assign(std_vector2, ft_vector2);
+		check_assign(std_vector3, ft_vector3);
+
+		std_vector = std_vector2;
+		ft_vector = ft_vector2;
+
+		ft_vector3 = ft_vector;
+		std_vector3 = std_vector;
+
+		check_assign(std_vector, ft_vector);
+		check_assign(std_vector2, ft_vector2);
+		check_assign(std_vector3, ft_vector3);
+		printer(std_vector, ft_vector);
+		printer(std_vector2, ft_vector2);
+		printer(std_vector3, ft_vector3);
+	}
+}
+
+void test_4() {
+	{
+		ft_vector_int ft_vector1 = get_vector_int<ft_vector_int>(1, 10);
+		std_vector_int std_vector1 = get_vector_int<std_vector_int>(1, 10);
+		ft_vector_int ft_vector2 = get_vector_int<ft_vector_int>(20, 30);
+		std_vector_int std_vector2 = get_vector_int<std_vector_int>(20, 30);
+		std_iterator_int std_it = std_vector1.begin();
+		ft_iterator_int ft_it = ft_vector1.begin();
+		std_it++;
+		std_it++;
+		std_it++;
+		ft_it++;
+		ft_it++;
+		ft_it++;
+		std_vector1.insert(std_vector1.begin(), std_vector2.begin(), (--std_vector2.end()));
+		ft_vector1.insert(ft_vector1.begin(), ft_vector2.begin(), (--ft_vector2.end()));
+		printer(std_vector1, ft_vector1);
+		printer(std_vector2, ft_vector2);
+		check_assign(std_vector1, ft_vector1);
+		check_assign(std_vector2, ft_vector2);
+	}
+}
+
 int main()
 {
-	testBegin();
-	testSecond();
-	while (true){}
+	test_1();
+	test_2();
+	test_3();
+	test_4();
 	return (0);
 }

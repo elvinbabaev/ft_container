@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <map>
-#include "map.hpp"
+#include "../Container/map.hpp"
 #include <vector>
 
 typedef std::map<std::string, std::string> std_map_str;
@@ -20,7 +20,7 @@ void init_vector() {
 	}
 }
 
-template <class T>
+template<class T>
 T get_map_long_array_int(int i, int len) {
 	T map;
 	for (; i < len; i++) {
@@ -244,12 +244,12 @@ void construct_copy() {
 
 void operator_assign() {
 	std::cout << "construct assign int int" << std::endl;
-	ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int>>();
-	std::map<int, int> std_map = get_map_int_int<std::map<int, int>>();
+	ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int> >();
+	std::map<int, int> std_map = get_map_int_int<std::map<int, int> >();
 
 
-	ft::map<int, int> ft_map_constructor = get_map_int_int_mini<ft::map<int, int>>();
-	std::map<int, int> std_map_constructor = get_map_int_int_mini<std::map<int, int>>();
+	ft::map<int, int> ft_map_constructor = get_map_int_int_mini<ft::map<int, int> >();
+	std::map<int, int> std_map_constructor = get_map_int_int_mini<std::map<int, int> >();
 
 	ft_map = ft_map_constructor;
 	std_map = std_map_constructor;
@@ -329,10 +329,10 @@ void test_empty() {
 
 void test_max_size() {
 	ft::map<int, int> ft_map;
-	std::cout<<"max_size ft::map = "<<ft_map.max_size()<<std::endl;
+	std::cout << "max_size ft::map = " << ft_map.max_size() << std::endl;
 
 	ft::map<std::string, std::string> ft_map_string;
-	std::cout<<"max_size ft::map = "<<ft_map_string.max_size()<<std::endl;
+	std::cout << "max_size ft::map = " << ft_map_string.max_size() << std::endl;
 }
 
 void operator_read_write() {
@@ -467,7 +467,7 @@ void erase_test() {
 		std_map_int std_map = get_map_int_int<std_map_int>();
 		ft_map_int ft_map = get_map_int_int<ft_map_int>();
 
-		std::cout<< "test erase(key)" << std::endl;
+		std::cout << "test erase(key)" << std::endl;
 
 		for (int i = 1; i < 20; ++i) {
 			std_map.erase(i);
@@ -480,17 +480,27 @@ void erase_test() {
 		std_map_str std_map = get_map_string_string<std_map_str>();
 		ft_map_str ft_map = get_map_string_string<ft_map_str>();
 
-		std::cout<<"test erase(first, last)"<<std::endl;
+		std::cout << "test erase(first, last)" << std::endl;
 
 		std_map_str::iterator std_it = std_map.begin();
 		ft_map_str::iterator ft_it = ft_map.begin();
 		std_map_str::iterator std_end_it = std_map.end();
 		ft_map_str::iterator ft_end_it = ft_map.end();
-		std_it++;std_it++;std_it++;std_end_it--;std_end_it--;std_end_it--;
-		ft_it++;ft_it++;ft_it++;ft_end_it--;ft_end_it--;ft_end_it--;
+		std_it++;
+		std_it++;
+		std_it++;
+		std_end_it--;
+		std_end_it--;
+		std_end_it--;
+		ft_it++;
+		ft_it++;
+		ft_it++;
+		ft_end_it--;
+		ft_end_it--;
+		ft_end_it--;
 
 		std_map.erase(std_it, std_end_it);
- 		ft_map.erase(ft_it, ft_end_it);
+		ft_map.erase(ft_it, ft_end_it);
 		assert(std_map.size() == ft_map.size());
 		check_assign(std_map, ft_map);
 	}
@@ -548,13 +558,13 @@ void erase_test() {
 
 void test_swap() {
 	{
-		std::cout<<"swap"<<std::endl;
+		std::cout << "swap" << std::endl;
 		std_map_int std_map = get_map_int_int<std_map_int>();
 		std_map_int std_map2 = get_map_long_array_int<std_map_int>(100, 120);
 		ft_map_int ft_map = get_map_int_int<ft_map_int>();
 		ft_map_int ft_map2 = get_map_long_array_int<ft_map_int>(100, 120);
 
-		std::cout<<"До swap"<<std::endl;
+		std::cout << "До swap" << std::endl;
 		printer(std_map, ft_map);
 		printer(std_map2, ft_map2);
 
@@ -565,7 +575,7 @@ void test_swap() {
 		assert(std_map2.size() == ft_map2.size());
 		check_assign(std_map, ft_map);
 		check_assign(std_map2, ft_map2);
-		std::cout<<"После swap"<<std::endl;
+		std::cout << "После swap" << std::endl;
 		printer(std_map, ft_map);
 		printer(std_map2, ft_map2);
 	}
@@ -573,7 +583,7 @@ void test_swap() {
 
 void test_clear() {
 	{
-		std::cout<<"clear"<<std::endl;
+		std::cout << "clear" << std::endl;
 		std_map_int std_map = get_map_int_int<std_map_int>();
 		ft_map_int ft_map = get_map_int_int<ft_map_int>();
 
@@ -602,26 +612,26 @@ void value_key_comp() {
 }
 
 void test_find() {
-	std::cout<<"test find"<<std::endl;
+	std::cout << "test find" << std::endl;
 	std_map_int std_map = get_map_int_int<std_map_int>();
 	ft_map_int ft_map = get_map_int_int<ft_map_int>();
 	assert(std_map.find(5)->first == ft_map.find(5)->first);
 	assert(std_map.find(5)->second == ft_map.find(5)->second);
 	assert((std_map.find(123) == std_map.end()) == (ft_map.find(123) == ft_map.end()));
-	std::cout<<"SUCCESS"<<std::endl;
+	std::cout << "SUCCESS" << std::endl;
 }
 
 void test_count() {
-	std::cout<<"test count"<<std::endl;
+	std::cout << "test count" << std::endl;
 	std_map_int std_map = get_map_int_int<std_map_int>();
 	ft_map_int ft_map = get_map_int_int<ft_map_int>();
 	assert(std_map.count(5) == ft_map.count(5));
 	assert(std_map.count(1231) == ft_map.count(1231));
-	std::cout<<"SUCCESS"<<std::endl;
+	std::cout << "SUCCESS" << std::endl;
 }
 
 void test_lower_bound() {
-	std::cout<<"test lower bound"<<std::endl;
+	std::cout << "test lower bound" << std::endl;
 	std_map_int std_map = get_map_int_int<std_map_int>();
 	std_map.insert(std::pair<int, int>(100, 2000));
 	std_map.insert(std::pair<int, int>(120, 3000));
@@ -648,7 +658,7 @@ void test_lower_bound() {
 }
 
 void test_upper_bound() {
-	std::cout<<"test upper bound"<<std::endl;
+	std::cout << "test upper bound" << std::endl;
 	std_map_int std_map = get_map_int_int<std_map_int>();
 	std_map.insert(std::pair<int, int>(100, 2000));
 	std_map.insert(std::pair<int, int>(120, 3000));
@@ -675,7 +685,7 @@ void test_upper_bound() {
 }
 
 void test_equal_range() {
-	std::cout<<"test equal range"<<std::endl;
+	std::cout << "test equal range" << std::endl;
 	std_map_int std_map = get_map_int_int<std_map_int>();
 	std_map.insert(std::pair<int, int>(100, 2000));
 	std_map.insert(std::pair<int, int>(110, 2000));

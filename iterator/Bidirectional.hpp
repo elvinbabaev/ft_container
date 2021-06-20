@@ -43,8 +43,6 @@ namespace ft {
 			return (*this);
 		}
 
-		~Bidirectional() {}
-
 		bool operator==(const class_name &rhs) const {
 			return elem == rhs.elem;
 		}
@@ -294,7 +292,7 @@ namespace ft {
 
 
 		ConstBidirectional &operator=(Bidirectional<T> &bidirectional ) {
-			this->elem = bidirectional_map.elem;
+			this->elem = bidirectional.elem;
 			return *this;
 		}
 
@@ -395,7 +393,7 @@ namespace ft {
 		}
 
 		ConstReverseBidirectional &operator=(ReverseBidirectional<T> &bidirectional ) {
-			this->elem = bidirectional_map.elem;
+			this->elem = bidirectional.elem;
 			return *this;
 		}
 

@@ -17,7 +17,7 @@ typedef ft::vector<int>::iterator itInt;
 typedef std::vector<int>::iterator SitInt;
 
 template<class T>
-void check_assign(std::vector<T> std_vector, ft::vector<T> ft_vector) {
+void check_assign(std::vector<T> &std_vector, ft::vector<T> &ft_vector) {
 	typename std::vector<T>::iterator std_iterator = std_vector.begin();
 	typename ft::vector<T>::iterator ft_iterator = ft_vector.begin();
 	while (std_iterator != std_vector.end() && ft_iterator != ft_vector.end()) {

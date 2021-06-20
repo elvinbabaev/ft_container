@@ -176,6 +176,8 @@ ft::list<T, Alloc>::list(const ft::list<T, Alloc> &x) {
 template<class T, class Alloc>
 ft::list<T, Alloc>::~list() {
 	this->clear();
+	delete _begin;
+	delete _end;
 }
 
 template<class T, class Alloc>
@@ -367,7 +369,6 @@ typename ft::list<T, Alloc>::iterator ft::list<T, Alloc>::erase(ft::list<T, Allo
 
 template<class T, class Alloc>
 void ft::list<T, Alloc>::swap(ft::list<T, Alloc> &x) {
-//	swap_c(*this, x);
 	swap_c(this->_begin, x._begin);
 	swap_c(this->_end, x._end);
 	swap_c(this->sizeType, x.sizeType);

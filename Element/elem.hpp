@@ -1,7 +1,3 @@
-//
-// Created by OUT-BABAEV-E on 29.05.2021.
-//
-
 #ifndef FT_CONTAINER_ELEM_HPP
 #define FT_CONTAINER_ELEM_HPP
 
@@ -51,4 +47,4 @@ namespace ft {
         }
     };
 }
-#endif //FT_CONTAINER_ELEM_HPP
+#endif
