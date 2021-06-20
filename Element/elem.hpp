@@ -21,7 +21,7 @@ namespace ft {
                                 parent(arg.parent) {}
 
         elem(std::pair<Key, T> node, pointer parent) : node(node), left_child(nullptr), right_child(nullptr),
-                                                       parent(nullptr) {}
+                                                       parent(parent) {}
 
         ~elem() {}
 

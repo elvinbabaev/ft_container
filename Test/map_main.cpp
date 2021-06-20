@@ -111,7 +111,7 @@ T get_map_string_string_mini() {
 }
 
 template<class T>
-void check_assign(std::map<T, T> std_map, ft::map<T, T> ft_map) {
+void check_assign(std::map<T, T> &std_map, ft::map<T, T> &ft_map) {
 	typename std::map<T, T>::iterator std_iterator = std_map.begin();
 	typename ft::map<T, T>::iterator ft_iterator = ft_map.begin();
 	while (std_iterator != std_map.end() && ft_iterator != ft_map.end()) {
@@ -597,18 +597,18 @@ void test_clear() {
 }
 
 void value_key_comp() {
-	{
-		std_map_int std_map = get_map_int_int<std_map_int>();
-		std_map_int::key_compare keyCompare = std_map.key_comp();
-		ft_map_int ft_map = get_map_int_int<ft_map_int>();
-		ft_map_int::key_compare keyCompare1 = ft_map.key_comp();
-	}
-	{
-		std_map_int std_map = get_map_int_int<std_map_int>();
-		std_map_int::value_compare keyCompare = std_map.value_comp();
-		ft_map_int ft_map = get_map_int_int<ft_map_int>();
-		ft_map_int::value_compare keyCompare1 = ft_map.value_comp();
-	}
+//	{
+//		std_map_int std_map = get_map_int_int<std_map_int>();
+//		std_map_int::key_compare keyCompare = std_map.key_comp();
+//		ft_map_int ft_map = get_map_int_int<ft_map_int>();
+//		ft_map_int::key_compare keyCompare1 = ft_map.key_comp();
+//	}
+//	{
+//		std_map_int std_map = get_map_int_int<std_map_int>();
+//		std_map_int::value_compare keyCompare = std_map.value_comp();
+//		ft_map_int ft_map = get_map_int_int<ft_map_int>();
+//		ft_map_int::value_compare keyCompare1 = ft_map.value_comp();
+//	}
 }
 
 void test_find() {

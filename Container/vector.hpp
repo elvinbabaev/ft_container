@@ -52,7 +52,10 @@ namespace ft{
 			return *this;
 		}
 		~vector() {
-			clear();
+			delete []c;
+			c = nullptr;
+			this->_size = 0;
+			this->_capacity = 0;
 		}
 		iterator begin();
 		const_iterator begin() const;
@@ -236,8 +239,10 @@ void ft::vector<T, Alloc>::realloc(ft::vector<T, Alloc>::size_type n) {
 		_c[i] = c[i];
 		i++;
 	}
-	if (c)
+	if (c && _capacity != 0) {
 		delete []c;
+		c = nullptr;
+	}
 	c = _c;
 	_capacity = n;
 }
@@ -345,8 +350,7 @@ void ft::vector<T, Alloc>::insert(ft::vector<T, Alloc>::iterator position, ft::v
 
 template<class T, class Alloc>
 void ft::vector<T, Alloc>::clear() {
-	if (_capacity != 0)
-		delete []c;
+	delete []c;
     _capacity = 0;
 	_size = 0;
 }

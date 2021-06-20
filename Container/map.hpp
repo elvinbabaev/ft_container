@@ -118,8 +118,6 @@ namespace ft {
         	    delete _begin;
         	if (_end)
         	    delete _end;
-        	if (_tree)
-        	    delete _tree;
         }
 
         std::pair<iterator, bool> insert(const value_type &val) {
@@ -170,7 +168,7 @@ namespace ft {
             }
         }
 
-        iterator insert(iterator position, const value_type &val) {
+        iterator insert(iterator , const value_type &val) {
 	        return insert(val).first;
         }
 

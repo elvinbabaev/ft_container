@@ -122,7 +122,7 @@ ft::list<T, Alloc>::list() {
 }
 
 template<class T, class Alloc>
-ft::list<T, Alloc>::list(ft::list<T, Alloc>::size_type n, const value_type &val, const allocator_type &alloc) {
+ft::list<T, Alloc>::list(ft::list<T, Alloc>::size_type n, const value_type &val, const allocator_type &) {
 	_begin = new Node<T>();
 	_end = new Node<T>();
 	_begin->next = _end;
@@ -134,7 +134,7 @@ ft::list<T, Alloc>::list(ft::list<T, Alloc>::size_type n, const value_type &val,
 }
 
 template<class T, class Alloc>
-ft::list<T, Alloc>::list(ft::list<T, Alloc>::iterator first, ft::list<T, Alloc>::iterator last, const allocator_type &alloc) {
+ft::list<T, Alloc>::list(ft::list<T, Alloc>::iterator first, ft::list<T, Alloc>::iterator last, const allocator_type &) {
 	_begin = new Node<T>();
 	_end = new Node<T>();
 	_begin->next = _end;

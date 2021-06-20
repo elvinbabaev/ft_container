@@ -67,7 +67,7 @@ namespace ft {
 			return !(*this < rhs);
 		}
 
-		value_type &operator*(const class_name &rhs) const {
+		value_type &operator*(const class_name &) const {
 			return (elem->data);
 		}
 
@@ -162,7 +162,7 @@ namespace ft {
 			return !(*this < rhs);
 		}
 
-		value_type &operator*(const class_name &rhs) const {
+		value_type &operator*(const class_name &) const {
 			return (elem->data);
 		}
 
@@ -254,11 +254,11 @@ namespace ft {
 			return !(*this < rhs);
 		}
 
-		const value_type &operator*(const class_name &rhs) const {
+		const value_type &operator*(const class_name &) const {
 			return (elem->data);
 		}
 
-		const value_type &operator*() const// создать с константной указателем
+		const value_type &operator*() const
 		{
 			return (elem->data);
 		}
@@ -357,7 +357,7 @@ namespace ft {
 			return !(*this < rhs);
 		}
 
-		const value_type &operator*(const class_name &rhs) const {
+		const value_type &operator*(const class_name &) const {
 			return (elem->data);
 		}
 

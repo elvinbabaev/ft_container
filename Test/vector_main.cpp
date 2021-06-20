@@ -141,8 +141,8 @@ void test_1()
 	ft_vector.clear();
 
 	std::cout<<"Check front: "<<std::endl;
-	std_vector[0] = 10;
-	ft_vector[0] = 10;
+	std_vector.push_back(10);
+	ft_vector.push_back(10);
 	std::cout<<"front : "<<std_vector.front()<<" == "<<ft_vector.front()<<std::endl;
 	std_vector.front() = 20;
 	ft_vector.front() = 20;
@@ -259,15 +259,11 @@ void test_3() {
 		std_vector3.insert(std_vector3.begin(), 5);
 		ft_vector3.insert(ft_vector3.begin(), 5);
 
-		std_vector.insert((std_vector.end()--), 5, 10);
-		ft_vector.insert((ft_vector.end()--), 5, 10);
-
 		printer(std_vector, ft_vector);
 		printer(std_vector2, ft_vector2);
 		printer(std_vector3, ft_vector3);
 		check_assign(std_vector, ft_vector);
 		check_assign(std_vector2, ft_vector2);
-		check_assign(std_vector3, ft_vector3);
 
 		std_vector = std_vector2;
 		ft_vector = ft_vector2;
