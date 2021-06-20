@@ -1,7 +1,3 @@
-//
-// Created by Elwin Babaew on 2/5/21.
-//
-
 #include <vector>
 #include "../Container/vector.hpp"
 #include <iostream>
