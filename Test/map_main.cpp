@@ -9,14 +9,14 @@ typedef std::map<int, int> std_map_int;
 typedef ft::map<std::string, std::string> ft_map_str;
 typedef ft::map<int, int> ft_map_int;
 
-std::vector<std::pair<std::string, std::string>> g_vec_str;
-std::vector<std::pair<int, int>> g_vec_int;
+std::vector<std::pair<std::string, std::string> > g_vec_str;
+std::vector<std::pair<int, int> > g_vec_int;
 
 void test_empty();
 
 void init_vector() {
 	for (int i = 1; i < 20; ++i) {
-		g_vec_int.emplace_back(i, i * 10 + i);
+		g_vec_int.push_back(std::pair<int, int>(i, i * 10 + i));
 	}
 }
 
@@ -143,14 +143,14 @@ void printer(std::map<T, K> &std_map, ft::map<T, K> &ft_map) {
 void insert_test() {
 	{
 		std::cout << "insert map int int" << std::endl;
-		ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int>>();
-		std::map<int, int> std_map = get_map_int_int<std::map<int, int>>();
+		ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int> >();
+		std::map<int, int> std_map = get_map_int_int<std::map<int, int> >();
 		printer(std_map, ft_map);
 		std::cout << std::endl;
 
 		std::cout << "insert map string string" << std::endl;
-		ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string>>();
-		std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string>>();
+		ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string> >();
+		std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string> >();
 		printer(std_map_string, ft_map_string);
 		std::cout << std::endl;
 	}
@@ -180,8 +180,8 @@ void insert_test() {
 
 void construct_first_last() {
 	std::cout << "construct first last int int" << std::endl;
-	ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int>>();
-	std::map<int, int> std_map = get_map_int_int<std::map<int, int>>();
+	ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int> >();
+	std::map<int, int> std_map = get_map_int_int<std::map<int, int> >();
 
 	ft::map<int, int> ft_map_copy = ft::map<int, int>(ft_map.begin(), (ft_map.end()--));
 	std::map<int, int> std_map_copy = std::map<int, int>(std_map.begin(), (std_map.end()--));
@@ -189,8 +189,8 @@ void construct_first_last() {
 	std::cout << std::endl;
 
 	std::cout << "construct first last string string" << std::endl;
-	ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string>>();
-	std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string>>();
+	ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string> >();
+	std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string> >();
 
 	ft::map<std::string, std::string> ft_map_string_copy = ft::map<std::string, std::string>(ft_map_string.begin(),
 	                                                                                         (ft_map_string.end()--));
@@ -216,8 +216,8 @@ void construct_first_last() {
 
 void construct_copy() {
 	std::cout << "construct copy int int" << std::endl;
-	ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int>>();
-	std::map<int, int> std_map = get_map_int_int<std::map<int, int>>();
+	ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int> >();
+	std::map<int, int> std_map = get_map_int_int<std::map<int, int> >();
 
 	ft::map<int, int> ft_map_copy = ft::map<int, int>(ft_map);
 	std::map<int, int> std_map_copy = std::map<int, int>(std_map);
@@ -225,8 +225,8 @@ void construct_copy() {
 	std::cout << std::endl;
 
 	std::cout << "construct copy string string" << std::endl;
-	ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string>>();
-	std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string>>();
+	ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string> >();
+	std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string> >();
 
 	ft::map<std::string, std::string> ft_map_string_copy = ft::map<std::string, std::string>(ft_map_string);
 	std::map<std::string, std::string> std_map_string_copy = std::map<std::string, std::string>(std_map_string);
@@ -257,11 +257,11 @@ void operator_assign() {
 	std::cout << std::endl;
 
 	std::cout << "construct assign string string" << std::endl;
-	ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string>>();
-	std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string>>();
+	ft::map<std::string, std::string> ft_map_string = get_map_string_string<ft::map<std::string, std::string> >();
+	std::map<std::string, std::string> std_map_string = get_map_string_string<std::map<std::string, std::string> >();
 
-	ft::map<std::string, std::string> ft_map_string_construct = get_map_string_string_mini<ft::map<std::string, std::string>>();
-	std::map<std::string, std::string> std_map_string_construct = get_map_string_string_mini<std::map<std::string, std::string>>();
+	ft::map<std::string, std::string> ft_map_string_construct = get_map_string_string_mini<ft::map<std::string, std::string> >();
+	std::map<std::string, std::string> std_map_string_construct = get_map_string_string_mini<std::map<std::string, std::string> >();
 
 	ft_map_string_construct = ft_map_string;
 	std_map_string_construct = std_map_string;
@@ -285,13 +285,13 @@ void test_size() {
 
 	assert(ft_map.size() == std_map.size());
 
-	ft_map = get_map_int_int<ft::map<int, int>>();
-	std_map = get_map_int_int<std::map<int, int>>();
+	ft_map = get_map_int_int<ft::map<int, int> >();
+	std_map = get_map_int_int<std::map<int, int> >();
 
 	assert(ft_map.size() == std_map.size());
 
-	ft_map = get_map_int_int_mini<ft::map<int, int>>();
-	std_map = get_map_int_int_mini<std::map<int, int>>();
+	ft_map = get_map_int_int_mini<ft::map<int, int> >();
+	std_map = get_map_int_int_mini<std::map<int, int> >();
 
 	assert(ft_map.size() == std_map.size());
 	std::cout << "SUCCESS" << std::endl;
@@ -305,8 +305,8 @@ void test_empty() {
 
 	assert(ft_map.empty() == std_map.empty());
 
-	ft_map = get_map_int_int<ft::map<int, int>>();
-	std_map = get_map_int_int<std::map<int, int>>();
+	ft_map = get_map_int_int<ft::map<int, int> >();
+	std_map = get_map_int_int<std::map<int, int> >();
 
 	assert(ft_map.empty() == std_map.empty());
 
@@ -315,8 +315,8 @@ void test_empty() {
 
 	assert(ft_map.empty() == std_map.empty());
 
-	ft_map = get_map_int_int_mini<ft::map<int, int>>();
-	std_map = get_map_int_int_mini<std::map<int, int>>();
+	ft_map = get_map_int_int_mini<ft::map<int, int> >();
+	std_map = get_map_int_int_mini<std::map<int, int> >();
 
 	assert(ft_map.empty() == std_map.empty());
 
@@ -337,14 +337,14 @@ void test_max_size() {
 
 void operator_read_write() {
 	{
-		ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int>>();
+		ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int> >();
 		ft_map[15] = 1555;
 		ft_map[12] = 123;
 		ft_map[-1] = 432;
 		ft_map[0] = -123;
 		ft_map[2] = 12345;
 
-		std::map<int, int> std_map = get_map_int_int<std::map<int, int>>();
+		std::map<int, int> std_map = get_map_int_int<std::map<int, int> >();
 		std_map[15] = 1555;
 		std_map[12] = 123;
 		std_map[-1] = 432;
@@ -358,14 +358,14 @@ void operator_read_write() {
 		std::cout << std::endl;
 	}
 	{
-		ft::map<std::string, std::string> ft_map = get_map_string_string<ft::map<std::string, std::string>>();
+		ft::map<std::string, std::string> ft_map = get_map_string_string<ft::map<std::string, std::string> >();
 		ft_map["15"] = "1555";
 		ft_map["12"] = "123";
 		ft_map["-1"] = "432";
 		ft_map["0"] = "-123";
 		ft_map["2"] = "1234";
 
-		std::map<std::string, std::string> std_map = get_map_string_string<std::map<std::string, std::string>>();
+		std::map<std::string, std::string> std_map = get_map_string_string<std::map<std::string, std::string> >();
 		std_map["15"] = "1555";
 		std_map["12"] = "123";
 		std_map["-1"] = "432";
@@ -385,8 +385,8 @@ void construct_default() {
 	ft::map<int, int> ft_map;
 	assert(std_map.size() == ft_map.size());
 
-	std_map = get_map_int_int<std::map<int, int>>();
-	ft_map = get_map_int_int<ft::map<int, int>>();
+	std_map = get_map_int_int<std::map<int, int> >();
+	ft_map = get_map_int_int<ft::map<int, int> >();
 	assert(std_map.size() == ft_map.size());
 	check_assign(std_map, ft_map);
 	std::cout << "construct default" << std::endl;
@@ -394,8 +394,8 @@ void construct_default() {
 }
 
 void begin_end_rbegin_rend() {
-	std::map<int, int> std_map = get_map_int_int<std::map<int, int>>();
-	ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int>>();
+	std::map<int, int> std_map = get_map_int_int<std::map<int, int> >();
+	ft::map<int, int> ft_map = get_map_int_int<ft::map<int, int> >();
 
 	std::cout << "test begin end rbegin rend" << std::endl;
 

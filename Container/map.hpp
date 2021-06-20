@@ -157,7 +157,7 @@ namespace ft {
                     }
                 }
             }
-            return std::pair<iterator, bool>(nullptr, false);
+            return std::pair<iterator, bool>(iterator(nullptr), false);
         }
 
         template<class InputIterator>
@@ -181,7 +181,7 @@ namespace ft {
 
         iterator find(const key_type &k) {
             iterator it = iterator(_find(k));
-            if (it != nullptr) {
+            if (iterator(nullptr) != it) {
                 return it;
             }
             return iterator(_end);
@@ -196,7 +196,7 @@ namespace ft {
         }
 
         void erase(iterator position) {
-        	if (position != nullptr){
+        	if (position != iterator(nullptr)){
 		        tree del = _delete(position.node()->node.first);
 				delete del;
 				del = nullptr;
@@ -213,7 +213,7 @@ namespace ft {
         }
 
         void erase(iterator first, iterator last) {
-			if (first != nullptr && last != nullptr) {
+			if (_size != 0) {
 				iterator i_tmp = first;
 				int i = 0;
 				while (i_tmp != last) {

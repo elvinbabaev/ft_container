@@ -4,7 +4,7 @@ INC = Container/list.hpp Container/queue.hpp Container/stack.hpp Container/vecto
 	Element/Node.hpp Element/elem.hpp\
     iterator/Bidirectional.hpp iterator/RandomAccessIterator.hpp iterator/bidirectional_map.hpp
 FLAGS = -Wall -Wextra -Werror
-CC = clang++ -std=c++11
+CC = clang++ -std=c++98
 
 OSRC = $(SRC:.cpp=.o)
 
